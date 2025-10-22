@@ -8,14 +8,14 @@ using System.Data;
 using QuanLyCF.DAL;
 using QuanLyCF.GUI;
 
-namespace FormMeNu
+namespace QuanLyCF.GUI
 {
     public partial class FrmMenu : Form
     {
         private List<MenuItem> menuItems = new List<MenuItem>();
         private List<MenuItem> displayedItems;
         private decimal totalAmount = 0;
-        private readonly string imageFolder = @"C:\Users\dinht\OneDrive\Máy tính\C\C#\QuanLyCFTc\QuanLyCF\QuanLyCF (1)\QuanLyCF\QuanLyCF.DAL\Image\";
+        private readonly string imageFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\"));
         private Action<decimal, bool> onOrderSaved;
         private int tableId;
         private int currentOrderId = -1; // -1 indicates no existing order
@@ -205,30 +205,46 @@ namespace FormMeNu
 
             UpdateTotal();
 
-            // Get current order details
             decimal totalAmount = 0;
             foreach (DataGridViewRow row in dgvOrder.Rows)
             {
-                totalAmount += Convert.ToDecimal(row.Cells["colPrice"].Value);
+                if (row.Cells["colPrice"].Value != null)
+                    totalAmount += Convert.ToDecimal(row.Cells["colPrice"].Value);
             }
             decimal discount = 0;
             decimal.TryParse(txtKhuyenMai.Text, out discount);
             decimal finalAmount = totalAmount - discount;
 
-            if (currentOrderId != -1)
+            // If it's a new order, create it first
+            if (currentOrderId == -1)
             {
-                // Process payment and move to Invoices
-                QuanLyCF.DAL.OrderDAO.ProcessPayment(currentOrderId, "Cash"); // Assuming 'Cash' as default payment method
-                MessageBox.Show("Thanh toán thành công!", "Thông báo");
+                currentOrderId = QuanLyCF.DAL.OrderDAO.CreateOrder(this.tableId, totalAmount, discount, finalAmount);
+            }
+            else // Existing order, update it before payment
+            {
+                // First, delete existing details for this order
+                QuanLyCF.DAL.OrderDAO.DeletePendingOrderDetails(currentOrderId);
+                // Then, update the main order details
+                QuanLyCF.DAL.OrderDAO.UpdatePendingOrder(currentOrderId, totalAmount, discount, finalAmount);
+            }
 
-                // Reset currentOrderId after payment
-                currentOrderId = -1;
-                onOrderSaved?.Invoke(0, true); // Inform parent that payment is complete and table is free
-            }
-            else
+            // Now, save/update all order details from the DataGridView
+            foreach (DataGridViewRow row in dgvOrder.Rows)
             {
-                MessageBox.Show("Không có order nào để thanh toán.", "Thông báo");
+                int menuItemId = Convert.ToInt32(row.Cells["colMenuItemID"].Value);
+                int quantity = Convert.ToInt32(row.Cells["colQty"].Value);
+                decimal subtotal = Convert.ToDecimal(row.Cells["colPrice"].Value);
+                decimal unitPrice = subtotal / quantity; // Calculate unit price from subtotal and quantity
+                QuanLyCF.DAL.OrderDAO.CreateOrderDetail(currentOrderId, menuItemId, quantity, unitPrice);
             }
+
+            // Now process payment
+            QuanLyCF.DAL.OrderDAO.ProcessPayment(currentOrderId, "Cash"); // Assuming 'Cash' as default payment method
+            MessageBox.Show("Thanh toán thành công!", "Thông báo");
+
+            // Reset currentOrderId after payment
+            currentOrderId = -1;
+            onOrderSaved?.Invoke(0, true); // Inform parent that payment is complete and table is free
 
             dgvOrder.Rows.Clear();
             UpdateTotal();

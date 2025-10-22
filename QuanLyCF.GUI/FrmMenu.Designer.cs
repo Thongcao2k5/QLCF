@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace FormMeNu
+namespace QuanLyCF.GUI
 {
     partial class FrmMenu
     {

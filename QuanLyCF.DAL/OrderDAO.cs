@@ -144,6 +144,12 @@ namespace QuanLyCF.DAL
             return DataProvider.ExecuteQuery(query);
         }
 
+        public static DataTable GetAllPendingOrders()
+        {
+            string query = "SELECT OrderID, TableID, OrderDate, TotalAmount, DiscountAmount, FinalAmount, Status FROM PendingOrders ORDER BY OrderDate DESC;";
+            return DataProvider.ExecuteQuery(query);
+        }
+
         public static void DeletePendingOrderDetails(int orderId)
         {
             string query = "DELETE FROM PendingOrderDetails WHERE OrderID = @OrderID;";
@@ -172,6 +178,50 @@ namespace QuanLyCF.DAL
             // Then clear main orders
             string clearOrdersQuery = "DELETE FROM PendingOrders;";
             DataProvider.ExecuteNonQuery(clearOrdersQuery);
+        }
+
+        public static void UpdateOrderTable(int orderId, int newTableId)
+        {
+            string query = "UPDATE PendingOrders SET TableID = @NewTableID WHERE OrderID = @OrderID;";
+            SqlParameter[] parameters = new SqlParameter[2];
+            parameters[0] = new SqlParameter("@NewTableID", SqlDbType.Int) { Value = newTableId };
+            parameters[1] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
+            DataProvider.ExecuteNonQuery(query, parameters);
+        }
+
+        public static void MergeOrders(int sourceOrderId, int destOrderId)
+        {
+            // 1. Get destination order details to update its total amount later
+            string getDestOrderQuery = "SELECT TotalAmount, DiscountAmount FROM PendingOrders WHERE OrderID = @OrderID;";
+            SqlParameter[] destParams = { new SqlParameter("@OrderID", destOrderId) };
+            DataTable destOrderDt = DataProvider.ExecuteQuery(getDestOrderQuery, destParams);
+            decimal destTotal = Convert.ToDecimal(destOrderDt.Rows[0]["TotalAmount"]);
+            decimal destDiscount = Convert.ToDecimal(destOrderDt.Rows[0]["DiscountAmount"]);
+
+            // 2. Get source order details
+            string getSourceOrderQuery = "SELECT TotalAmount, DiscountAmount FROM PendingOrders WHERE OrderID = @OrderID;";
+            SqlParameter[] sourceParams = { new SqlParameter("@OrderID", sourceOrderId) };
+            DataTable sourceOrderDt = DataProvider.ExecuteQuery(getSourceOrderQuery, sourceParams);
+            decimal sourceTotal = Convert.ToDecimal(sourceOrderDt.Rows[0]["TotalAmount"]);
+            decimal sourceDiscount = Convert.ToDecimal(sourceOrderDt.Rows[0]["DiscountAmount"]);
+
+            // 3. Update destination order's amounts
+            decimal newTotal = destTotal + sourceTotal;
+            decimal newDiscount = destDiscount + sourceDiscount; // Or some other logic for discount
+            decimal newFinalAmount = newTotal - newDiscount;
+            UpdatePendingOrder(destOrderId, newTotal, newDiscount, newFinalAmount);
+
+            // 4. Move order details from source to destination
+            string updateDetailsQuery = "UPDATE PendingOrderDetails SET OrderID = @DestOrderID WHERE OrderID = @SourceOrderID;";
+            SqlParameter[] updateParams = new SqlParameter[2];
+            updateParams[0] = new SqlParameter("@DestOrderID", SqlDbType.Int) { Value = destOrderId };
+            updateParams[1] = new SqlParameter("@SourceOrderID", SqlDbType.Int) { Value = sourceOrderId };
+            DataProvider.ExecuteNonQuery(updateDetailsQuery, updateParams);
+
+            // 5. Delete the source order
+            string deleteSourceQuery = "DELETE FROM PendingOrders WHERE OrderID = @SourceOrderID;";
+            SqlParameter[] deleteParams = { new SqlParameter("@SourceOrderID", sourceOrderId) };
+            DataProvider.ExecuteNonQuery(deleteSourceQuery, deleteParams);
         }
     }
 }

@@ -117,6 +117,9 @@
     <EmbeddedResource Include="FormTachBan.resx">
       <DependentUpon>FormTachBan.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmHoaDon.resx">
+      <DependentUpon>FrmHoaDon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </EmbeddedResource>
