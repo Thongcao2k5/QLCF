@@ -1,0 +1,10 @@
+# Bỏ qua file tạm của Visual Studio
+.vs/
+*.vsidx
+*.user
+*.suo
+*.obj
+*.log
+*.tmp
+bin/
+obj/
