@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -17,5 +18,27 @@ namespace QuanLyCF.DAL
             this.Description = description;
         }
         public AreaDAO() { }
+
+        // === Lấy toàn bộ danh sách khu vực ===
+        public static List<AreaDAO> GetAllAreas()
+        {
+            List<AreaDAO> areas = new List<AreaDAO>();
+
+            string query = "SELECT AreaID, AreaName, Description FROM Areas";
+
+            DataTable dt = DataProvider.ExecuteQuery(query); // bạn đã có lớp DataProvider trong DAL
+
+            foreach (DataRow row in dt.Rows)
+            {
+                areas.Add(new AreaDAO
+                {
+                    AreaID = Convert.ToInt32(row["AreaID"]),
+                    AreaName = row["AreaName"].ToString(),
+                    Description = row["Description"].ToString()
+                });
+            }
+
+            return areas;
+        }
     }
 }

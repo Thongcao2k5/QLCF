@@ -1,7 +1,8 @@
+using QuanLyCF.BUS;
+using QuanLyCF.DAL;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using QuanLyCF.DAL;
 
 namespace QuanLyCF.GUI
 {
@@ -33,7 +34,7 @@ namespace QuanLyCF.GUI
             }
             else
             {
-                if (QuanLyCF.DAL.UserDAO.VerifyLogin(username, password))
+                if (UserBUS.VerifyLogin(username, password))
                 {
                     FrmOrder frmOrder = new FrmOrder(this);
                     frmOrder.Show();

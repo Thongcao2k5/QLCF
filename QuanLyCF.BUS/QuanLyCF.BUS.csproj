@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CopilotDev.NET.Api, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CopilotDev.NET.Api.1.1.0\lib\netstandard2.0\CopilotDev.NET.Api.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,8 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="TableBUS.cs" />
+    <Compile Include="AreaBUS.cs" />
+    <Compile Include="UserBUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QuanLyCF.DAL\QuanLyCF.DAL.csproj">
+      <Project>{8B7A4ECC-C84F-40D9-8550-FEE741DB09D0}</Project>
+      <Name>QuanLyCF.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

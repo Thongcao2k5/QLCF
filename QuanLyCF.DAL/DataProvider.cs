@@ -43,9 +43,7 @@ namespace QuanLyCF.DAL
             }
         }
 
-        /// <summary>
-        /// Executes a query that returns a single value.
-        /// </summary>
+
         public static object ExecuteScalar(string query, SqlParameter[] parameters = null)
         {
             using (SqlConnection conn = GetConnection())
@@ -62,9 +60,7 @@ namespace QuanLyCF.DAL
             }
         }
 
-        /// <summary>
-        /// Executes a query that does not return any records (e.g., INSERT, UPDATE, DELETE).
-        /// </summary>
+
         public static int ExecuteNonQuery(string query, SqlParameter[] parameters = null)
         {
             using (SqlConnection conn = GetConnection())
@@ -81,27 +77,29 @@ namespace QuanLyCF.DAL
             }
         }
 
-        /// <summary>
-        /// Executes a query and returns the results as a DataTable.
-        /// </summary>
-        public static DataTable ExecuteQuery(string query, SqlParameter[] parameters = null)
+        public static DataTable ExecuteQuery(string query, params SqlParameter[] parameters)
         {
-            using (SqlConnection conn = GetConnection())
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    if (parameters != null)
+                    if (parameters != null && parameters.Length > 0)
                     {
-                        cmd.Parameters.AddRange(parameters);
+                        command.Parameters.AddRange(parameters);
                     }
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                    {
-                        DataTable dataTable = new DataTable();
-                        adapter.Fill(dataTable);
-                        return dataTable;
-                    }
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(data);
                 }
+
+                connection.Close();
             }
+
+            return data;
         }
     }
 }
