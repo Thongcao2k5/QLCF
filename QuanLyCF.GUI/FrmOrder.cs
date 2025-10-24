@@ -16,13 +16,83 @@ namespace QuanLyCF.GUI
     {
 
         private FormDangNhap _loginForm;
+        private Guna2Panel pnlTableMenu;
+        private int selectedTableId = -1;
+
+        private void InitializeTablePopupMenu()
+        {
+            pnlTableMenu = new Guna2Panel
+            {
+                Size = new Size(190, 170),
+                BorderRadius = 0,
+                BackColor = Color.Transparent,
+                FillColor = Color.Transparent,
+                BorderThickness = 0,
+                Visible = false,
+            };
+
+            // Panel con chứa các nút
+            var innerPanel = new Guna2Panel
+            {
+                Dock = DockStyle.Fill,
+                BorderRadius = 0,
+                FillColor = AppSettings.BackgroundWhiteColor,
+                ShadowDecoration = { Enabled = true, Depth = 8, Shadow = new Padding(4) },
+                Padding = new Padding(10)
+            };
+            pnlTableMenu.Controls.Add(innerPanel);
+
+            // Style chung
+            Font btnFont = new Font("Segoe UI", 11, FontStyle.Bold);
+
+            // Hàm tạo nút có style đồng nhất
+            Guna2Button MakeButton(string text, string icon, Color fill, Color fore)
+            {
+                return new Guna2Button
+                {
+                    Text = $"{icon}  {text}",
+                    Height = 45,
+                    Dock = DockStyle.Top,
+                    Margin = new Padding(0, 0, 0, 8),
+                    BorderRadius = 12,
+                    Font = btnFont,
+                    FillColor = fill,
+                    ForeColor = fore,
+                    HoverState = { FillColor = AppSettings.BeigeColor },
+                    Cursor = Cursors.Hand
+                };
+            }
+
+            // Tạo các nút
+            var btnAdd = MakeButton("Thêm món", "🍹", AppSettings.LightBrownColor, Color.White);
+            var btnPay = MakeButton("Thanh toán", "💰", AppSettings.LightBrownColor, Color.White);
+            var btnCancel = MakeButton("Hủy", "❌", AppSettings.LightBrownColor, Color.White);
+
+            // Gắn sự kiện click
+            btnAdd.Click += BtnAdd_Click;
+            btnPay.Click += BtnPay_Click;
+            btnCancel.Click += (s, e) => pnlTableMenu.Visible = false;
+
+            // Thêm nút vào panel (thứ tự đảo ngược để hiển thị đúng)
+            innerPanel.Controls.Add(btnCancel);
+            innerPanel.Controls.Add(btnPay);
+            innerPanel.Controls.Add(btnAdd);
+
+            this.Controls.Add(pnlTableMenu);
+
+            // Ẩn khi click ra ngoài form
+            this.Click += (s, e) =>
+            {
+                if (pnlTableMenu.Visible) pnlTableMenu.Visible = false;
+            };
+        }
 
         public FrmOrder()
 
         {
 
             InitializeComponent();
-
+            InitializeTablePopupMenu();
             // Cài đặt chung cho form
 
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -41,8 +111,6 @@ namespace QuanLyCF.GUI
         {
             _loginForm = loginForm;
         }
-
-
 
         private void FrmOrder_Load(object sender, EventArgs e)
         {
@@ -138,13 +206,34 @@ namespace QuanLyCF.GUI
                 // Sự kiện click bàn
                 btnTable.Click += (s, e) =>
                 {
-                    int tableId = (int)((Guna2Button)s).Tag;
-                    MessageBox.Show($"Bạn chọn bàn: {table.TableName}");
-                    // TODO: mở form order chi tiết, load order hiện tại...
+                    var btn = (Guna2Button)s;
+                    selectedTableId = (int)btn.Tag;
+
+                    // Vị trí hiển thị popup menu ngay dưới nút
+                    Point pos = flpTables.PointToScreen(btn.Location);
+                    pos = this.PointToClient(pos);
+
+                    pnlTableMenu.Location = new Point(pos.X + btn.Width + 10, pos.Y);
+                    pnlTableMenu.BringToFront();
+                    pnlTableMenu.Visible = true;
                 };
 
                 flpTables.Controls.Add(btnTable);
             }
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            pnlTableMenu.Visible = false;
+            MessageBox.Show($"🧋 Thêm món cho bàn ID: {selectedTableId}");
+            // TODO: Mở form thêm món
+        }
+
+        private void BtnPay_Click(object sender, EventArgs e)
+        {
+            pnlTableMenu.Visible = false;
+            MessageBox.Show($"💰 Thanh toán cho bàn ID: {selectedTableId}");
+            // TODO: Mở form thanh toán
         }
 
         private void lblLogout_Click(object sender, EventArgs e)

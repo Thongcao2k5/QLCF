@@ -16,6 +16,7 @@ namespace QuanLyCF.BUS
             return AreaDAO.GetAllAreas();
         }
 
+        // Cập nhật thông tin khu vực
         public static bool UpdateArea(int id, string name, string desc)
         {
             string query = "UPDATE Areas SET AreaName = @name, Description = @desc WHERE AreaID = @id";
@@ -28,6 +29,7 @@ namespace QuanLyCF.BUS
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
+        // Xóa khu vực
         public static bool DeleteArea(int id)
         {
             string query = "DELETE FROM Areas WHERE AreaID = @id";
@@ -38,11 +40,15 @@ namespace QuanLyCF.BUS
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
+
+        // Lấy thông tin khu vực theo ID
         public static AreaDAO GetAreaById(int id)
         {
             return AreaDAO.GetAreaById(id);
         }
 
+
+        // Thêm khu vực mới
         public static bool AddArea(string name, string desc)
         {
             if (string.IsNullOrWhiteSpace(name))

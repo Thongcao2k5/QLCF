@@ -154,5 +154,10 @@ namespace QuanLyCF.GUI
                 textBoxPassword.UseSystemPasswordChar = !textBoxPassword.UseSystemPasswordChar;
             }
         }
+
+        private void pictureBoxIllustration_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

@@ -23,5 +23,11 @@ namespace QuanLyCF.GUI.FormAdmin
             InitializeComponent();
             previousForm = prevForm;
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            previousForm?.Show();
+        }
     }
 }
