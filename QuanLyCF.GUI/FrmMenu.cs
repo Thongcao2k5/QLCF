@@ -1,147 +1,122 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Data;
 using QuanLyCF.DAL;
-using QuanLyCF.GUI;
+using QuanLyCF.BUS;
 
 namespace QuanLyCF.GUI
 {
     public partial class FrmMenu : Form
     {
-        private List<MenuItem> menuItems = new List<MenuItem>();
-        private List<MenuItem> displayedItems;
-        private decimal totalAmount = 0;
-        private readonly string imageFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\"));
-        private Action<decimal, bool> onOrderSaved;
         private int tableId;
-        private int currentOrderId = -1; // -1 indicates no existing order
+        private int pendingOrderId = -1; // -1 nghĩa là chưa có order nào
+        private decimal totalAmount = 0;
+        private List<DrinkDTO> drinks;
+        private List<DrinkDTO> filteredDrinks;
+        private readonly string imageFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\"));
+        private Action onOrderSaved;
 
-        public FrmMenu(Action<decimal, bool> onSaveCallback, int tableId)
+        public FrmMenu(int tableId, Action callback = null)
         {
             InitializeComponent();
-            this.onOrderSaved = onSaveCallback;
             this.tableId = tableId;
-
-            LoadMenuItems();
-            LoadExistingOrder(tableId); // Load existing order if any
-            this.displayedItems = this.menuItems;
-
-            // Gán event Load hợp lệ
-            this.Load += FrmMenu_Load;
-            this.flowLayoutPanelMenu.Resize += (s, e) => DisplayMenuItems(this.displayedItems);
+            this.onOrderSaved = callback;
         }
 
-        private void LoadExistingOrder(int tableId)
+        private void FrmMenu_Load(object sender, EventArgs e)
         {
-            DataRow activeOrder = QuanLyCF.DAL.OrderDAO.GetActiveOrderByTableId(tableId);
-            if (activeOrder != null)
+            LoadDrinks();
+            LoadPendingOrder();
+            DisplayDrinks(drinks);
+        }
+
+        // ======================= LOAD DRINKS =======================
+        private void LoadDrinks()
+        {
+            drinks = DrinkBUS.GetAllDrinks().Select(d => new DrinkDTO
             {
-                currentOrderId = Convert.ToInt32(activeOrder["OrderID"]); // Set currentOrderId
-                DataTable orderDetails = QuanLyCF.DAL.OrderDAO.GetOrderDetailsByOrderId(currentOrderId);
+                DrinkID = d.DrinkID,
+                DrinkName = d.DrinkName,
+                CategoryID = d.CategoryID,
+                Price = d.Price,
+                ImagePath = d.ImagePath,
+                IsAvailable = d.IsAvailable,
+                CreatedDate = d.CreatedDate
+            }).ToList();
+            filteredDrinks = new List<DrinkDTO>(drinks);
+        }
+
+        // ======================= LOAD EXISTING PENDING ORDER =======================
+        private void LoadPendingOrder()
+        {
+            DataRow order = PendingOrderDAO.GetPendingOrderByTableId(tableId);
+            if (order != null)
+            {
+                pendingOrderId = Convert.ToInt32(order["PendingOrderID"]);
+                DataTable orderDetails = PendingOrderDetailBUS.GetDetailsByOrderId(pendingOrderId);
 
                 foreach (DataRow row in orderDetails.Rows)
                 {
-                    int menuItemId = Convert.ToInt32(row["MenuItemID"]);
-                    string itemName = row["ItemName"].ToString();
-                    int quantity = Convert.ToInt32(row["Quantity"]);
+                    int drinkId = Convert.ToInt32(row["DrinkID"]);
+                    string drinkName = row["DrinkName"].ToString();
+                    int qty = Convert.ToInt32(row["Quantity"]);
                     decimal unitPrice = Convert.ToDecimal(row["UnitPrice"]);
-
-                    // Find the corresponding MenuItem to get its original price
-                    MenuItem originalMenuItem = menuItems.FirstOrDefault(item => item.MenuItemID == menuItemId);
-                    decimal originalPrice = originalMenuItem != null ? originalMenuItem.Price : unitPrice; // Use original price if found, else use unitPrice from order details
-
-                    dgvOrder.Rows.Add(menuItemId, itemName, quantity, originalPrice, quantity * unitPrice);
+                    dgvOrder.Rows.Add(drinkId, drinkName, qty, unitPrice * qty);
                 }
+
                 UpdateTotal();
             }
-            else
-            {
-                currentOrderId = -1; // Ensure it's -1 if no active order
-            }
         }
 
-        // ====== SỰ KIỆN LOAD FORM ======
-        private void FrmMenu_Load(object sender, EventArgs e)
+        // ======================= HIỂN THỊ DANH SÁCH MÓN =======================
+        private void DisplayDrinks(List<DrinkDTO> items)
         {
-            DisplayMenuItems(this.displayedItems);
-            this.btnXoaMon.BringToFront();
-        }
-
-        // ===== DANH SÁCH MÓN =====
-        private void LoadMenuItems()
-        {
-            menuItems.Clear();
-            DataTable dt = QuanLyCF.DAL.OrderDAO.GetAllMenuItems();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                int menuItemId = Convert.ToInt32(row["MenuItemID"]);
-                string name = row["ItemName"].ToString();
-                decimal price = Convert.ToDecimal(row["Price"]);
-                string imagePath = Path.Combine(imageFolder, row["ImagePath"].ToString());
-                string category = row["Category"].ToString();
-
-                menuItems.Add(new MenuItem(menuItemId, name, price, imagePath, category));
-            }
-        }
-
-        // ===== HIỂN THỊ MENU =====
-        private void DisplayMenuItems(List<MenuItem> itemsToDisplay)
-        {
-            if (flowLayoutPanelMenu.DisplayRectangle.Width == 0) return;
-
             flowLayoutPanelMenu.Controls.Clear();
-            flowLayoutPanelMenu.WrapContents = true;
-            flowLayoutPanelMenu.AutoScroll = true;
-            flowLayoutPanelMenu.Padding = new Padding(5);
 
             int itemsPerRow = 5;
             int spacing = 10;
-            int containerWidth = flowLayoutPanelMenu.ClientSize.Width - flowLayoutPanelMenu.Padding.Left - flowLayoutPanelMenu.Padding.Right;
-            int totalSpacing = (itemsPerRow + 1) * spacing;
-            int availableWidth = containerWidth - totalSpacing;
-            int itemWidth = availableWidth / itemsPerRow;
-            int itemHeight = (int)(itemWidth * 1.35);
+            int width = (flowLayoutPanelMenu.ClientSize.Width - (itemsPerRow + 1) * spacing) / itemsPerRow;
+            int height = (int)(width * 1.3);
 
-            foreach (var item in itemsToDisplay)
+            foreach (var drink in items)
             {
                 Panel panel = new Panel
                 {
-                    Width = itemWidth,
-                    Height = itemHeight,
+                    Width = width,
+                    Height = height,
                     Margin = new Padding(spacing / 2),
                     BorderStyle = BorderStyle.FixedSingle,
-                    Tag = item
+                    Tag = drink
                 };
 
                 PictureBox pic = new PictureBox
                 {
                     Dock = DockStyle.Top,
-                    Height = (int)(itemHeight * 0.8),
+                    Height = (int)(height * 0.75),
                     SizeMode = PictureBoxSizeMode.Zoom,
-                    Image = File.Exists(item.ImagePath)
-                        ? Image.FromFile(item.ImagePath)
-                        : SystemIcons.Warning.ToBitmap(),
+                    Image = File.Exists(Path.Combine(imageFolder, drink.ImagePath ?? ""))
+                            ? Image.FromFile(Path.Combine(imageFolder, drink.ImagePath))
+                            : SystemIcons.Warning.ToBitmap(),
                     Cursor = Cursors.Hand,
-                    Tag = item
+                    Tag = drink
                 };
-                pic.Click += Btn_Click;
+                pic.Click += Drink_Click;
 
                 Label lbl = new Label
                 {
                     Dock = DockStyle.Fill,
-                    Text = $"{item.Name}\n{item.Price:N0} đ",
-                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                    Text = $"{drink.DrinkName}\n{drink.Price:N0} đ",
                     TextAlign = ContentAlignment.MiddleCenter,
-                    ForeColor = Color.FromArgb(30, 30, 30),
-                    Tag = item,
-                    Cursor = Cursors.Hand
+                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(50, 30, 20),
+                    Cursor = Cursors.Hand,
+                    Tag = drink
                 };
-                lbl.Click += Btn_Click;
+                lbl.Click += Drink_Click;
 
                 panel.Controls.Add(lbl);
                 panel.Controls.Add(pic);
@@ -149,131 +124,55 @@ namespace QuanLyCF.GUI
             }
         }
 
-        private void Btn_Click(object sender, EventArgs e)
+        // ======================= CLICK MÓN =======================
+        private void Drink_Click(object sender, EventArgs e)
         {
-            var item = (sender as Control)?.Tag as MenuItem;
-            if (item == null) return;
+            var drink = (sender as Control)?.Tag as DrinkDTO;
+            if (drink == null) return;
 
-            int index = -1;
+            DataGridViewRow existingRow = null;
             foreach (DataGridViewRow row in dgvOrder.Rows)
             {
-                if (row.Cells["colName"].Value?.ToString() == item.Name)
+                if (Convert.ToInt32(row.Cells["colDrinkID"].Value) == drink.DrinkID)
                 {
-                    index = row.Index;
+                    existingRow = row;
                     break;
                 }
             }
 
-            if (index >= 0)
+            if (existingRow != null)
             {
-                int qty = Convert.ToInt32(dgvOrder.Rows[index].Cells["colQty"].Value) + 1;
-                dgvOrder.Rows[index].Cells["colQty"].Value = qty;
-                dgvOrder.Rows[index].Cells["colPrice"].Value = qty * item.Price;
+                int newQty = Convert.ToInt32(existingRow.Cells["colQty"].Value) + 1;
+                existingRow.Cells["colQty"].Value = newQty;
+                existingRow.Cells["colTotal"].Value = newQty * drink.Price;
             }
             else
             {
-                dgvOrder.Rows.Add(item.MenuItemID, item.Name, 1, item.Price);
+                dgvOrder.Rows.Add(drink.DrinkID, drink.DrinkName, 1, drink.Price);
             }
 
             UpdateTotal();
         }
 
+        // ======================= TÍNH TỔNG =======================
         private void UpdateTotal()
         {
             totalAmount = 0;
             foreach (DataGridViewRow row in dgvOrder.Rows)
             {
-                if (row.Cells["colPrice"].Value != null)
-                    totalAmount += Convert.ToDecimal(row.Cells["colPrice"].Value);
+                if (row.Cells["colTotal"].Value != null)
+                    totalAmount += Convert.ToDecimal(row.Cells["colTotal"].Value);
             }
 
-            decimal khuyenMai = 0;
-            decimal.TryParse(txtKhuyenMai.Text, out khuyenMai);
-            decimal tongSauKM = totalAmount - khuyenMai;
-            if (tongSauKM < 0) tongSauKM = 0;
-
-            lblTotal.Text = $"Tổng tiền: {tongSauKM:N0} đ";
-        }
-
-        private void btnTinhTien_Click(object sender, EventArgs e)
-        {
-            if (dgvOrder.Rows.Count == 0)
-            {
-                MessageBox.Show("Chưa có món nào trong hóa đơn!", "Thông báo");
-                return;
-            }
-
-            UpdateTotal();
-
-            decimal totalAmount = 0;
-            foreach (DataGridViewRow row in dgvOrder.Rows)
-            {
-                if (row.Cells["colPrice"].Value != null)
-                    totalAmount += Convert.ToDecimal(row.Cells["colPrice"].Value);
-            }
             decimal discount = 0;
             decimal.TryParse(txtKhuyenMai.Text, out discount);
-            decimal finalAmount = totalAmount - discount;
+            decimal final = totalAmount - discount;
+            if (final < 0) final = 0;
 
-            // If it's a new order, create it first
-            if (currentOrderId == -1)
-            {
-                currentOrderId = QuanLyCF.DAL.OrderDAO.CreateOrder(this.tableId, totalAmount, discount, finalAmount);
-            }
-            else // Existing order, update it before payment
-            {
-                // First, delete existing details for this order
-                QuanLyCF.DAL.OrderDAO.DeletePendingOrderDetails(currentOrderId);
-                // Then, update the main order details
-                QuanLyCF.DAL.OrderDAO.UpdatePendingOrder(currentOrderId, totalAmount, discount, finalAmount);
-            }
-
-            // Now, save/update all order details from the DataGridView
-            foreach (DataGridViewRow row in dgvOrder.Rows)
-            {
-                int menuItemId = Convert.ToInt32(row.Cells["colMenuItemID"].Value);
-                int quantity = Convert.ToInt32(row.Cells["colQty"].Value);
-                decimal subtotal = Convert.ToDecimal(row.Cells["colPrice"].Value);
-                decimal unitPrice = subtotal / quantity; // Calculate unit price from subtotal and quantity
-                QuanLyCF.DAL.OrderDAO.CreateOrderDetail(currentOrderId, menuItemId, quantity, unitPrice);
-            }
-
-            // Now process payment
-            QuanLyCF.DAL.OrderDAO.ProcessPayment(currentOrderId, "Cash"); // Assuming 'Cash' as default payment method
-            MessageBox.Show("Thanh toán thành công!", "Thông báo");
-
-            // Reset currentOrderId after payment
-            currentOrderId = -1;
-            onOrderSaved?.Invoke(0, true); // Inform parent that payment is complete and table is free
-
-            dgvOrder.Rows.Clear();
-            UpdateTotal();
-            this.Close(); // Close FrmMenu after payment
+            lblTotal.Text = $"Tổng tiền: {final:N0} đ";
         }
 
-        private void btnHuy_Click(object sender, EventArgs e)
-        {
-            dgvOrder.Rows.Clear();
-            UpdateTotal();
-            this.Close();
-        }
-
-        private void btnXoaMon_Click(object sender, EventArgs e)
-        {
-            if (dgvOrder.SelectedRows.Count > 0)
-            {
-                foreach (DataGridViewRow row in dgvOrder.SelectedRows)
-                {
-                    dgvOrder.Rows.Remove(row);
-                }
-                UpdateTotal();
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn món cần xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
+        // ======================= LƯU ORDER =======================
         private void btnLuuOrder_Click(object sender, EventArgs e)
         {
             if (dgvOrder.Rows.Count == 0)
@@ -282,75 +181,88 @@ namespace QuanLyCF.GUI
                 return;
             }
 
-            decimal totalAmount = 0;
-            foreach (DataGridViewRow row in dgvOrder.Rows)
-            {
-                totalAmount += Convert.ToDecimal(row.Cells["colPrice"].Value);
-            }
             decimal discount = 0;
             decimal.TryParse(txtKhuyenMai.Text, out discount);
             decimal finalAmount = totalAmount - discount;
 
-            if (currentOrderId == -1) // New order
+            if (pendingOrderId == -1)
             {
-                currentOrderId = QuanLyCF.DAL.OrderDAO.CreateOrder(this.tableId, totalAmount, discount, finalAmount);
+                pendingOrderId = PendingOrderDAO.CreatePendingOrder(tableId, totalAmount, discount, finalAmount);
+                TableDAO.UpdateTableStatus(tableId, true);
             }
-            else // Existing order, update it
+            else
             {
-                // First, delete existing details for this order
-                QuanLyCF.DAL.OrderDAO.DeletePendingOrderDetails(currentOrderId);
-                // Then, update the main order details
-                QuanLyCF.DAL.OrderDAO.UpdatePendingOrder(currentOrderId, totalAmount, discount, finalAmount);
+                PendingOrderDAO.DeleteOrderDetails(pendingOrderId);
+                PendingOrderDAO.UpdatePendingOrder(pendingOrderId, totalAmount, discount, finalAmount);
             }
 
             foreach (DataGridViewRow row in dgvOrder.Rows)
             {
-                int menuItemId = Convert.ToInt32(row.Cells["colMenuItemID"].Value);
-                int quantity = Convert.ToInt32(row.Cells["colQty"].Value);
-                decimal subtotal = Convert.ToDecimal(row.Cells["colPrice"].Value);
-                decimal unitPrice = subtotal / quantity;
-                QuanLyCF.DAL.OrderDAO.CreateOrderDetail(currentOrderId, menuItemId, quantity, unitPrice);
+                int drinkId = Convert.ToInt32(row.Cells["colDrinkID"].Value);
+                int qty = Convert.ToInt32(row.Cells["colQty"].Value);
+                decimal total = Convert.ToDecimal(row.Cells["colTotal"].Value);
+                decimal unitPrice = total / qty;
+                PendingOrderDAO.AddOrderDetail(pendingOrderId, drinkId, qty, unitPrice);
             }
 
-            MessageBox.Show("Đã lưu order thành công!", "Thành công");
-
-            onOrderSaved?.Invoke(finalAmount, false);
-
-            dgvOrder.Rows.Clear();
-            UpdateTotal();
+            MessageBox.Show("Đã lưu order!", "Thông báo");
+            onOrderSaved?.Invoke();
             this.Close();
         }
 
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        // ======================= THANH TOÁN =======================
+        private void btnTinhTien_Click(object sender, EventArgs e)
         {
-            string keyword = txtSearch.Text.Trim().ToLower();
-            this.displayedItems = menuItems
-                .Where(m => m.Name.ToLower().Contains(keyword))
-                .ToList();
-            DisplayMenuItems(this.displayedItems);
+            if (pendingOrderId == -1)
+            {
+                MessageBox.Show("Chưa có order để thanh toán!", "Thông báo");
+                return;
+            }
+
+            PendingOrderDAO.CompletePendingOrder(pendingOrderId);
+            TableDAO.UpdateTableStatus(tableId, false);
+            MessageBox.Show("Thanh toán thành công!", "Thông báo");
+            onOrderSaved?.Invoke();
+            this.Close();
         }
 
         private void txtKhuyenMai_TextChanged(object sender, EventArgs e)
         {
             UpdateTotal();
         }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text.Trim().ToLower();
+            filteredDrinks = drinks.Where(d => d.DrinkName.ToLower().Contains(keyword)).ToList();
+            DisplayDrinks(filteredDrinks);
+        }
+
+        private void btnXoaMon_Click(object sender, EventArgs e)
+        {
+            if (dgvOrder.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvOrder.SelectedRows)
+                    dgvOrder.Rows.Remove(row);
+                UpdateTotal();
+            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
-    public class MenuItem
+    // ===== DTO: DRINK =====
+    public class DrinkDTO
     {
-        public int MenuItemID { get; set; }
-        public string Name { get; set; }
+        public int DrinkID { get; set; }
+        public string DrinkName { get; set; }
+        public int CategoryID { get; set; }
         public decimal Price { get; set; }
         public string ImagePath { get; set; }
-        public string Category { get; set; }
-
-        public MenuItem(int menuItemId, string name, decimal price, string imagePath, string category)
-        {
-            MenuItemID = menuItemId;
-            Name = name;
-            Price = price;
-            ImagePath = imagePath;
-            Category = category;
-        }
+        public bool IsAvailable { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

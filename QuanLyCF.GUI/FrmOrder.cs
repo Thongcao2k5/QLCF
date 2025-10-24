@@ -5,20 +5,35 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace QuanLyCF.GUI
-
 {
-
     public partial class FrmOrder : Form
-
     {
-
         private FormDangNhap _loginForm;
         private Guna2Panel pnlTableMenu;
         private int selectedTableId = -1;
+        private int currentAreaId = -1; // Lưu khu vực hiện tại
 
+        public FrmOrder()
+        {
+            InitializeComponent();
+            InitializeTablePopupMenu();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.DoubleBuffered = true;
+        }
+
+        public FrmOrder(FormDangNhap loginForm) : this()
+        {
+            _loginForm = loginForm;
+        }
+
+        // ===============================
+        // 🔹 KHỞI TẠO POPUP MENU
+        // ===============================
         private void InitializeTablePopupMenu()
         {
             pnlTableMenu = new Guna2Panel
@@ -31,7 +46,6 @@ namespace QuanLyCF.GUI
                 Visible = false,
             };
 
-            // Panel con chứa các nút
             var innerPanel = new Guna2Panel
             {
                 Dock = DockStyle.Fill,
@@ -42,11 +56,9 @@ namespace QuanLyCF.GUI
             };
             pnlTableMenu.Controls.Add(innerPanel);
 
-            // Style chung
             Font btnFont = new Font("Segoe UI", 11, FontStyle.Bold);
 
-            // Hàm tạo nút có style đồng nhất
-            Guna2Button MakeButton(string text, string icon, Color fill, Color fore)
+            Guna2Button MakeButton(string text, string icon)
             {
                 return new Guna2Button
                 {
@@ -56,79 +68,47 @@ namespace QuanLyCF.GUI
                     Margin = new Padding(0, 0, 0, 8),
                     BorderRadius = 12,
                     Font = btnFont,
-                    FillColor = fill,
-                    ForeColor = fore,
+                    FillColor = AppSettings.LightBrownColor,
+                    ForeColor = Color.White,
                     HoverState = { FillColor = AppSettings.BeigeColor },
                     Cursor = Cursors.Hand
                 };
             }
 
-            // Tạo các nút
-            var btnAdd = MakeButton("Thêm món", "🍹", AppSettings.LightBrownColor, Color.White);
-            var btnPay = MakeButton("Thanh toán", "💰", AppSettings.LightBrownColor, Color.White);
-            var btnCancel = MakeButton("Hủy", "❌", AppSettings.LightBrownColor, Color.White);
+            var btnAdd = MakeButton("Thêm món", "🍹");
+            var btnPay = MakeButton("Thanh toán", "💰");
+            var btnCancel = MakeButton("Hủy", "❌");
 
-            // Gắn sự kiện click
             btnAdd.Click += BtnAdd_Click;
             btnPay.Click += BtnPay_Click;
             btnCancel.Click += (s, e) => pnlTableMenu.Visible = false;
 
-            // Thêm nút vào panel (thứ tự đảo ngược để hiển thị đúng)
             innerPanel.Controls.Add(btnCancel);
             innerPanel.Controls.Add(btnPay);
             innerPanel.Controls.Add(btnAdd);
 
             this.Controls.Add(pnlTableMenu);
 
-            // Ẩn khi click ra ngoài form
             this.Click += (s, e) =>
             {
                 if (pnlTableMenu.Visible) pnlTableMenu.Visible = false;
             };
         }
 
-        public FrmOrder()
-
-        {
-
-            InitializeComponent();
-            InitializeTablePopupMenu();
-            // Cài đặt chung cho form
-
-            this.StartPosition = FormStartPosition.CenterScreen;
-
-            this.FormBorderStyle = FormBorderStyle.None;
-
-            this.MaximizeBox = false;
-
-            this.MinimizeBox = false;
-
-            this.DoubleBuffered = true;
-
-        }
-
-        public FrmOrder(FormDangNhap loginForm) : this()
-        {
-            _loginForm = loginForm;
-        }
-
+        // ===============================
+        // 🔹 LOAD FORM
+        // ===============================
         private void FrmOrder_Load(object sender, EventArgs e)
         {
-            // Lấy danh sách khu vực
             var areas = AreaBUS.GetAllAreas();
-
-            // Xóa nút cũ (nếu có)
             panelLeft.Controls.Clear();
 
-            int top = 6; // khoảng cách trên
-
+            int top = 6;
             foreach (var area in areas)
             {
-                // Dùng Guna2Button thay vì Button thường
                 Guna2Button btnArea = new Guna2Button
                 {
                     Text = area.AreaName,
-                    Name = "btnArea_" + area.AreaID,
                     Tag = area.AreaID,
                     Size = new Size(216, 48),
                     Location = new Point(8, top),
@@ -137,43 +117,37 @@ namespace QuanLyCF.GUI
                     Font = new Font("Segoe UI", 12F, FontStyle.Italic),
                     ForeColor = Color.Black,
                     Cursor = Cursors.Hand,
-                    Animated = true,
-                    //ShadowDecoration = { Parent = panelLeft }
+                    Animated = true
                 };
 
-                // Hiệu ứng hover
                 btnArea.HoverState.FillColor = Color.FromArgb(240, 248, 255);
                 btnArea.HoverState.ForeColor = Color.FromArgb(0, 64, 128);
                 btnArea.HoverState.BorderColor = Color.SteelBlue;
 
-                // Sự kiện click
                 btnArea.Click += (s, ev) =>
                 {
-                    int areaId = (int)((Guna2Button)s).Tag;
-                    LoadTablesByArea(areaId); // gọi hàm load bàn theo khu vực
+                    currentAreaId = (int)((Guna2Button)s).Tag;
+                    LoadTablesByArea(currentAreaId);
                 };
 
-                // Thêm vào panel
                 panelLeft.Controls.Add(btnArea);
-
-                top += btnArea.Height + 10; // khoảng cách giữa các nút
+                top += btnArea.Height + 10;
             }
         }
 
+        // ===============================
+        // 🔹 HIỂN THỊ DANH SÁCH BÀN
+        // ===============================
         private void LoadTablesByArea(int areaId)
         {
-            // Xóa bàn cũ
             flpTables.Controls.Clear();
-
-            // Lấy danh sách bàn theo khu vực
             var tables = TableBUS.GetTablesByArea(areaId);
 
             foreach (var table in tables)
             {
                 var btnTable = new Guna2Button
                 {
-                    Text = $"{table.TableName}\n({table.MaxGuests} Pass)",
-                    Name = $"btnTable_{table.TableID}",
+                    Text = $"{table.TableName}\n({table.MaxGuests} người)",
                     Tag = table.TableID,
                     Size = new Size(160, 100),
                     Font = new Font("Segoe UI", 11, FontStyle.Bold),
@@ -182,11 +156,9 @@ namespace QuanLyCF.GUI
                     ForeColor = Color.Black,
                     Cursor = Cursors.Hand,
                     Animated = true,
-                    TextAlign = HorizontalAlignment.Center,
-                    TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit
+                    TextAlign = HorizontalAlignment.Center
                 };
 
-                // Màu theo trạng thái bàn
                 if (table.IsOccupied)
                 {
                     btnTable.FillColor = AppSettings.BackgroundWhiteColor;
@@ -199,43 +171,88 @@ namespace QuanLyCF.GUI
                     btnTable.BorderColor = Color.DeepSkyBlue;
                 }
 
-                // Hiệu ứng hover
                 btnTable.HoverState.FillColor = AppSettings.BeigeColor;
-                btnTable.HoverState.BorderColor = Color.SteelBlue;
 
-                // Sự kiện click bàn
                 btnTable.Click += (s, e) =>
                 {
                     var btn = (Guna2Button)s;
                     selectedTableId = (int)btn.Tag;
 
-                    // Vị trí hiển thị popup menu ngay dưới nút
-                    Point pos = flpTables.PointToScreen(btn.Location);
-                    pos = this.PointToClient(pos);
+                    var tableInfo = TableBUS.GetTableById(selectedTableId);
+                    if (tableInfo == null)
+                    {
+                        MessageBox.Show("Không tìm thấy thông tin bàn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                    pnlTableMenu.Location = new Point(pos.X + btn.Width + 10, pos.Y);
-                    pnlTableMenu.BringToFront();
-                    pnlTableMenu.Visible = true;
+                    if (!tableInfo.IsOccupied)
+                    {
+                        // Bàn trống → mở menu để order mới
+                        FrmMenu frm = new FrmMenu(OnOrderSaved, selectedTableId);
+                        frm.ShowDialog();
+                        LoadTablesByArea(areaId);
+                    }
+                    else
+                    {
+                        // Bàn đã có người → hiện popup menu
+                        Point pos = flpTables.PointToScreen(btn.Location);
+                        pos = this.PointToClient(pos);
+                        pnlTableMenu.Location = new Point(pos.X + btn.Width + 10, pos.Y);
+                        pnlTableMenu.BringToFront();
+                        pnlTableMenu.Visible = true;
+                    }
                 };
 
                 flpTables.Controls.Add(btnTable);
             }
         }
 
+        // ===============================
+        // 🔹 SỰ KIỆN NÚT TRONG POPUP
+        // ===============================
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             pnlTableMenu.Visible = false;
-            MessageBox.Show($"🧋 Thêm món cho bàn ID: {selectedTableId}");
-            // TODO: Mở form thêm món
+
+            if (selectedTableId <= 0)
+            {
+                MessageBox.Show("Vui lòng chọn bàn hợp lệ!");
+                return;
+            }
+
+            FrmMenu frm = new FrmMenu(OnOrderSaved, selectedTableId);
+            frm.ShowDialog();
+            LoadTablesByArea(currentAreaId);
         }
 
         private void BtnPay_Click(object sender, EventArgs e)
         {
             pnlTableMenu.Visible = false;
-            MessageBox.Show($"💰 Thanh toán cho bàn ID: {selectedTableId}");
-            // TODO: Mở form thanh toán
+
+            if (selectedTableId <= 0)
+            {
+                MessageBox.Show("Vui lòng chọn bàn hợp lệ!");
+                return;
+            }
+
+            // Gọi xử lý thanh toán hoặc cập nhật trạng thái
+            TableBUS.UpdateTableStatus(selectedTableId, false);
+            MessageBox.Show($"💰 Đã thanh toán cho bàn ID: {selectedTableId}");
+            LoadTablesByArea(currentAreaId);
         }
 
+        // ===============================
+        // 🔹 CALLBACK SAU KHI LƯU ORDER
+        // ===============================
+        private void OnOrderSaved(decimal totalAmount, bool isPaid)
+        {
+            TableBUS.UpdateTableStatus(selectedTableId, !isPaid);
+            LoadTablesByArea(currentAreaId);
+        }
+
+        // ===============================
+        // 🔹 CÁC NÚT KHÁC (logout, report,…)
+        // ===============================
         private void lblLogout_Click(object sender, EventArgs e)
         {
             if (_loginForm != null)

@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrinkDAO.cs" />
+    <Compile Include="PendingOrderDAO.cs" />
+    <Compile Include="PendingOrderDetailDAO.cs" />
     <Compile Include="TableDAO.cs" />
     <Compile Include="AreaDAO.cs" />
     <Compile Include="DataProvider.cs" />
