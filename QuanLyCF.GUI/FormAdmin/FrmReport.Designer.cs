@@ -27,6 +27,7 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panelFilter = new System.Windows.Forms.Panel();
+            this.btnExit = new Guna.UI2.WinForms.Guna2Button();
             this.dtFrom = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.dtTo = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.cmbArea = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -40,7 +41,6 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.chartRevenue = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartSumBill = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.btnExit = new Guna.UI2.WinForms.Guna2Button();
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -74,6 +74,19 @@
             this.panelFilter.Size = new System.Drawing.Size(1425, 60);
             this.panelFilter.TabIndex = 1;
             // 
+            // btnExit
+            // 
+            this.btnExit.BorderRadius = 8;
+            this.btnExit.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.btnExit.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnExit.ForeColor = System.Drawing.Color.White;
+            this.btnExit.Location = new System.Drawing.Point(1269, 12);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(120, 36);
+            this.btnExit.TabIndex = 8;
+            this.btnExit.Text = "Thoát";
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // dtFrom
             // 
             this.dtFrom.BorderRadius = 8;
@@ -82,11 +95,11 @@
             this.dtFrom.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtFrom.ForeColor = System.Drawing.Color.White;
             this.dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            this.dtFrom.Location = new System.Drawing.Point(15, 12);
+            this.dtFrom.Location = new System.Drawing.Point(46, 11);
             this.dtFrom.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtFrom.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(180, 36);
+            this.dtFrom.Size = new System.Drawing.Size(210, 36);
             this.dtFrom.TabIndex = 0;
             this.dtFrom.Value = new System.DateTime(2025, 10, 24, 13, 35, 38, 466);
             // 
@@ -98,11 +111,11 @@
             this.dtTo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtTo.ForeColor = System.Drawing.Color.White;
             this.dtTo.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            this.dtTo.Location = new System.Drawing.Point(200, 12);
+            this.dtTo.Location = new System.Drawing.Point(262, 12);
             this.dtTo.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtTo.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtTo.Name = "dtTo";
-            this.dtTo.Size = new System.Drawing.Size(180, 36);
+            this.dtTo.Size = new System.Drawing.Size(210, 36);
             this.dtTo.TabIndex = 1;
             this.dtTo.Value = new System.DateTime(2025, 10, 24, 13, 35, 38, 552);
             // 
@@ -116,7 +129,7 @@
             this.cmbArea.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmbArea.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.cmbArea.ItemHeight = 30;
-            this.cmbArea.Location = new System.Drawing.Point(385, 12);
+            this.cmbArea.Location = new System.Drawing.Point(478, 12);
             this.cmbArea.Name = "cmbArea";
             this.cmbArea.Size = new System.Drawing.Size(130, 36);
             this.cmbArea.TabIndex = 2;
@@ -131,7 +144,7 @@
             this.cmbDrinkCate.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmbDrinkCate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.cmbDrinkCate.ItemHeight = 30;
-            this.cmbDrinkCate.Location = new System.Drawing.Point(520, 12);
+            this.cmbDrinkCate.Location = new System.Drawing.Point(613, 12);
             this.cmbDrinkCate.Name = "cmbDrinkCate";
             this.cmbDrinkCate.Size = new System.Drawing.Size(130, 36);
             this.cmbDrinkCate.TabIndex = 3;
@@ -146,7 +159,7 @@
             this.cmbDrink.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmbDrink.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.cmbDrink.ItemHeight = 30;
-            this.cmbDrink.Location = new System.Drawing.Point(655, 12);
+            this.cmbDrink.Location = new System.Drawing.Point(748, 12);
             this.cmbDrink.Name = "cmbDrink";
             this.cmbDrink.Size = new System.Drawing.Size(130, 36);
             this.cmbDrink.TabIndex = 4;
@@ -161,7 +174,7 @@
             this.cmdStaff.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmdStaff.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.cmdStaff.ItemHeight = 30;
-            this.cmdStaff.Location = new System.Drawing.Point(790, 12);
+            this.cmdStaff.Location = new System.Drawing.Point(883, 12);
             this.cmdStaff.Name = "cmdStaff";
             this.cmdStaff.Size = new System.Drawing.Size(130, 36);
             this.cmdStaff.TabIndex = 5;
@@ -172,7 +185,7 @@
             this.btnClearFilter.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
             this.btnClearFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnClearFilter.ForeColor = System.Drawing.Color.White;
-            this.btnClearFilter.Location = new System.Drawing.Point(925, 12);
+            this.btnClearFilter.Location = new System.Drawing.Point(1018, 12);
             this.btnClearFilter.Name = "btnClearFilter";
             this.btnClearFilter.Size = new System.Drawing.Size(120, 36);
             this.btnClearFilter.TabIndex = 6;
@@ -184,7 +197,7 @@
             this.btnFilter.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
             this.btnFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnFilter.ForeColor = System.Drawing.Color.White;
-            this.btnFilter.Location = new System.Drawing.Point(1050, 12);
+            this.btnFilter.Location = new System.Drawing.Point(1143, 12);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(120, 36);
             this.btnFilter.TabIndex = 7;
@@ -310,18 +323,6 @@
             this.chartSumBill.Series.Add(series2);
             this.chartSumBill.Size = new System.Drawing.Size(272, 379);
             this.chartSumBill.TabIndex = 0;
-            // 
-            // btnExit
-            // 
-            this.btnExit.BorderRadius = 8;
-            this.btnExit.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
-            this.btnExit.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnExit.ForeColor = System.Drawing.Color.White;
-            this.btnExit.Location = new System.Drawing.Point(1176, 12);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(120, 36);
-            this.btnExit.TabIndex = 8;
-            this.btnExit.Text = "Thoát";
             // 
             // FrmReport
             // 
