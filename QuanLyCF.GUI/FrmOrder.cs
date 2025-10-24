@@ -1,14 +1,10 @@
 using Guna.UI2.WinForms;
 using QuanLyCF.BUS;
+using QuanLyCF.GUI.FormAdmin;
 using System;
-using Guna.UI2.WinForms;
-
 using System.Collections.Generic;
-
 using System.Data;
-
 using System.Drawing;
-
 using System.Windows.Forms;
 
 namespace QuanLyCF.GUI
@@ -125,18 +121,18 @@ namespace QuanLyCF.GUI
                 // Màu theo trạng thái bàn
                 if (table.IsOccupied)
                 {
-                    btnTable.FillColor = Color.White;
+                    btnTable.FillColor = AppSettings.BackgroundWhiteColor;
                     btnTable.BorderColor = Color.Gray;
                     btnTable.Text += "\n(Ordered)";
                 }
                 else
                 {
-                    btnTable.FillColor = Color.FromArgb(209, 180, 140);
+                    btnTable.FillColor = AppSettings.LightBrownColor;
                     btnTable.BorderColor = Color.DeepSkyBlue;
                 }
 
                 // Hiệu ứng hover
-                btnTable.HoverState.FillColor = Color.FromArgb(140, 103, 84);
+                btnTable.HoverState.FillColor = AppSettings.BeigeColor;
                 btnTable.HoverState.BorderColor = Color.SteelBlue;
 
                 // Sự kiện click bàn
@@ -160,6 +156,27 @@ namespace QuanLyCF.GUI
             }
             else
                 Application.Exit();
+        }
+
+        private void btnStore_Click(object sender, EventArgs e)
+        {
+            FrmStore frm = new FrmStore(this);
+            this.Hide();
+            frm.Show();
+        }
+
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            FrmArea frm = new FrmArea(this);
+            this.Hide();
+            frm.Show();
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            FrmReport frm = new FrmReport(this);
+            this.Hide();
+            frm.Show();
         }
     }
 }

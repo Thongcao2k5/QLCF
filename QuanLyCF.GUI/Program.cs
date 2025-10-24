@@ -1,9 +1,10 @@
-﻿using System;
+﻿using QuanLyCF.DAL;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QuanLyCF.DAL;
 
 namespace QuanLyCF.GUI
 {
@@ -18,6 +19,18 @@ namespace QuanLyCF.GUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             OrderDAO.ClearPendingOrders(); // Clear pending orders at startup
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            // Thiết lập icon mặc định cho toàn bộ Form
+            Icon appIcon = new Icon(Application.StartupPath + @"\..\..\..\QuanLyCF.DAL\Image\System\coffee-cup.ico");
+            typeof(Form).InvokeMember("defaultIcon",
+                System.Reflection.BindingFlags.SetField |
+                System.Reflection.BindingFlags.NonPublic |
+                System.Reflection.BindingFlags.Static,
+                null, null, new object[] { appIcon });
+
             Application.Run(new FormDangNhap());
         }
     }

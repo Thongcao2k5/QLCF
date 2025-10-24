@@ -40,5 +40,38 @@ namespace QuanLyCF.DAL
 
             return areas;
         }
+
+        // === Lấy khu vực theo ID ===
+        public static AreaDAO GetAreaById(int id)
+        {
+            string query = "SELECT AreaID, AreaName, Description FROM Areas WHERE AreaID = @id";
+            SqlParameter[] param = { new SqlParameter("@id", id) };
+
+            DataTable dt = DataProvider.ExecuteQuery(query, param);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow r = dt.Rows[0];
+                return new AreaDAO
+                {
+                    AreaID = Convert.ToInt32(r["AreaID"]),
+                    AreaName = r["AreaName"].ToString(),
+                    Description = r["Description"]?.ToString()
+                };
+            }
+            return null;
+        }
+
+        // === Thêm khu vực mới ===
+        public static bool InsertArea(string name, string desc)
+        {
+            string query = "INSERT INTO Areas (AreaName, Description) VALUES (@name, @desc)";
+            SqlParameter[] param =
+            {
+                new SqlParameter("@name", name),
+                new SqlParameter("@desc", string.IsNullOrEmpty(desc) ? (object)DBNull.Value : desc)
+            };
+            return DataProvider.ExecuteNonQuery(query, param) > 0;
+        }
+
     }
 }
