@@ -10,6 +10,11 @@ namespace QuanLyCF.GUI
         public static readonly Color BackgroundDarkColor = Color.FromArgb(32,31,30);
         public static readonly Color BeigeColor = Color.FromArgb(209, 180, 140); // Màu be
         public static readonly Color LightBrownColor = Color.FromArgb(140, 103, 84); // Màu nâu nhạt
+        public static readonly Color GrayColor = Color.FromArgb(140, 103, 84); // Màu nâu nhạt
+
+        public static readonly Color PrimaryTextColor = Color.FromArgb(62, 39, 35); // Màu nâu nhạt
+
+
         // 🗄️ Database
 
 
@@ -19,5 +24,6 @@ namespace QuanLyCF.GUI
 
         // Đường dẫn sử dụng Icon
         public static readonly string LinkIcon = "https://fontawesome.com/search?o=r";
+        public static readonly string LinkHtmlColor = "https://www.w3schools.com/colors/colors_picker.asp";
     }
 }

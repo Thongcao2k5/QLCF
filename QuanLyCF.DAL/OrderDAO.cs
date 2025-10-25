@@ -78,64 +78,71 @@ namespace QuanLyCF.DAL
             return DataProvider.ExecuteQuery(query, parameters);
         }
 
-        public static void ProcessPayment(int orderId, string paymentMethod)
+        public static void ProcessPayment(int pendingOrderId)
         {
-            // Get order details from PendingOrders
-            string getPendingOrderQuery = "SELECT TableID, OrderDate, TotalAmount, DiscountAmount, FinalAmount FROM PendingOrders WHERE OrderID = @OrderID;";
-            SqlParameter[] getPendingOrderParams = new SqlParameter[1];
-            getPendingOrderParams[0] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
-            DataTable pendingOrder = DataProvider.ExecuteQuery(getPendingOrderQuery, getPendingOrderParams);
+            // 1. Get Pending Order data
+            string getPendingQuery = "SELECT * FROM PendingOrders WHERE PendingOrderID = @PendingOrderID";
+            DataTable pendingOrderDt = DataProvider.ExecuteQuery(getPendingQuery, new[] { new SqlParameter("@PendingOrderID", pendingOrderId) });
 
-            if (pendingOrder.Rows.Count > 0)
+            if (pendingOrderDt.Rows.Count == 0) return; // No pending order found
+
+            DataRow pendingOrderRow = pendingOrderDt.Rows[0];
+            int tableId = Convert.ToInt32(pendingOrderRow["TableID"]);
+            object userIdObj = pendingOrderRow["UserID"];
+            int? userId = userIdObj == DBNull.Value ? (int?)null : Convert.ToInt32(userIdObj);
+            decimal totalAmount = Convert.ToDecimal(pendingOrderRow["TotalAmount"]);
+            decimal discount = Convert.ToDecimal(pendingOrderRow["Discount"]);
+
+            // 2. Create a final Order
+            string createOrderQuery = @"
+                INSERT INTO Orders (TableID, UserID, OrderDate, Status, TotalAmount)
+                OUTPUT INSERTED.OrderID
+                VALUES (@TableID, @UserID, GETDATE(), 'Completed', @TotalAmount)";
+    
+            SqlParameter[] orderParams = {
+                new SqlParameter("@TableID", tableId),
+                new SqlParameter("@UserID", (object)userId ?? DBNull.Value),
+                new SqlParameter("@TotalAmount", totalAmount)
+            };
+            int newOrderId = Convert.ToInt32(DataProvider.ExecuteScalar(createOrderQuery, orderParams));
+
+            // 3. Move details from PendingOrderDetails to OrderDetails
+            string getPendingDetailsQuery = "SELECT * FROM PendingOrderDetails WHERE PendingOrderID = @PendingOrderID";
+            DataTable pendingDetailsDt = DataProvider.ExecuteQuery(getPendingDetailsQuery, new[] { new SqlParameter("@PendingOrderID", pendingOrderId) });
+
+            foreach (DataRow detailRow in pendingDetailsDt.Rows)
             {
-                DataRow orderRow = pendingOrder.Rows[0];
-                int tableId = Convert.ToInt32(orderRow["TableID"]);
-                DateTime orderDate = Convert.ToDateTime(orderRow["OrderDate"]);
-                decimal totalAmount = Convert.ToDecimal(orderRow["TotalAmount"]);
-                decimal discountAmount = Convert.ToDecimal(orderRow["DiscountAmount"]);
-                decimal finalAmount = Convert.ToDecimal(orderRow["FinalAmount"]);
-
-                // Insert into Invoices
-                string insertInvoiceQuery = "INSERT INTO Invoices (TableID, OrderDate, PaymentDate, TotalAmount, DiscountAmount, FinalAmount, PaymentMethod, Status) VALUES (@TableID, @OrderDate, GETDATE(), @TotalAmount, @DiscountAmount, @FinalAmount, @PaymentMethod, 'Paid'); SELECT SCOPE_IDENTITY();";
-                SqlParameter[] insertInvoiceParams = new SqlParameter[6];
-                insertInvoiceParams[0] = new SqlParameter("@TableID", SqlDbType.Int) { Value = tableId };
-                insertInvoiceParams[1] = new SqlParameter("@OrderDate", SqlDbType.DateTime) { Value = orderDate };
-                insertInvoiceParams[2] = new SqlParameter("@TotalAmount", SqlDbType.Decimal) { Value = totalAmount };
-                insertInvoiceParams[3] = new SqlParameter("@DiscountAmount", SqlDbType.Decimal) { Value = discountAmount };
-                insertInvoiceParams[4] = new SqlParameter("@FinalAmount", SqlDbType.Decimal) { Value = finalAmount };
-                insertInvoiceParams[5] = new SqlParameter("@PaymentMethod", SqlDbType.NVarChar) { Value = paymentMethod };
-                int invoiceId = Convert.ToInt32(DataProvider.ExecuteScalar(insertInvoiceQuery, insertInvoiceParams));
-
-                // Get order details from PendingOrderDetails
-                string getPendingOrderDetailsQuery = "SELECT MenuItemID, Quantity, UnitPrice FROM PendingOrderDetails WHERE OrderID = @OrderID;";
-                SqlParameter[] getPendingOrderDetailsParams = new SqlParameter[1];
-                getPendingOrderDetailsParams[0] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
-                DataTable pendingOrderDetails = DataProvider.ExecuteQuery(getPendingOrderDetailsQuery, getPendingOrderDetailsParams);
-
-                // Insert into InvoiceDetails
-                foreach (DataRow detailRow in pendingOrderDetails.Rows)
-                {
-                    string insertInvoiceDetailQuery = "INSERT INTO InvoiceDetails (InvoiceID, MenuItemID, Quantity, UnitPrice) VALUES (@InvoiceID, @MenuItemID, @Quantity, @UnitPrice);";
-                    SqlParameter[] insertInvoiceDetailParams = new SqlParameter[4];
-                    insertInvoiceDetailParams[0] = new SqlParameter("@InvoiceID", SqlDbType.Int) { Value = invoiceId };
-                    insertInvoiceDetailParams[1] = new SqlParameter("@MenuItemID", SqlDbType.Int) { Value = Convert.ToInt32(detailRow["MenuItemID"]) };
-                    insertInvoiceDetailParams[2] = new SqlParameter("@Quantity", SqlDbType.Int) { Value = Convert.ToInt32(detailRow["Quantity"]) };
-                    insertInvoiceDetailParams[3] = new SqlParameter("@UnitPrice", SqlDbType.Decimal) { Value = Convert.ToDecimal(detailRow["UnitPrice"]) };
-                    DataProvider.ExecuteNonQuery(insertInvoiceDetailQuery, insertInvoiceDetailParams);
-                }
-
-                // Delete from PendingOrderDetails
-                string deletePendingOrderDetailsQuery = "DELETE FROM PendingOrderDetails WHERE OrderID = @OrderID;";
-                SqlParameter[] deletePendingOrderDetailsParams = new SqlParameter[1];
-                deletePendingOrderDetailsParams[0] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
-                DataProvider.ExecuteNonQuery(deletePendingOrderDetailsQuery, deletePendingOrderDetailsParams);
-
-                // Delete from PendingOrders
-                string deletePendingOrderQuery = "DELETE FROM PendingOrders WHERE OrderID = @OrderID;";
-                SqlParameter[] deletePendingOrderParams = new SqlParameter[1];
-                deletePendingOrderParams[0] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
-                DataProvider.ExecuteNonQuery(deletePendingOrderQuery, deletePendingOrderParams);
+                string createDetailQuery = @"
+                    INSERT INTO OrderDetails (OrderID, DrinkID, Quantity, UnitPrice)
+                    VALUES (@OrderID, @DrinkID, @Quantity, @UnitPrice)";
+        
+                SqlParameter[] detailParams = {
+                    new SqlParameter("@OrderID", newOrderId),
+                    new SqlParameter("@DrinkID", detailRow["DrinkID"]),
+                    new SqlParameter("@Quantity", detailRow["Quantity"]),
+                    new SqlParameter("@UnitPrice", detailRow["UnitPrice"])
+                };
+                DataProvider.ExecuteNonQuery(createDetailQuery, detailParams);
             }
+
+            // 4. Create an Invoice
+            string createInvoiceQuery = @"
+                INSERT INTO Invoices (OrderID, InvoiceDate, TotalAmount, Discount)
+                VALUES (@OrderID, GETDATE(), @TotalAmount, @Discount)";
+    
+            SqlParameter[] invoiceParams = {
+                new SqlParameter("@OrderID", newOrderId),
+                new SqlParameter("@TotalAmount", totalAmount),
+                new SqlParameter("@Discount", discount),
+            };
+            DataProvider.ExecuteNonQuery(createInvoiceQuery, invoiceParams);
+
+            // 5. Delete the Pending Order and its details
+            string deleteDetailsQuery = "DELETE FROM PendingOrderDetails WHERE PendingOrderID = @PendingOrderID";
+            DataProvider.ExecuteNonQuery(deleteDetailsQuery, new[] { new SqlParameter("@PendingOrderID", pendingOrderId) });
+
+            string deleteHeaderQuery = "DELETE FROM PendingOrders WHERE PendingOrderID = @PendingOrderID";
+            DataProvider.ExecuteNonQuery(deleteHeaderQuery, new[] { new SqlParameter("@PendingOrderID", pendingOrderId) });
         }
 
         public static DataTable GetAllInvoices()

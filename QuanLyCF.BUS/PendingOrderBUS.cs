@@ -25,9 +25,23 @@ namespace QuanLyCF.BUS
             return PendingOrderDAO.UpdatePendingOrder(id, total, discount, final);
         }
 
-        public static bool CompletePendingOrder(int pendingOrderId)
+        public static void ProcessPayment(int pendingOrderId, int tableId)
         {
-            return PendingOrderDAO.CompletePendingOrder(pendingOrderId);
+            // Move pending order to a final order and invoice
+            OrderDAO.ProcessPayment(pendingOrderId);
+
+            // Update table status to not occupied
+            TableBUS.UpdateTableStatus(tableId, false);
         }
+
+        public static void ClearPendingOrders()
+        {
+            OrderDAO.ClearPendingOrders();
+        }
+
+        //public static bool CompletePendingOrder(int pendingOrderId)
+        //{
+        //    return PendingOrderDAO.CompletePendingOrder(pendingOrderId);
+        //}
     }
 }

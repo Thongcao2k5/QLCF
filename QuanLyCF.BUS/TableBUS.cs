@@ -42,10 +42,15 @@ namespace QuanLyCF.BUS
             return TableDAO.DeleteTable(tableId);
         }
 
-        // === 7️⃣ Lấy toàn bộ danh sách bàn ===
-        public static List<TableDAO> GetAllTables()
-        {
-            return TableDAO.GetAllTables();
-        }
-    }
+                    // === 7️⃣ Lấy toàn bộ danh sách bàn ===
+                    public static List<TableDAO> GetAllTables()
+                    {
+                        return TableDAO.GetAllTables();
+                    }
+        
+                    // === 8️⃣ Reset trạng thái tất cả các bàn ===
+                    public static void ResetAllTableStatus()
+                    {
+                        TableDAO.ResetAllTableStatus();
+                    }    }
 }

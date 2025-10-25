@@ -18,7 +18,9 @@ namespace QuanLyCF.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            OrderDAO.ClearPendingOrders(); // Clear pending orders at startup
+            // Clear any pending data from previous sessions
+            QuanLyCF.BUS.PendingOrderBUS.ClearPendingOrders(); 
+            QuanLyCF.BUS.TableBUS.ResetAllTableStatus();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

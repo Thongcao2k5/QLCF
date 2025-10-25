@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -51,7 +52,7 @@ namespace QuanLyCF.GUI
                 Dock = DockStyle.Fill,
                 BorderRadius = 0,
                 FillColor = AppSettings.BackgroundWhiteColor,
-                ShadowDecoration = { Enabled = true, Depth = 8, Shadow = new Padding(4) },
+                ShadowDecoration = { Enabled = true, Depth = 8, Shadow = new Padding(0) },
                 Padding = new Padding(10)
             };
             pnlTableMenu.Controls.Add(innerPanel);
@@ -63,10 +64,10 @@ namespace QuanLyCF.GUI
                 return new Guna2Button
                 {
                     Text = $"{icon}  {text}",
-                    Height = 45,
+                    Height = 48,
                     Dock = DockStyle.Top,
-                    Margin = new Padding(0, 0, 0, 8),
-                    BorderRadius = 12,
+                    Margin = new Padding(2,0,2,0),
+                    BorderRadius = 0,
                     Font = btnFont,
                     FillColor = AppSettings.LightBrownColor,
                     ForeColor = Color.White,
@@ -88,11 +89,26 @@ namespace QuanLyCF.GUI
             innerPanel.Controls.Add(btnAdd);
 
             this.Controls.Add(pnlTableMenu);
-
+            
+            // Khi click ra ngoài thì ẩn popup
             this.Click += (s, e) =>
             {
                 if (pnlTableMenu.Visible) pnlTableMenu.Visible = false;
             };
+        }
+
+        // ===============================
+        // 🔹 Hiển thị popup menu ở giữa màn hình
+        // ===============================
+        private void ShowTablePopupMenu()
+        {
+            // Tính toán vị trí giữa form
+            int x = (this.ClientSize.Width - pnlTableMenu.Width) / 2;
+            int y = (this.ClientSize.Height - pnlTableMenu.Height) / 2;
+
+            pnlTableMenu.Location = new Point(x, y);
+            pnlTableMenu.Visible = true;
+            pnlTableMenu.BringToFront();
         }
 
         // ===============================
@@ -188,9 +204,9 @@ namespace QuanLyCF.GUI
                     if (!tableInfo.IsOccupied)
                     {
                         // Bàn trống → mở menu để order mới
-                        FrmMenu frm = new FrmMenu(OnOrderSaved, selectedTableId);
+                        Action onSaveCallback = () => LoadTablesByArea(currentAreaId);
+                        FrmMenu frm = new FrmMenu(selectedTableId, onSaveCallback);
                         frm.ShowDialog();
-                        LoadTablesByArea(areaId);
                     }
                     else
                     {
@@ -199,7 +215,8 @@ namespace QuanLyCF.GUI
                         pos = this.PointToClient(pos);
                         pnlTableMenu.Location = new Point(pos.X + btn.Width + 10, pos.Y);
                         pnlTableMenu.BringToFront();
-                        pnlTableMenu.Visible = true;
+                        //pnlTableMenu.Visible = true;
+                        ShowTablePopupMenu();
                     }
                 };
 
@@ -220,9 +237,9 @@ namespace QuanLyCF.GUI
                 return;
             }
 
-            FrmMenu frm = new FrmMenu(OnOrderSaved, selectedTableId);
+            Action onSaveCallback = () => LoadTablesByArea(currentAreaId);
+            FrmMenu frm = new FrmMenu(selectedTableId, onSaveCallback);
             frm.ShowDialog();
-            LoadTablesByArea(currentAreaId);
         }
 
         private void BtnPay_Click(object sender, EventArgs e)
@@ -235,19 +252,18 @@ namespace QuanLyCF.GUI
                 return;
             }
 
-            // Gọi xử lý thanh toán hoặc cập nhật trạng thái
-            TableBUS.UpdateTableStatus(selectedTableId, false);
-            MessageBox.Show($"💰 Đã thanh toán cho bàn ID: {selectedTableId}");
-            LoadTablesByArea(currentAreaId);
-        }
-
-        // ===============================
-        // 🔹 CALLBACK SAU KHI LƯU ORDER
-        // ===============================
-        private void OnOrderSaved(decimal totalAmount, bool isPaid)
-        {
-            TableBUS.UpdateTableStatus(selectedTableId, !isPaid);
-            LoadTablesByArea(currentAreaId);
+            var pendingOrder = PendingOrderBUS.GetPendingOrderByTableId(selectedTableId);
+            if (pendingOrder != null)
+            {
+                int pendingOrderId = Convert.ToInt32(pendingOrder["PendingOrderID"]);
+                PendingOrderBUS.ProcessPayment(pendingOrderId, selectedTableId);
+                MessageBox.Show($"💰 Đã thanh toán cho bàn ID: {selectedTableId}");
+                LoadTablesByArea(currentAreaId);
+            }
+            else
+            {
+                 MessageBox.Show("Không tìm thấy order cho bàn này để thanh toán!");
+            }
         }
 
         // ===============================

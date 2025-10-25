@@ -14,7 +14,7 @@ namespace QuanLyCF.DAL
                 FROM PendingOrderDetails pod
                 JOIN Drinks d ON pod.DrinkID = d.DrinkID
                 WHERE pod.PendingOrderID = @id";
-            SqlParameter param = new SqlParameter("@id", pendingOrderId);
+            SqlParameter[] param = { new SqlParameter("@id", pendingOrderId) };
             return DataProvider.ExecuteQuery(query, param);
         }
 
@@ -22,15 +22,14 @@ namespace QuanLyCF.DAL
         public static bool AddDetail(int pendingOrderId, int drinkId, int quantity, decimal unitPrice)
         {
             string query = @"
-                INSERT INTO PendingOrderDetails (PendingOrderID, DrinkID, Quantity, UnitPrice, Total)
-                VALUES (@orderId, @drinkId, @qty, @price, @total)";
+                INSERT INTO PendingOrderDetails (PendingOrderID, DrinkID, Quantity, UnitPrice)
+                VALUES (@orderId, @drinkId, @qty, @price)";
             SqlParameter[] param =
             {
                 new SqlParameter("@orderId", pendingOrderId),
                 new SqlParameter("@drinkId", drinkId),
                 new SqlParameter("@qty", quantity),
-                new SqlParameter("@price", unitPrice),
-                new SqlParameter("@total", quantity * unitPrice)
+                new SqlParameter("@price", unitPrice)
             };
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
@@ -39,7 +38,7 @@ namespace QuanLyCF.DAL
         public static bool DeleteDetailsByOrderId(int pendingOrderId)
         {
             string query = "DELETE FROM PendingOrderDetails WHERE PendingOrderID = @id";
-            SqlParameter param = new SqlParameter("@id", pendingOrderId);
+            SqlParameter[] param = { new SqlParameter("@id", pendingOrderId) };
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
     }

@@ -73,5 +73,29 @@ namespace QuanLyCF.DAL
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
+        // === Cập nhật khu vực ===
+        public static bool UpdateArea(int id, string name, string desc)
+        {
+            string query = "UPDATE Areas SET AreaName = @name, Description = @desc WHERE AreaID = @id";
+            var param = new SqlParameter[]
+            {
+                new SqlParameter("@id", id),
+                new SqlParameter("@name", name),
+                new SqlParameter("@desc", desc ?? (object)DBNull.Value)
+            };
+            return DataProvider.ExecuteNonQuery(query, param) > 0;
+        }
+
+        // === Xóa khu vực ===
+        public static bool DeleteArea(int id)
+        {
+            string query = "DELETE FROM Areas WHERE AreaID = @id";
+            var param = new SqlParameter[]
+            {
+                new SqlParameter("@id", id)
+            };
+            return DataProvider.ExecuteNonQuery(query, param) > 0;
+        }
+
     }
 }

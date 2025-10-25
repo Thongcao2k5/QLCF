@@ -10,7 +10,7 @@ namespace QuanLyCF.DAL
         public static DataRow GetPendingOrderByTableId(int tableId)
         {
             string query = "SELECT TOP 1 * FROM PendingOrders WHERE TableID = @TableID AND Status = N'Pending'";
-            SqlParameter param = new SqlParameter("@TableID", tableId);
+            SqlParameter[] param = { new SqlParameter("@TableID", tableId) };
             DataTable dt = DataProvider.ExecuteQuery(query, param);
             return dt.Rows.Count > 0 ? dt.Rows[0] : null;
         }
@@ -19,7 +19,7 @@ namespace QuanLyCF.DAL
         public static DataRow GetPendingOrderById(int pendingOrderId)
         {
             string query = "SELECT * FROM PendingOrders WHERE PendingOrderID = @id";
-            SqlParameter param = new SqlParameter("@id", pendingOrderId);
+            SqlParameter[] param = { new SqlParameter("@id", pendingOrderId) };
             DataTable dt = DataProvider.ExecuteQuery(query, param);
             return dt.Rows.Count > 0 ? dt.Rows[0] : null;
         }
@@ -60,11 +60,11 @@ namespace QuanLyCF.DAL
         }
 
         // === 5️⃣ Chuyển order tạm sang trạng thái "Completed" ===
-        public static bool CompletePendingOrder(int pendingOrderId)
-        {
-            string query = "UPDATE PendingOrders SET Status = N'Completed' WHERE PendingOrderID = @id";
-            SqlParameter param = new SqlParameter("@id", pendingOrderId);
-            return DataProvider.ExecuteNonQuery(query, param) > 0;
-        }
+        //public static bool CompletePendingOrder(int pendingOrderId)
+        //{
+        //    string query = "UPDATE PendingOrders SET Status = N'Completed' WHERE PendingOrderID = @id";
+        //    SqlParameter param = new SqlParameter("@id", pendingOrderId);
+        //    return DataProvider.ExecuteNonQuery(query, param) > 0;
+        //}
     }
 }

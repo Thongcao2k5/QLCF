@@ -30,7 +30,7 @@ namespace QuanLyCF.DAL
         public static List<TableDAO> GetTablesByArea(int areaId)
         {
             string query = "SELECT * FROM Tables WHERE AreaID = @AreaID";
-            SqlParameter param = new SqlParameter("@AreaID", SqlDbType.Int) { Value = areaId };
+            SqlParameter[] param = { new SqlParameter("@AreaID", SqlDbType.Int) { Value = areaId } };
 
             DataTable dt = DataProvider.ExecuteQuery(query, param);
             List<TableDAO> tables = new List<TableDAO>();
@@ -148,6 +148,13 @@ namespace QuanLyCF.DAL
             }
 
             return tables;
+        }
+
+        // === 8️⃣ Reset trạng thái tất cả các bàn ===
+        public static void ResetAllTableStatus()
+        {
+            string query = "UPDATE Tables SET IsOccupied = 0";
+            DataProvider.ExecuteNonQuery(query);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace QuanLyCF.DAL
         public static List<DrinkDAO> GetDrinksByCategory(int categoryId)
         {
             string query = "SELECT * FROM Drinks WHERE CategoryID = @CategoryID";
-            SqlParameter param = new SqlParameter("@CategoryID", categoryId);
+            SqlParameter[] param = { new SqlParameter("@CategoryID", categoryId) };
             DataTable dt = DataProvider.ExecuteQuery(query, param);
 
             List<DrinkDAO> drinks = new List<DrinkDAO>();

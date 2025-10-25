@@ -27,11 +27,37 @@ namespace QuanLyCF.GUI
             this.onOrderSaved = callback;
         }
 
+        public FrmMenu()
+        {
+            InitializeComponent();
+        }
+
         private void FrmMenu_Load(object sender, EventArgs e)
         {
             LoadDrinks();
             LoadPendingOrder();
             DisplayDrinks(drinks);
+            SetupOrderDataGridView();
+        }
+
+        private void SetupOrderDataGridView()
+        {
+            // Add hidden column for unit price
+            var unitPriceCol = new DataGridViewTextBoxColumn
+            {
+                Name = "colUnitPrice",
+                HeaderText = "Unit Price",
+                Visible = false
+            };
+            dgvOrder.Columns.Add(unitPriceCol);
+
+            // Set column read-only properties
+            dgvOrder.Columns["colName"].ReadOnly = true;
+            dgvOrder.Columns["colPrice"].ReadOnly = true;
+            dgvOrder.Columns["colQty"].ReadOnly = false;
+
+            // Attach event handler
+            dgvOrder.CellValueChanged += dgvOrder_CellValueChanged;
         }
 
         // ======================= LOAD DRINKS =======================
@@ -53,7 +79,7 @@ namespace QuanLyCF.GUI
         // ======================= LOAD EXISTING PENDING ORDER =======================
         private void LoadPendingOrder()
         {
-            DataRow order = PendingOrderDAO.GetPendingOrderByTableId(tableId);
+            DataRow order = PendingOrderBUS.GetPendingOrderByTableId(tableId);
             if (order != null)
             {
                 pendingOrderId = Convert.ToInt32(order["PendingOrderID"]);
@@ -65,7 +91,8 @@ namespace QuanLyCF.GUI
                     string drinkName = row["DrinkName"].ToString();
                     int qty = Convert.ToInt32(row["Quantity"]);
                     decimal unitPrice = Convert.ToDecimal(row["UnitPrice"]);
-                    dgvOrder.Rows.Add(drinkId, drinkName, qty, unitPrice * qty);
+                    // Add data to the grid, including the hidden unit price column
+                    dgvOrder.Rows.Add(drinkId, drinkName, qty, unitPrice * qty, unitPrice);
                 }
 
                 UpdateTotal();
@@ -88,19 +115,20 @@ namespace QuanLyCF.GUI
                 {
                     Width = width,
                     Height = height,
-                    Margin = new Padding(spacing / 2),
+                    BackColor = Color.White,
+                    //Margin = new Padding(spacing / 2),
                     BorderStyle = BorderStyle.FixedSingle,
                     Tag = drink
                 };
+
+                string imagePath = GetImagePath(drink.ImagePath);
 
                 PictureBox pic = new PictureBox
                 {
                     Dock = DockStyle.Top,
                     Height = (int)(height * 0.75),
                     SizeMode = PictureBoxSizeMode.Zoom,
-                    Image = File.Exists(Path.Combine(imageFolder, drink.ImagePath ?? ""))
-                            ? Image.FromFile(Path.Combine(imageFolder, drink.ImagePath))
-                            : SystemIcons.Warning.ToBitmap(),
+                    Image = LoadImageSafe(imagePath),
                     Cursor = Cursors.Hand,
                     Tag = drink
                 };
@@ -109,10 +137,11 @@ namespace QuanLyCF.GUI
                 Label lbl = new Label
                 {
                     Dock = DockStyle.Fill,
-                    Text = $"{drink.DrinkName}\n{drink.Price:N0} đ",
+                    Text = $"{drink.ImagePath}\n{drink.Price:N0},000 đ",
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Italic),
                     ForeColor = Color.FromArgb(50, 30, 20),
+                    BackColor = Color.White,
                     Cursor = Cursors.Hand,
                     Tag = drink
                 };
@@ -121,6 +150,34 @@ namespace QuanLyCF.GUI
                 panel.Controls.Add(lbl);
                 panel.Controls.Add(pic);
                 flowLayoutPanelMenu.Controls.Add(panel);
+            }
+        }
+        // ======================= LẤY ĐƯỜNG DẪN HÌNH ẢNH =======================
+        private string GetImagePath(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return Path.Combine(imageFolder, "error_image.png");
+
+            var fullPath = Path.Combine(imageFolder, fileName);
+
+            return File.Exists(fullPath)
+                ? fullPath
+                : Path.Combine(imageFolder, "error_image.png");
+        }
+
+        // ======================= LOAD HÌNH ẢNH AN TOÀN =======================
+        private Image LoadImageSafe(string filePath)
+        {
+            try
+            {
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    return Image.FromStream(fs);
+                }
+            }
+            catch
+            {
+                return SystemIcons.Warning.ToBitmap();
             }
         }
 
@@ -144,11 +201,11 @@ namespace QuanLyCF.GUI
             {
                 int newQty = Convert.ToInt32(existingRow.Cells["colQty"].Value) + 1;
                 existingRow.Cells["colQty"].Value = newQty;
-                existingRow.Cells["colTotal"].Value = newQty * drink.Price;
+                existingRow.Cells["colPrice"].Value = newQty * drink.Price;
             }
             else
             {
-                dgvOrder.Rows.Add(drink.DrinkID, drink.DrinkName, 1, drink.Price);
+                dgvOrder.Rows.Add(drink.DrinkID, drink.DrinkName, 1, drink.Price, drink.Price);
             }
 
             UpdateTotal();
@@ -160,97 +217,150 @@ namespace QuanLyCF.GUI
             totalAmount = 0;
             foreach (DataGridViewRow row in dgvOrder.Rows)
             {
-                if (row.Cells["colTotal"].Value != null)
-                    totalAmount += Convert.ToDecimal(row.Cells["colTotal"].Value);
+                if (row.Cells["colPrice"].Value != null)
+                    totalAmount += Convert.ToDecimal(row.Cells["colPrice"].Value);
             }
 
             decimal discount = 0;
-            decimal.TryParse(txtKhuyenMai.Text, out discount);
-            decimal final = totalAmount - discount;
-            if (final < 0) final = 0;
+            decimal.TryParse(txtDiscount.Text, out discount);
+            decimal finalAmount = totalAmount - discount;
+            if (finalAmount < 0) finalAmount = 0;
 
-            lblTotal.Text = $"Tổng tiền: {final:N0} đ";
+            lblTotal.Text = $"Tổng tiền: {finalAmount:N0} đ";
         }
 
         // ======================= LƯU ORDER =======================
-        private void btnLuuOrder_Click(object sender, EventArgs e)
+        private bool SaveOrder()
         {
             if (dgvOrder.Rows.Count == 0)
             {
-                MessageBox.Show("Chưa có món nào để lưu!", "Thông báo");
-                return;
+                MessageBox.Show("Chưa có món nào trong order!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
 
-            decimal discount = 0;
-            decimal.TryParse(txtKhuyenMai.Text, out discount);
+            decimal.TryParse(txtDiscount.Text, out decimal discount);
             decimal finalAmount = totalAmount - discount;
 
-            if (pendingOrderId == -1)
+            if (pendingOrderId == -1) // Create new pending order
             {
-                pendingOrderId = PendingOrderDAO.CreatePendingOrder(tableId, totalAmount, discount, finalAmount);
-                TableDAO.UpdateTableStatus(tableId, true);
+                pendingOrderId = PendingOrderBUS.CreatePendingOrder(tableId, totalAmount, discount, finalAmount);
+                TableBUS.UpdateTableStatus(tableId, true);
             }
-            else
+            else // Update existing pending order
             {
-                PendingOrderDAO.DeleteOrderDetails(pendingOrderId);
-                PendingOrderDAO.UpdatePendingOrder(pendingOrderId, totalAmount, discount, finalAmount);
+                PendingOrderDetailBUS.DeleteDetailsByOrderId(pendingOrderId);
+                PendingOrderBUS.UpdatePendingOrder(pendingOrderId, totalAmount, discount, finalAmount);
             }
 
+            // Add all items from DataGridView to the order details
             foreach (DataGridViewRow row in dgvOrder.Rows)
             {
                 int drinkId = Convert.ToInt32(row.Cells["colDrinkID"].Value);
                 int qty = Convert.ToInt32(row.Cells["colQty"].Value);
-                decimal total = Convert.ToDecimal(row.Cells["colTotal"].Value);
-                decimal unitPrice = total / qty;
-                PendingOrderDAO.AddOrderDetail(pendingOrderId, drinkId, qty, unitPrice);
+                decimal unitPrice = Convert.ToDecimal(row.Cells["colUnitPrice"].Value);
+                PendingOrderDetailBUS.AddDetail(pendingOrderId, drinkId, qty, unitPrice);
             }
+            return true;
+        }
 
-            MessageBox.Show("Đã lưu order!", "Thông báo");
-            onOrderSaved?.Invoke();
-            this.Close();
+        private void btnLuuOrder_Click(object sender, EventArgs e)
+        {
+            if (SaveOrder())
+            {
+                MessageBox.Show("Đã lưu order thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                onOrderSaved?.Invoke();
+                this.Close();
+            }
         }
 
         // ======================= THANH TOÁN =======================
         private void btnTinhTien_Click(object sender, EventArgs e)
         {
-            if (pendingOrderId == -1)
+            if (pendingOrderId == -1 && dgvOrder.Rows.Count == 0)
             {
-                MessageBox.Show("Chưa có order để thanh toán!", "Thông báo");
-                return;
+                 MessageBox.Show("Chưa có order để thanh toán!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                 return;
             }
 
-            PendingOrderDAO.CompletePendingOrder(pendingOrderId);
-            TableDAO.UpdateTableStatus(tableId, false);
-            MessageBox.Show("Thanh toán thành công!", "Thông báo");
-            onOrderSaved?.Invoke();
-            this.Close();
+            // Save any last-minute changes before paying
+            if (SaveOrder())
+            {
+                // Process payment
+                PendingOrderBUS.ProcessPayment(pendingOrderId, tableId);
+                MessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                onOrderSaved?.Invoke();
+                this.Close();
+            }
         }
 
         private void txtKhuyenMai_TextChanged(object sender, EventArgs e)
         {
-            UpdateTotal();
+            //UpdateTotal();
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            string keyword = txtSearch.Text.Trim().ToLower();
-            filteredDrinks = drinks.Where(d => d.DrinkName.ToLower().Contains(keyword)).ToList();
-            DisplayDrinks(filteredDrinks);
+            //string keyword = txtSearch.Text.Trim().ToLower();
+            //filteredDrinks = drinks.Where(d => d.DrinkName.ToLower().Contains(keyword)).ToList();
+            //DisplayDrinks(filteredDrinks);
         }
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
-            if (dgvOrder.SelectedRows.Count > 0)
-            {
-                foreach (DataGridViewRow row in dgvOrder.SelectedRows)
-                    dgvOrder.Rows.Remove(row);
-                UpdateTotal();
-            }
+            //if (dgvOrder.SelectedRows.Count > 0)
+            //{
+            //    foreach (DataGridViewRow row in dgvOrder.SelectedRows)
+            //        dgvOrder.Rows.Remove(row);
+            //    UpdateTotal();
+            //}
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dgvOrder_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // Make sure the event is for the quantity column and the row is valid
+            if (e.RowIndex < 0 || e.ColumnIndex != dgvOrder.Columns["colQty"].Index)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvOrder.Rows[e.RowIndex];
+
+            // Get the new quantity
+            if (!int.TryParse(row.Cells["colQty"].Value.ToString(), out int newQty))
+            {
+                MessageBox.Show("Vui lòng nhập một số hợp lệ cho số lượng.", "Số lượng không hợp lệ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // If quantity is 0 or less, remove the item
+            if (newQty <= 0)
+            {
+                this.BeginInvoke(new MethodInvoker(() => {
+                    if (!row.IsNewRow)
+                    {
+                        dgvOrder.Rows.Remove(row);
+                        UpdateTotal();
+                    }
+                }));
+                return;
+            }
+
+            // Get the unit price from the hidden column
+            if (!decimal.TryParse(row.Cells["colUnitPrice"].Value.ToString(), out decimal unitPrice))
+            {
+                return;
+            }
+
+            // Update the total price for the row
+            row.Cells["colPrice"].Value = newQty * unitPrice;
+
+            // Update the grand total
+            UpdateTotal();
         }
     }
 

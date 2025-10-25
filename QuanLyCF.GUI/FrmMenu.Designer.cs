@@ -11,7 +11,7 @@ namespace QuanLyCF.GUI
         private Guna2Panel panelTop;
         private Guna2Panel panelLeft;
         private Guna2Panel panelRight;
-        private FlowLayoutPanel flpMenuItems;
+        private FlowLayoutPanel flowLayoutPanelMenu;
         private Guna2TextBox txtSearch;
         private Label lblSearch;
         private Guna2Button btnBack;
@@ -25,11 +25,6 @@ namespace QuanLyCF.GUI
         private Label lblCustomerType;
         private TextBox txtDiscount;
         private Label lblDiscount;
-
-        private DataGridViewTextBoxColumn colDrinkID;
-        private DataGridViewTextBoxColumn colName;
-        private DataGridViewTextBoxColumn colQty;
-        private DataGridViewTextBoxColumn colPrice;
 
         protected override void Dispose(bool disposing)
         {
@@ -45,7 +40,8 @@ namespace QuanLyCF.GUI
             this.lblSearch = new System.Windows.Forms.Label();
             this.txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             this.panelLeft = new Guna.UI2.WinForms.Guna2Panel();
-            this.flpMenuItems = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanelMenu = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panelRight = new Guna.UI2.WinForms.Guna2Panel();
             this.dgvOrder = new System.Windows.Forms.DataGridView();
             this.colDrinkID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +59,7 @@ namespace QuanLyCF.GUI
             this.btnBack = new Guna.UI2.WinForms.Guna2Button();
             this.panelTop.SuspendLayout();
             this.panelLeft.SuspendLayout();
+            this.flowLayoutPanelMenu.SuspendLayout();
             this.panelRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrder)).BeginInit();
             this.SuspendLayout();
@@ -76,40 +73,44 @@ namespace QuanLyCF.GUI
             this.panelTop.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1300, 70);
+            this.panelTop.Size = new System.Drawing.Size(1300, 60);
             this.panelTop.TabIndex = 2;
             // 
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(20, 18);
+            this.lblTitle.Location = new System.Drawing.Point(17, 16);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(310, 41);
+            this.lblTitle.Size = new System.Drawing.Size(246, 32);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "☕ MENU ĐỒ UỐNG";
             // 
             // lblSearch
             // 
             this.lblSearch.AutoSize = true;
-            this.lblSearch.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.lblSearch.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.lblSearch.ForeColor = System.Drawing.Color.White;
-            this.lblSearch.Location = new System.Drawing.Point(834, 32);
+            this.lblSearch.Location = new System.Drawing.Point(894, 20);
             this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(120, 23);
+            this.lblSearch.Size = new System.Drawing.Size(111, 21);
             this.lblSearch.TabIndex = 1;
             this.lblSearch.Text = "🔍 Tìm kiếm:";
             // 
             // txtSearch
             // 
+            this.txtSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
             this.txtSearch.BorderRadius = 10;
             this.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSearch.DefaultText = "";
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtSearch.Location = new System.Drawing.Point(960, 20);
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Italic);
+            this.txtSearch.Location = new System.Drawing.Point(1022, 13);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSearch.Name = "txtSearch";
+            this.txtSearch.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(39)))), ((int)(((byte)(35)))));
             this.txtSearch.PlaceholderText = "Nhập tên món...";
             this.txtSearch.SelectedText = "";
             this.txtSearch.Size = new System.Drawing.Size(250, 35);
@@ -118,24 +119,34 @@ namespace QuanLyCF.GUI
             // 
             // panelLeft
             // 
-            this.panelLeft.Controls.Add(this.flpMenuItems);
+            this.panelLeft.Controls.Add(this.flowLayoutPanelMenu);
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLeft.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
-            this.panelLeft.Location = new System.Drawing.Point(0, 70);
+            this.panelLeft.Location = new System.Drawing.Point(0, 60);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(920, 730);
+            this.panelLeft.Size = new System.Drawing.Size(920, 740);
             this.panelLeft.TabIndex = 0;
             // 
-            // flpMenuItems
+            // flowLayoutPanelMenu
             // 
-            this.flpMenuItems.AutoScroll = true;
-            this.flpMenuItems.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
-            this.flpMenuItems.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpMenuItems.Location = new System.Drawing.Point(0, 0);
-            this.flpMenuItems.Name = "flpMenuItems";
-            this.flpMenuItems.Padding = new System.Windows.Forms.Padding(20);
-            this.flpMenuItems.Size = new System.Drawing.Size(920, 730);
-            this.flpMenuItems.TabIndex = 0;
+            this.flowLayoutPanelMenu.AutoScroll = true;
+            this.flowLayoutPanelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
+            this.flowLayoutPanelMenu.Controls.Add(this.flowLayoutPanel1);
+            this.flowLayoutPanelMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelMenu.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.flowLayoutPanelMenu.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelMenu.Name = "flowLayoutPanelMenu";
+            this.flowLayoutPanelMenu.Padding = new System.Windows.Forms.Padding(20);
+            this.flowLayoutPanelMenu.Size = new System.Drawing.Size(920, 740);
+            this.flowLayoutPanelMenu.TabIndex = 0;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(23, 23);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(200, 0);
+            this.flowLayoutPanel1.TabIndex = 0;
             // 
             // panelRight
             // 
@@ -151,10 +162,10 @@ namespace QuanLyCF.GUI
             this.panelRight.Controls.Add(this.btnBack);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRight.FillColor = System.Drawing.Color.White;
-            this.panelRight.Location = new System.Drawing.Point(920, 70);
+            this.panelRight.Location = new System.Drawing.Point(920, 60);
             this.panelRight.Name = "panelRight";
             this.panelRight.Padding = new System.Windows.Forms.Padding(15);
-            this.panelRight.Size = new System.Drawing.Size(380, 730);
+            this.panelRight.Size = new System.Drawing.Size(380, 740);
             this.panelRight.TabIndex = 1;
             // 
             // dgvOrder
@@ -173,11 +184,12 @@ namespace QuanLyCF.GUI
             this.dgvOrder.Name = "dgvOrder";
             this.dgvOrder.RowHeadersVisible = false;
             this.dgvOrder.RowHeadersWidth = 51;
-            this.dgvOrder.Size = new System.Drawing.Size(350, 420);
+            this.dgvOrder.Size = new System.Drawing.Size(350, 473);
             this.dgvOrder.TabIndex = 0;
             // 
             // colDrinkID
             // 
+            this.colDrinkID.HeaderText = "colDrinkID";
             this.colDrinkID.MinimumWidth = 6;
             this.colDrinkID.Name = "colDrinkID";
             this.colDrinkID.Visible = false;
@@ -192,7 +204,7 @@ namespace QuanLyCF.GUI
             // 
             // colQty
             // 
-            this.colQty.HeaderText = "SL";
+            this.colQty.HeaderText = "Số lượng";
             this.colQty.MinimumWidth = 6;
             this.colQty.Name = "colQty";
             this.colQty.Width = 40;
@@ -206,40 +218,44 @@ namespace QuanLyCF.GUI
             // lblCustomerType
             // 
             this.lblCustomerType.AutoSize = true;
-            this.lblCustomerType.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblCustomerType.Location = new System.Drawing.Point(15, 450);
+            this.lblCustomerType.BackColor = System.Drawing.Color.White;
+            this.lblCustomerType.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.lblCustomerType.Location = new System.Drawing.Point(27, 501);
             this.lblCustomerType.Name = "lblCustomerType";
-            this.lblCustomerType.Size = new System.Drawing.Size(108, 23);
+            this.lblCustomerType.Size = new System.Drawing.Size(102, 21);
             this.lblCustomerType.TabIndex = 1;
             this.lblCustomerType.Text = "Khách hàng:";
             // 
             // cbCustomerType
             // 
             this.cbCustomerType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCustomerType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbCustomerType.Items.AddRange(new object[] {
             "Khách lẻ",
             "Thành viên",
             "VIP"});
-            this.cbCustomerType.Location = new System.Drawing.Point(140, 450);
+            this.cbCustomerType.Location = new System.Drawing.Point(152, 494);
             this.cbCustomerType.Name = "cbCustomerType";
-            this.cbCustomerType.Size = new System.Drawing.Size(200, 24);
+            this.cbCustomerType.Size = new System.Drawing.Size(200, 28);
             this.cbCustomerType.TabIndex = 2;
             // 
             // lblDiscount
             // 
             this.lblDiscount.AutoSize = true;
-            this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblDiscount.Location = new System.Drawing.Point(15, 490);
+            this.lblDiscount.BackColor = System.Drawing.Color.White;
+            this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.lblDiscount.Location = new System.Drawing.Point(27, 534);
             this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(137, 23);
+            this.lblDiscount.Size = new System.Drawing.Size(129, 21);
             this.lblDiscount.TabIndex = 3;
             this.lblDiscount.Text = "Khuyến mãi (đ):";
             // 
             // txtDiscount
             // 
-            this.txtDiscount.Location = new System.Drawing.Point(160, 490);
+            this.txtDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDiscount.Location = new System.Drawing.Point(232, 529);
             this.txtDiscount.Name = "txtDiscount";
-            this.txtDiscount.Size = new System.Drawing.Size(100, 22);
+            this.txtDiscount.Size = new System.Drawing.Size(120, 26);
             this.txtDiscount.TabIndex = 4;
             this.txtDiscount.Text = "0";
             this.txtDiscount.TextChanged += new System.EventHandler(this.txtKhuyenMai_TextChanged);
@@ -247,34 +263,37 @@ namespace QuanLyCF.GUI
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTotal.BackColor = System.Drawing.Color.White;
+            this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.lblTotal.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblTotal.Location = new System.Drawing.Point(15, 530);
+            this.lblTotal.Location = new System.Drawing.Point(27, 566);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(145, 28);
+            this.lblTotal.Size = new System.Drawing.Size(110, 21);
             this.lblTotal.TabIndex = 5;
             this.lblTotal.Text = "Tổng tiền: 0 đ";
             // 
             // btnCancel
             // 
+            this.btnCancel.BackColor = System.Drawing.Color.White;
             this.btnCancel.BorderRadius = 10;
             this.btnCancel.FillColor = System.Drawing.Color.IndianRed;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(15, 630);
+            this.btnCancel.Location = new System.Drawing.Point(23, 668);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(100, 40);
+            this.btnCancel.Size = new System.Drawing.Size(150, 40);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "🗑 Xóa món";
             this.btnCancel.Click += new System.EventHandler(this.btnXoaMon_Click);
             // 
             // btnSaveOrder
             // 
+            this.btnSaveOrder.BackColor = System.Drawing.Color.White;
             this.btnSaveOrder.BorderRadius = 10;
             this.btnSaveOrder.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
             this.btnSaveOrder.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSaveOrder.ForeColor = System.Drawing.Color.Black;
-            this.btnSaveOrder.Location = new System.Drawing.Point(130, 580);
+            this.btnSaveOrder.Location = new System.Drawing.Point(220, 622);
             this.btnSaveOrder.Name = "btnSaveOrder";
             this.btnSaveOrder.Size = new System.Drawing.Size(150, 40);
             this.btnSaveOrder.TabIndex = 7;
@@ -283,11 +302,12 @@ namespace QuanLyCF.GUI
             // 
             // btnPay
             // 
+            this.btnPay.BackColor = System.Drawing.Color.White;
             this.btnPay.BorderRadius = 10;
             this.btnPay.FillColor = System.Drawing.Color.MediumSeaGreen;
             this.btnPay.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnPay.ForeColor = System.Drawing.Color.White;
-            this.btnPay.Location = new System.Drawing.Point(130, 630);
+            this.btnPay.Location = new System.Drawing.Point(220, 668);
             this.btnPay.Name = "btnPay";
             this.btnPay.Size = new System.Drawing.Size(150, 40);
             this.btnPay.TabIndex = 8;
@@ -296,13 +316,15 @@ namespace QuanLyCF.GUI
             // 
             // btnBack
             // 
+            this.btnBack.BackColor = System.Drawing.Color.White;
             this.btnBack.BorderRadius = 10;
             this.btnBack.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(103)))), ((int)(((byte)(84)))));
             this.btnBack.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnBack.ForeColor = System.Drawing.Color.White;
-            this.btnBack.Location = new System.Drawing.Point(15, 580);
+            this.btnBack.Location = new System.Drawing.Point(23, 618);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(100, 40);
+            this.btnBack.PressedColor = System.Drawing.SystemColors.AppWorkspace;
+            this.btnBack.Size = new System.Drawing.Size(150, 40);
             this.btnBack.TabIndex = 9;
             this.btnBack.Text = "⬅ Trở lại";
             this.btnBack.Click += new System.EventHandler(this.btnHuy_Click);
@@ -321,11 +343,18 @@ namespace QuanLyCF.GUI
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.panelLeft.ResumeLayout(false);
+            this.flowLayoutPanelMenu.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelRight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrder)).EndInit();
             this.ResumeLayout(false);
 
         }
+
+        private DataGridViewTextBoxColumn colDrinkID;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colQty;
+        private DataGridViewTextBoxColumn colPrice;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
