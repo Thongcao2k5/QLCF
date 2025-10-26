@@ -1,10 +1,11 @@
+using Guna.UI2.WinForms;
+using QuanLyCF.BUS;
+using QuanLyCF.DAL;
 using System;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using Guna.UI2.WinForms;
-using QuanLyCF.DAL;
 
 namespace QuanLyCF.GUI
 {
@@ -32,7 +33,7 @@ namespace QuanLyCF.GUI
             dgvBill.Columns["Quantity"].DataPropertyName = "Quantity";
             dgvBill.Columns["UnitPrice"].DataPropertyName = "UnitPrice";
             dgvBill.Columns["Total"].DataPropertyName = "Total";
-            dgvBill.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill;
+            //dgvBill.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill;
 
 
             // Load order information
@@ -43,7 +44,7 @@ namespace QuanLyCF.GUI
                 lblBan.Text = "Bàn: " + this.TableId;
                 lblNgay.Text = "Ngày: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 // TODO: Get employee name from UserDAO
-                lblNhanVien.Text = "Nhân viên: ";
+                lblNhanVien.Text = "Nhân viên: Nhân viên 1";
 
                 // Load order details
                 DataTable orderDetails = OrderDAO.GetOrderDetailsByOrderId(this.orderId);
@@ -54,9 +55,13 @@ namespace QuanLyCF.GUI
                     decimal totalForRow = Convert.ToDecimal(row["Quantity"]) * Convert.ToDecimal(row["UnitPrice"]);
                     row["Total"] = totalForRow;
                     total += totalForRow;
+
                 }
 
+
                 dgvBill.DataSource = orderDetails;
+
+
 
                 // Calculate total
                 txtTongTien.Text = total.ToString("N0", new CultureInfo("en-US"));
@@ -92,6 +97,21 @@ namespace QuanLyCF.GUI
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
+
+            // Lấy dữ liệu tổng tiền và giảm giá ở UI
+            decimal discount = 0;
+            decimal.TryParse(txtGiamGia.Text, out discount);
+
+            decimal total = 0;
+            decimal.TryParse(txtTongTien.Text, out total);
+
+            decimal finalAmount = total - discount;
+
+            //AppSettings.ShowToastTest(this, "Tổng tiền: " + total + " Giảm giá: " + discount);
+
+            PendingOrderDetailBUS.DeleteDetailsByOrderId(this.orderId);
+            PendingOrderBUS.UpdatePendingOrder(this.orderId, total, discount, finalAmount);
+
             if (this.orderId > 0)
             {
                 OrderDAO.ProcessPayment(this.orderId);
@@ -107,19 +127,22 @@ namespace QuanLyCF.GUI
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (this.orderId > 0)
-            {
-                decimal tongTien = decimal.Parse(txtTongTien.Text, NumberStyles.Any, new CultureInfo("en-US"));
-                decimal giamGia = 0;
-                if (!string.IsNullOrEmpty(txtGiamGia.Text))
-                {
-                    giamGia = decimal.Parse(txtGiamGia.Text, NumberStyles.Any, new CultureInfo("en-US"));
-                }
-                decimal thanhTien = tongTien - giamGia;
 
-                OrderDAO.UpdatePendingOrder(this.orderId, tongTien, giamGia, thanhTien);
-                MessageBox.Show("Đã lưu order!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void txtTongTien_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtThanhTien_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

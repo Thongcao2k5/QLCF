@@ -144,7 +144,7 @@ namespace QuanLyCF.GUI
             }
 
             // Tự động biến mất sau 2 giây
-            var timer = new System.Windows.Forms.Timer { Interval = 2000 };
+            var timer = new System.Windows.Forms.Timer { Interval = 5000 };
             timer.Tick += (s, e) =>
             {
                 form.Controls.Remove(toast);

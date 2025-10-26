@@ -19,8 +19,8 @@ namespace QuanLyCF.GUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             // Clear any pending data from previous sessions
-            QuanLyCF.BUS.PendingOrderBUS.ClearPendingOrders(); 
-            QuanLyCF.BUS.TableBUS.ResetAllTableStatus();
+            //QuanLyCF.BUS.PendingOrderBUS.ClearPendingOrders(); 
+            //QuanLyCF.BUS.TableBUS.ResetAllTableStatus();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
