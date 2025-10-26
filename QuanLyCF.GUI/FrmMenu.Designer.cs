@@ -275,6 +275,7 @@ namespace QuanLyCF.GUI
             // btnCancel
             // 
             this.btnCancel.BackColor = System.Drawing.Color.White;
+            this.btnCancel.BorderColor = System.Drawing.Color.White;
             this.btnCancel.BorderRadius = 10;
             this.btnCancel.FillColor = System.Drawing.Color.IndianRed;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);

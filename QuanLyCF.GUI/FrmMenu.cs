@@ -295,25 +295,34 @@ namespace QuanLyCF.GUI
 
         private void txtKhuyenMai_TextChanged(object sender, EventArgs e)
         {
-            //UpdateTotal();
+            UpdateTotal();
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            //string keyword = txtSearch.Text.Trim().ToLower();
-            //filteredDrinks = drinks.Where(d => d.DrinkName.ToLower().Contains(keyword)).ToList();
-            //DisplayDrinks(filteredDrinks);
+            string keyword = txtSearch.Text.Trim().ToLower();
+            filteredDrinks = drinks.Where(d => d.DrinkName.ToLower().Contains(keyword)).ToList();
+            DisplayDrinks(filteredDrinks);
         }
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
-            //if (dgvOrder.SelectedRows.Count > 0)
-            //{
-            //    foreach (DataGridViewRow row in dgvOrder.SelectedRows)
-            //        dgvOrder.Rows.Remove(row);
-            //    UpdateTotal();
-            //}
+            AppSettings.ShowToast(this, "Xóa món thành công!");
+            if (dgvOrder.SelectedRows.Count > 0)
+            {
+                DataTable dt = dgvOrder.DataSource as DataTable;
+                if (dt != null)
+                {
+                    foreach (DataGridViewRow row in dgvOrder.SelectedRows)
+                    {
+                        if (!row.IsNewRow)
+                            dt.Rows.RemoveAt(row.Index);
+                    }
+                }
+                UpdateTotal();
+            }
         }
+
 
         private void btnHuy_Click(object sender, EventArgs e)
         {
