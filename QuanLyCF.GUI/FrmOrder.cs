@@ -25,6 +25,7 @@ namespace QuanLyCF.GUI
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.None;
             this.DoubleBuffered = true;
+            ApplyHoverEffectToAllButtons(this);
         }
 
         public FrmOrder(FormDangNhap loginForm) : this()
@@ -126,7 +127,7 @@ namespace QuanLyCF.GUI
                 {
                     Text = area.AreaName,
                     Tag = area.AreaID,
-                    Size = new Size(216, 48),
+                    Size = new Size(146, 48),
                     Location = new Point(8, top),
                     BorderRadius = 20,
                     FillColor = Color.White,
@@ -299,6 +300,34 @@ namespace QuanLyCF.GUI
             FrmReport frm = new FrmReport(this);
             this.Hide();
             frm.Show();
+        }
+
+        private void ApplyHoverEffectToAllButtons(Control parent)
+        {
+            foreach (Control control in parent.Controls)
+            {
+                if (control is Guna.UI2.WinForms.Guna2Button btn)
+                {
+                    // Lưu lại màu gốc
+                    Color originalColor = btn.FillColor;
+                    Color originalColor2 = btn.ForeColor;
+
+                    btn.MouseEnter += (s, e) =>
+                    {
+                        btn.FillColor = Color.Gray;
+                        btn.ForeColor = Color.White;
+                    };
+                    btn.MouseLeave += (s, e) =>
+                    {
+                        btn.FillColor = originalColor;
+                        btn.ForeColor = originalColor2;
+                    };
+                }
+
+                // Đệ quy: tìm button trong panel, groupbox, v.v...
+                if (control.HasChildren)
+                    ApplyHoverEffectToAllButtons(control);
+            }
         }
     }
 }

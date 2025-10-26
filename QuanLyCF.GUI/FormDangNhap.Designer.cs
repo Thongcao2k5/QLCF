@@ -22,6 +22,8 @@
             this.pictureBoxIllustration = new Guna.UI2.WinForms.Guna2PictureBox();
             this.buttonUploadImage = new System.Windows.Forms.Button();
             this.panelRight = new System.Windows.Forms.Panel();
+            this.guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -30,13 +32,11 @@
             this.textBoxUsername = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.buttonThuNgan = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.panelLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIllustration)).BeginInit();
             this.panelRight.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelLeft
@@ -100,6 +100,28 @@
             this.panelRight.Size = new System.Drawing.Size(533, 492);
             this.panelRight.TabIndex = 1;
             // 
+            // guna2PictureBox2
+            // 
+            this.guna2PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox2.Image")));
+            this.guna2PictureBox2.ImageRotate = 0F;
+            this.guna2PictureBox2.Location = new System.Drawing.Point(2, 461);
+            this.guna2PictureBox2.Name = "guna2PictureBox2";
+            this.guna2PictureBox2.Size = new System.Drawing.Size(28, 28);
+            this.guna2PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.guna2PictureBox2.TabIndex = 16;
+            this.guna2PictureBox2.TabStop = false;
+            // 
+            // guna2HtmlLabel5
+            // 
+            this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2HtmlLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.guna2HtmlLabel5.Location = new System.Drawing.Point(28, 467);
+            this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
+            this.guna2HtmlLabel5.Size = new System.Drawing.Size(44, 15);
+            this.guna2HtmlLabel5.TabIndex = 15;
+            this.guna2HtmlLabel5.Text = "Cài đặt";
+            // 
             // guna2HtmlLabel4
             // 
             this.guna2HtmlLabel4.BackColor = System.Drawing.Color.Transparent;
@@ -107,7 +129,7 @@
             this.guna2HtmlLabel4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.guna2HtmlLabel4.Location = new System.Drawing.Point(85, 175);
             this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            this.guna2HtmlLabel4.Size = new System.Drawing.Size(361, 28);
+            this.guna2HtmlLabel4.Size = new System.Drawing.Size(284, 22);
             this.guna2HtmlLabel4.TabIndex = 14;
             this.guna2HtmlLabel4.Text = "hãy đăng nhập tài khoản của bạn!";
             // 
@@ -118,7 +140,7 @@
             this.guna2HtmlLabel3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.guna2HtmlLabel3.Location = new System.Drawing.Point(85, 141);
             this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            this.guna2HtmlLabel3.Size = new System.Drawing.Size(219, 28);
+            this.guna2HtmlLabel3.Size = new System.Drawing.Size(172, 22);
             this.guna2HtmlLabel3.TabIndex = 13;
             this.guna2HtmlLabel3.Text = "Chào mừng quản trị, ";
             // 
@@ -129,7 +151,7 @@
             this.guna2HtmlLabel2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.guna2HtmlLabel2.Location = new System.Drawing.Point(310, 331);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(143, 27);
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(116, 22);
             this.guna2HtmlLabel2.TabIndex = 12;
             this.guna2HtmlLabel2.Text = "Quên mật khẩu!";
             // 
@@ -140,7 +162,7 @@
             this.guna2HtmlLabel1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.guna2HtmlLabel1.Location = new System.Drawing.Point(85, 331);
             this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(159, 27);
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(131, 22);
             this.guna2HtmlLabel1.TabIndex = 11;
             this.guna2HtmlLabel1.Text = "Hiển thị mật khẩu!";
             this.guna2HtmlLabel1.Click += new System.EventHandler(this.labelEyeIcon_Click);
@@ -218,32 +240,11 @@
             this.buttonThuNgan.Size = new System.Drawing.Size(195, 52);
             this.buttonThuNgan.TabIndex = 2;
             this.buttonThuNgan.Text = "Đăng nhập";
-            // 
-            // guna2HtmlLabel5
-            // 
-            this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
-            this.guna2HtmlLabel5.Location = new System.Drawing.Point(28, 467);
-            this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            this.guna2HtmlLabel5.Size = new System.Drawing.Size(52, 18);
-            this.guna2HtmlLabel5.TabIndex = 15;
-            this.guna2HtmlLabel5.Text = "Cài đặt";
-            // 
-            // guna2PictureBox2
-            // 
-            this.guna2PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox2.Image")));
-            this.guna2PictureBox2.ImageRotate = 0F;
-            this.guna2PictureBox2.Location = new System.Drawing.Point(2, 461);
-            this.guna2PictureBox2.Name = "guna2PictureBox2";
-            this.guna2PictureBox2.Size = new System.Drawing.Size(28, 28);
-            this.guna2PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox2.TabIndex = 16;
-            this.guna2PictureBox2.TabStop = false;
+            this.buttonThuNgan.Click += new System.EventHandler(this.buttonThuNgan_Click);
             // 
             // FormDangNhap
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(933, 492);
@@ -263,8 +264,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIllustration)).EndInit();
             this.panelRight.ResumeLayout(false);
             this.panelRight.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -137,7 +137,7 @@ namespace QuanLyCF.GUI
                 Label lbl = new Label
                 {
                     Dock = DockStyle.Fill,
-                    Text = $"{drink.ImagePath}\n{drink.Price:N0},000 đ",
+                    Text = $"{drink.DrinkName}\n{drink.Price:N0},000 đ",
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Italic),
                     ForeColor = Color.FromArgb(50, 30, 20),
@@ -307,7 +307,7 @@ namespace QuanLyCF.GUI
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
-            AppSettings.ShowToast(this, "Xóa món thành công!");
+            AppSettings.ShowToastTest(this, "Xóa món thành công!");
             if (dgvOrder.SelectedRows.Count > 0)
             {
                 DataTable dt = dgvOrder.DataSource as DataTable;

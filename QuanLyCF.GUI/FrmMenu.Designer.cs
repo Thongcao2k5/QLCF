@@ -94,7 +94,7 @@ namespace QuanLyCF.GUI
             this.lblSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
             this.lblSearch.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.lblSearch.ForeColor = System.Drawing.Color.White;
-            this.lblSearch.Location = new System.Drawing.Point(894, 20);
+            this.lblSearch.Location = new System.Drawing.Point(918, 20);
             this.lblSearch.Name = "lblSearch";
             this.lblSearch.Size = new System.Drawing.Size(111, 21);
             this.lblSearch.TabIndex = 1;
@@ -103,17 +103,17 @@ namespace QuanLyCF.GUI
             // txtSearch
             // 
             this.txtSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
-            this.txtSearch.BorderRadius = 10;
+            this.txtSearch.BorderRadius = 20;
             this.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSearch.DefaultText = "";
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Italic);
-            this.txtSearch.Location = new System.Drawing.Point(1022, 13);
+            this.txtSearch.Location = new System.Drawing.Point(1034, 11);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(39)))), ((int)(((byte)(35)))));
             this.txtSearch.PlaceholderText = "Nhập tên món...";
             this.txtSearch.SelectedText = "";
-            this.txtSearch.Size = new System.Drawing.Size(250, 35);
+            this.txtSearch.Size = new System.Drawing.Size(250, 40);
             this.txtSearch.TabIndex = 2;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
@@ -276,13 +276,13 @@ namespace QuanLyCF.GUI
             // 
             this.btnCancel.BackColor = System.Drawing.Color.White;
             this.btnCancel.BorderColor = System.Drawing.Color.White;
-            this.btnCancel.BorderRadius = 10;
+            this.btnCancel.BorderRadius = 20;
             this.btnCancel.FillColor = System.Drawing.Color.IndianRed;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
             this.btnCancel.Location = new System.Drawing.Point(23, 668);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(150, 40);
+            this.btnCancel.Size = new System.Drawing.Size(146, 40);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "🗑 Xóa món";
             this.btnCancel.Click += new System.EventHandler(this.btnXoaMon_Click);
@@ -290,13 +290,13 @@ namespace QuanLyCF.GUI
             // btnSaveOrder
             // 
             this.btnSaveOrder.BackColor = System.Drawing.Color.White;
-            this.btnSaveOrder.BorderRadius = 10;
-            this.btnSaveOrder.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
+            this.btnSaveOrder.BorderRadius = 20;
+            this.btnSaveOrder.FillColor = System.Drawing.Color.Gold;
             this.btnSaveOrder.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSaveOrder.ForeColor = System.Drawing.Color.Black;
-            this.btnSaveOrder.Location = new System.Drawing.Point(220, 622);
+            this.btnSaveOrder.Location = new System.Drawing.Point(224, 622);
             this.btnSaveOrder.Name = "btnSaveOrder";
-            this.btnSaveOrder.Size = new System.Drawing.Size(150, 40);
+            this.btnSaveOrder.Size = new System.Drawing.Size(146, 40);
             this.btnSaveOrder.TabIndex = 7;
             this.btnSaveOrder.Text = "💾 Lưu Order";
             this.btnSaveOrder.Click += new System.EventHandler(this.btnLuuOrder_Click);
@@ -304,13 +304,13 @@ namespace QuanLyCF.GUI
             // btnPay
             // 
             this.btnPay.BackColor = System.Drawing.Color.White;
-            this.btnPay.BorderRadius = 10;
+            this.btnPay.BorderRadius = 20;
             this.btnPay.FillColor = System.Drawing.Color.MediumSeaGreen;
             this.btnPay.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnPay.ForeColor = System.Drawing.Color.White;
-            this.btnPay.Location = new System.Drawing.Point(220, 668);
+            this.btnPay.Location = new System.Drawing.Point(224, 668);
             this.btnPay.Name = "btnPay";
-            this.btnPay.Size = new System.Drawing.Size(150, 40);
+            this.btnPay.Size = new System.Drawing.Size(146, 40);
             this.btnPay.TabIndex = 8;
             this.btnPay.Text = "💰 Thanh toán";
             this.btnPay.Click += new System.EventHandler(this.btnTinhTien_Click);
@@ -318,14 +318,14 @@ namespace QuanLyCF.GUI
             // btnBack
             // 
             this.btnBack.BackColor = System.Drawing.Color.White;
-            this.btnBack.BorderRadius = 10;
+            this.btnBack.BorderRadius = 20;
             this.btnBack.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(103)))), ((int)(((byte)(84)))));
             this.btnBack.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnBack.ForeColor = System.Drawing.Color.White;
             this.btnBack.Location = new System.Drawing.Point(23, 618);
             this.btnBack.Name = "btnBack";
             this.btnBack.PressedColor = System.Drawing.SystemColors.AppWorkspace;
-            this.btnBack.Size = new System.Drawing.Size(150, 40);
+            this.btnBack.Size = new System.Drawing.Size(146, 40);
             this.btnBack.TabIndex = 9;
             this.btnBack.Text = "⬅ Trở lại";
             this.btnBack.Click += new System.EventHandler(this.btnHuy_Click);
