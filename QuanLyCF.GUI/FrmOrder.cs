@@ -256,9 +256,9 @@ namespace QuanLyCF.GUI
             var pendingOrder = PendingOrderBUS.GetPendingOrderByTableId(selectedTableId);
             if (pendingOrder != null)
             {
-                int pendingOrderId = Convert.ToInt32(pendingOrder["PendingOrderID"]);
-                PendingOrderBUS.ProcessPayment(pendingOrderId, selectedTableId);
-                MessageBox.Show($"💰 Đã thanh toán cho bàn ID: {selectedTableId}");
+                FrmBill frmBill = new FrmBill();
+                frmBill.TableId = this.selectedTableId;
+                frmBill.ShowDialog();
                 LoadTablesByArea(currentAreaId);
             }
             else

@@ -6,39 +6,39 @@ namespace QuanLyCF.DAL
 {
     public class OrderDAO
     {
-        public static int CreateOrder(int tableId, decimal totalAmount, decimal discountAmount, decimal finalAmount)
+        public static int CreateOrder(int tableId, decimal totalAmount, decimal discount, decimal finalAmount)
         {
-            string query = "INSERT INTO PendingOrders (TableID, TotalAmount, DiscountAmount, FinalAmount, Status) VALUES (@TableID, @TotalAmount, @DiscountAmount, @FinalAmount, 'Pending'); SELECT SCOPE_IDENTITY();";
+            string query = "INSERT INTO PendingOrders (TableID, TotalAmount, Discount, FinalAmount, Status) VALUES (@TableID, @TotalAmount, @Discount, @FinalAmount, 'Pending'); SELECT SCOPE_IDENTITY();";
             SqlParameter[] parameters = new SqlParameter[4];
             parameters[0] = new SqlParameter("@TableID", SqlDbType.Int) { Value = tableId };
             parameters[1] = new SqlParameter("@TotalAmount", SqlDbType.Decimal) { Value = totalAmount };
-            parameters[2] = new SqlParameter("@DiscountAmount", SqlDbType.Decimal) { Value = discountAmount };
+            parameters[2] = new SqlParameter("@Discount", SqlDbType.Decimal) { Value = discount };
             parameters[3] = new SqlParameter("@FinalAmount", SqlDbType.Decimal) { Value = finalAmount };
 
             object result = DataProvider.ExecuteScalar(query, parameters);
             return Convert.ToInt32(result);
         }
 
-        public static void CreateOrderDetail(int orderId, int menuItemId, int quantity, decimal unitPrice)
+        public static void CreateOrderDetail(int orderId, int drinkId, int quantity, decimal unitPrice)
         {
-            string query = "INSERT INTO PendingOrderDetails (OrderID, MenuItemID, Quantity, UnitPrice) VALUES (@OrderID, @MenuItemID, @Quantity, @UnitPrice);";
+            string query = "INSERT INTO PendingOrderDetails (PendingOrderID, DrinkID, Quantity, UnitPrice) VALUES (@OrderID, @DrinkID, @Quantity, @UnitPrice);";
             SqlParameter[] parameters = new SqlParameter[4];
             parameters[0] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
-            parameters[1] = new SqlParameter("@MenuItemID", SqlDbType.Int) { Value = menuItemId };
+            parameters[1] = new SqlParameter("@DrinkID", SqlDbType.Int) { Value = drinkId };
             parameters[2] = new SqlParameter("@Quantity", SqlDbType.Int) { Value = quantity };
             parameters[3] = new SqlParameter("@UnitPrice", SqlDbType.Decimal) { Value = unitPrice };
 
             DataProvider.ExecuteNonQuery(query, parameters);
         }
 
-        public static int GetMenuItemID(string itemName)
+        public static int GetDrinkID(string drinkName)
         {
-            string query = "SELECT MenuItemID FROM MenuItems WHERE ItemName = @ItemName;";
+            string query = "SELECT DrinkID FROM Drinks WHERE DrinkName = @DrinkName;";
             SqlParameter[] parameters = new SqlParameter[1];
-            parameters[0] = new SqlParameter("@ItemName", SqlDbType.NVarChar) { Value = itemName };
+            parameters[0] = new SqlParameter("@DrinkName", SqlDbType.NVarChar) { Value = drinkName };
 
             object result = DataProvider.ExecuteScalar(query, parameters);
-            if (result != null)
+            if (result != null && result != DBNull.Value)
             {
                 return Convert.ToInt32(result);
             }
@@ -51,15 +51,15 @@ namespace QuanLyCF.DAL
             return DataProvider.ExecuteQuery(query);
         }
 
-        public static DataTable GetAllMenuItems()
+        public static DataTable GetAllDrinks()
         {
-            string query = "SELECT MenuItemID, ItemName, Category, Price, ImagePath, IsActive FROM MenuItems WHERE IsActive = 1 AND ItemName NOT IN (N'trà đào cam xả', N'bánh mì pháp', N'cà phê sữa');";
+            string query = "SELECT DrinkID, DrinkName, CategoryID, Price, ImagePath, IsAvailable FROM Drinks WHERE IsAvailable = 1 AND DrinkName NOT IN (N'trà đào cam xả', N'bánh mì pháp', N'cà phê sữa');";
             return DataProvider.ExecuteQuery(query);
         }
 
         public static DataRow GetActiveOrderByTableId(int tableId)
         {
-            string query = "SELECT OrderID, TotalAmount, DiscountAmount, FinalAmount FROM PendingOrders WHERE TableID = @TableID AND Status = 'Pending';";
+            string query = "SELECT PendingOrderID as OrderID, TotalAmount, Discount, FinalAmount FROM PendingOrders WHERE TableID = @TableID AND Status = 'Pending';";
             SqlParameter[] parameters = new SqlParameter[1];
             parameters[0] = new SqlParameter("@TableID", SqlDbType.Int) { Value = tableId };
             DataTable dt = DataProvider.ExecuteQuery(query, parameters);
@@ -72,7 +72,7 @@ namespace QuanLyCF.DAL
 
         public static DataTable GetOrderDetailsByOrderId(int orderId)
         {
-            string query = "SELECT od.MenuItemID, mi.ItemName, od.Quantity, od.UnitPrice FROM PendingOrderDetails od JOIN MenuItems mi ON od.MenuItemID = mi.MenuItemID WHERE od.OrderID = @OrderID;";
+            string query = "SELECT od.DrinkID, mi.DrinkName, od.Quantity, od.UnitPrice FROM PendingOrderDetails od JOIN Drinks mi ON od.DrinkID = mi.DrinkID WHERE od.PendingOrderID = @OrderID;";
             SqlParameter[] parameters = new SqlParameter[1];
             parameters[0] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
             return DataProvider.ExecuteQuery(query, parameters);
@@ -143,6 +143,9 @@ namespace QuanLyCF.DAL
 
             string deleteHeaderQuery = "DELETE FROM PendingOrders WHERE PendingOrderID = @PendingOrderID";
             DataProvider.ExecuteNonQuery(deleteHeaderQuery, new[] { new SqlParameter("@PendingOrderID", pendingOrderId) });
+
+            // 6. Update table status
+            TableDAO.UpdateTableStatus(tableId, false);
         }
 
         public static DataTable GetAllInvoices()
@@ -153,13 +156,13 @@ namespace QuanLyCF.DAL
 
         public static DataTable GetAllPendingOrders()
         {
-            string query = "SELECT OrderID, TableID, OrderDate, TotalAmount, DiscountAmount, FinalAmount, Status FROM PendingOrders ORDER BY OrderDate DESC;";
+            string query = "SELECT PendingOrderID as OrderID, TableID, OrderDate, TotalAmount, Discount, FinalAmount, Status FROM PendingOrders ORDER BY OrderDate DESC;";
             return DataProvider.ExecuteQuery(query);
         }
 
         public static void DeletePendingOrderDetails(int orderId)
         {
-            string query = "DELETE FROM PendingOrderDetails WHERE OrderID = @OrderID;";
+            string query = "DELETE FROM PendingOrderDetails WHERE PendingOrderID = @OrderID;";
             SqlParameter[] parameters = new SqlParameter[1];
             parameters[0] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
             DataProvider.ExecuteNonQuery(query, parameters);
@@ -167,7 +170,7 @@ namespace QuanLyCF.DAL
 
         public static void UpdatePendingOrder(int orderId, decimal totalAmount, decimal discountAmount, decimal finalAmount)
         {
-            string query = "UPDATE PendingOrders SET TotalAmount = @TotalAmount, DiscountAmount = @DiscountAmount, FinalAmount = @FinalAmount WHERE OrderID = @OrderID;";
+            string query = "UPDATE PendingOrders SET TotalAmount = @TotalAmount, Discount = @DiscountAmount, FinalAmount = @FinalAmount WHERE PendingOrderID = @OrderID;";
             SqlParameter[] parameters = new SqlParameter[4];
             parameters[0] = new SqlParameter("@TotalAmount", SqlDbType.Decimal) { Value = totalAmount };
             parameters[1] = new SqlParameter("@DiscountAmount", SqlDbType.Decimal) { Value = discountAmount };
@@ -189,7 +192,7 @@ namespace QuanLyCF.DAL
 
         public static void UpdateOrderTable(int orderId, int newTableId)
         {
-            string query = "UPDATE PendingOrders SET TableID = @NewTableID WHERE OrderID = @OrderID;";
+            string query = "UPDATE PendingOrders SET TableID = @NewTableID WHERE PendingOrderID = @OrderID;";
             SqlParameter[] parameters = new SqlParameter[2];
             parameters[0] = new SqlParameter("@NewTableID", SqlDbType.Int) { Value = newTableId };
             parameters[1] = new SqlParameter("@OrderID", SqlDbType.Int) { Value = orderId };
@@ -199,18 +202,18 @@ namespace QuanLyCF.DAL
         public static void MergeOrders(int sourceOrderId, int destOrderId)
         {
             // 1. Get destination order details to update its total amount later
-            string getDestOrderQuery = "SELECT TotalAmount, DiscountAmount FROM PendingOrders WHERE OrderID = @OrderID;";
+            string getDestOrderQuery = "SELECT TotalAmount, Discount FROM PendingOrders WHERE PendingOrderID = @OrderID;";
             SqlParameter[] destParams = { new SqlParameter("@OrderID", destOrderId) };
             DataTable destOrderDt = DataProvider.ExecuteQuery(getDestOrderQuery, destParams);
             decimal destTotal = Convert.ToDecimal(destOrderDt.Rows[0]["TotalAmount"]);
-            decimal destDiscount = Convert.ToDecimal(destOrderDt.Rows[0]["DiscountAmount"]);
+            decimal destDiscount = Convert.ToDecimal(destOrderDt.Rows[0]["Discount"]);
 
             // 2. Get source order details
-            string getSourceOrderQuery = "SELECT TotalAmount, DiscountAmount FROM PendingOrders WHERE OrderID = @OrderID;";
+            string getSourceOrderQuery = "SELECT TotalAmount, Discount FROM PendingOrders WHERE PendingOrderID = @OrderID;";
             SqlParameter[] sourceParams = { new SqlParameter("@OrderID", sourceOrderId) };
             DataTable sourceOrderDt = DataProvider.ExecuteQuery(getSourceOrderQuery, sourceParams);
             decimal sourceTotal = Convert.ToDecimal(sourceOrderDt.Rows[0]["TotalAmount"]);
-            decimal sourceDiscount = Convert.ToDecimal(sourceOrderDt.Rows[0]["DiscountAmount"]);
+            decimal sourceDiscount = Convert.ToDecimal(sourceOrderDt.Rows[0]["Discount"]);
 
             // 3. Update destination order's amounts
             decimal newTotal = destTotal + sourceTotal;
@@ -219,14 +222,14 @@ namespace QuanLyCF.DAL
             UpdatePendingOrder(destOrderId, newTotal, newDiscount, newFinalAmount);
 
             // 4. Move order details from source to destination
-            string updateDetailsQuery = "UPDATE PendingOrderDetails SET OrderID = @DestOrderID WHERE OrderID = @SourceOrderID;";
+            string updateDetailsQuery = "UPDATE PendingOrderDetails SET PendingOrderID = @DestOrderID WHERE PendingOrderID = @SourceOrderID;";
             SqlParameter[] updateParams = new SqlParameter[2];
             updateParams[0] = new SqlParameter("@DestOrderID", SqlDbType.Int) { Value = destOrderId };
             updateParams[1] = new SqlParameter("@SourceOrderID", SqlDbType.Int) { Value = sourceOrderId };
             DataProvider.ExecuteNonQuery(updateDetailsQuery, updateParams);
 
             // 5. Delete the source order
-            string deleteSourceQuery = "DELETE FROM PendingOrders WHERE OrderID = @SourceOrderID;";
+            string deleteSourceQuery = "DELETE FROM PendingOrders WHERE PendingOrderID = @SourceOrderID;";
             SqlParameter[] deleteParams = { new SqlParameter("@SourceOrderID", sourceOrderId) };
             DataProvider.ExecuteNonQuery(deleteSourceQuery, deleteParams);
         }

@@ -307,7 +307,6 @@ namespace QuanLyCF.GUI
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
-            AppSettings.ShowToastTest(this, "Xóa món thành công!");
             if (dgvOrder.SelectedRows.Count > 0)
             {
                 DataTable dt = dgvOrder.DataSource as DataTable;
