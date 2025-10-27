@@ -93,7 +93,7 @@ namespace QuanLyCF.GUI
         // ===============================
         // 🔹 LOAD FORM
         // ===============================
-        private void FrmOrder_Load(object sender, EventArgs e)
+        private void FrmEditTables_Load(object sender, EventArgs e)
         {
             MessageBox.Show("FrmEditTables_Load event fired.", "Debug");
             var areas = AreaBUS.GetAllAreas();
