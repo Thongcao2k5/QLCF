@@ -32,7 +32,7 @@
             this.dtTo = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.cmbArea = new Guna.UI2.WinForms.Guna2ComboBox();
             this.cmbDrinkCate = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.cmbDrink = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cmbTypeChar = new Guna.UI2.WinForms.Guna2ComboBox();
             this.cmdStaff = new Guna.UI2.WinForms.Guna2ComboBox();
             this.btnClearFilter = new Guna.UI2.WinForms.Guna2Button();
             this.btnFilter = new Guna.UI2.WinForms.Guna2Button();
@@ -63,7 +63,7 @@
             this.panelFilter.Controls.Add(this.btnFilter);
             this.panelFilter.Controls.Add(this.cmbDrinkCate);
             this.panelFilter.Controls.Add(this.dtFrom);
-            this.panelFilter.Controls.Add(this.cmbDrink);
+            this.panelFilter.Controls.Add(this.cmbTypeChar);
             this.panelFilter.Controls.Add(this.btnClearFilter);
             this.panelFilter.Controls.Add(this.cmbArea);
             this.panelFilter.Controls.Add(this.cmdStaff);
@@ -155,21 +155,21 @@
             this.cmbDrinkCate.Size = new System.Drawing.Size(98, 36);
             this.cmbDrinkCate.TabIndex = 3;
             // 
-            // cmbDrink
+            // cmbTypeChar
             // 
-            this.cmbDrink.BackColor = System.Drawing.Color.Transparent;
-            this.cmbDrink.BorderRadius = 16;
-            this.cmbDrink.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbDrink.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDrink.FocusedColor = System.Drawing.Color.Empty;
-            this.cmbDrink.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbDrink.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cmbDrink.ItemHeight = 30;
-            this.cmbDrink.Location = new System.Drawing.Point(515, 10);
-            this.cmbDrink.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.cmbDrink.Name = "cmbDrink";
-            this.cmbDrink.Size = new System.Drawing.Size(98, 36);
-            this.cmbDrink.TabIndex = 4;
+            this.cmbTypeChar.BackColor = System.Drawing.Color.Transparent;
+            this.cmbTypeChar.BorderRadius = 16;
+            this.cmbTypeChar.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbTypeChar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTypeChar.FocusedColor = System.Drawing.Color.Empty;
+            this.cmbTypeChar.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbTypeChar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbTypeChar.ItemHeight = 30;
+            this.cmbTypeChar.Location = new System.Drawing.Point(515, 10);
+            this.cmbTypeChar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbTypeChar.Name = "cmbTypeChar";
+            this.cmbTypeChar.Size = new System.Drawing.Size(98, 36);
+            this.cmbTypeChar.TabIndex = 4;
             // 
             // cmdStaff
             // 
@@ -377,7 +377,7 @@
         private Guna.UI2.WinForms.Guna2DateTimePicker dtTo;
         private Guna.UI2.WinForms.Guna2ComboBox cmbArea;
         private Guna.UI2.WinForms.Guna2ComboBox cmbDrinkCate;
-        private Guna.UI2.WinForms.Guna2ComboBox cmbDrink;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbTypeChar;
         private Guna.UI2.WinForms.Guna2ComboBox cmdStaff;
         private Guna.UI2.WinForms.Guna2Button btnClearFilter;
         private Guna.UI2.WinForms.Guna2Button btnFilter;

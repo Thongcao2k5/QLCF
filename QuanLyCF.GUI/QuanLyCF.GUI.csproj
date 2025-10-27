@@ -126,6 +126,7 @@
     <Compile Include="FrmOrder.Designer.cs">
       <DependentUpon>FrmOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="CurrentUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

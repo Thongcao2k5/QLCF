@@ -33,39 +33,28 @@ namespace QuanLyCF.GUI
             dgvBill.Columns["Quantity"].DataPropertyName = "Quantity";
             dgvBill.Columns["UnitPrice"].DataPropertyName = "UnitPrice";
             dgvBill.Columns["Total"].DataPropertyName = "Total";
-            //dgvBill.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill;
-
 
             // Load order information
-            DataRow order = OrderDAO.GetActiveOrderByTableId(this.TableId);
+            DataRow order = PendingOrderBUS.GetPendingOrderByTableId(this.TableId);
             if (order != null)
             {
-                this.orderId = Convert.ToInt32(order["OrderID"]);
+                this.orderId = Convert.ToInt32(order["PendingOrderID"]);
                 lblBan.Text = "Bàn: " + this.TableId;
                 lblNgay.Text = "Ngày: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-                // TODO: Get employee name from UserDAO
-                lblNhanVien.Text = "Nhân viên: Nhân viên 1";
+                lblNhanVien.Text = "Nhân viên: " + CurrentUser.DisplayName;
 
                 // Load order details
-                DataTable orderDetails = OrderDAO.GetOrderDetailsByOrderId(this.orderId);
-                orderDetails.Columns.Add("Total", typeof(decimal));
-                decimal total = 0;
-                foreach (DataRow row in orderDetails.Rows)
-                {
-                    decimal totalForRow = Convert.ToDecimal(row["Quantity"]) * Convert.ToDecimal(row["UnitPrice"]);
-                    row["Total"] = totalForRow;
-                    total += totalForRow;
-
-                }
-
-
+                DataTable orderDetails = PendingOrderDetailBUS.GetDetailsByOrderId(this.orderId);
                 dgvBill.DataSource = orderDetails;
 
+                // Load totals from the pending order
+                decimal total = Convert.ToDecimal(order["TotalAmount"]);
+                decimal discount = Convert.ToDecimal(order["Discount"]);
+                decimal finalAmount = Convert.ToDecimal(order["FinalAmount"]);
 
-
-                // Calculate total
                 txtTongTien.Text = total.ToString("N0", new CultureInfo("en-US"));
-                txtThanhTien.Text = total.ToString("N0", new CultureInfo("en-US"));
+                txtGiamGia.Text = discount.ToString("N0", new CultureInfo("en-US"));
+                txtThanhTien.Text = finalAmount.ToString("N0", new CultureInfo("en-US"));
             }
             else
             {
@@ -97,26 +86,36 @@ namespace QuanLyCF.GUI
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
-
-            // Lấy dữ liệu tổng tiền và giảm giá ở UI
-            decimal discount = 0;
-            decimal.TryParse(txtGiamGia.Text, out discount);
-
-            decimal total = 0;
-            decimal.TryParse(txtTongTien.Text, out total);
+            // 1. Get final discount and totals from UI
+            if (!decimal.TryParse(txtTongTien.Text, NumberStyles.Any, new CultureInfo("en-US"), out decimal total))
+            {
+                MessageBox.Show("Tổng tiền không hợp lệ!");
+                return;
+            }
+            if (!decimal.TryParse(txtGiamGia.Text, NumberStyles.Any, new CultureInfo("en-US"), out decimal discount))
+            {
+                discount = 0;
+            }
 
             decimal finalAmount = total - discount;
 
-            //AppSettings.ShowToastTest(this, "Tổng tiền: " + total + " Giảm giá: " + discount);
-
-            PendingOrderDetailBUS.DeleteDetailsByOrderId(this.orderId);
-            PendingOrderBUS.UpdatePendingOrder(this.orderId, total, discount, finalAmount);
-
-            if (this.orderId > 0)
+            try
             {
-                OrderDAO.ProcessPayment(this.orderId);
-                MessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                // 2. Update the pending order with the final discount amount
+                PendingOrderBUS.UpdatePendingOrder(this.orderId, total, discount, finalAmount);
+
+                // 3. Process the payment, which will convert the pending order to a final one
+                if (this.orderId > 0)
+                {
+                    PendingOrderBUS.ProcessPayment(this.orderId, this.TableId);
+                    MessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK; // Set result for the calling form
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi trong quá trình thanh toán: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

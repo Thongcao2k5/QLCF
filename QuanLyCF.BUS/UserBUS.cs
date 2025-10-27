@@ -1,6 +1,7 @@
 ﻿using QuanLyCF.DAL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,17 +11,16 @@ namespace QuanLyCF.BUS
 {
     public class UserBUS
     {
-        public static bool VerifyLogin(string username, string password)
+        public static DataRow VerifyLogin(string username, string password)
         {
-            // 1️⃣ Kiểm tra dữ liệu đầu vào
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-                return false;
+                return null;
 
-            username = username.Trim();
-            password = password.Trim();
-
-            // 2️⃣ Gọi xuống DAL để kiểm tra
-            return UserDAO.VerifyLogin(username, password);
+            return UserDAO.VerifyLogin(username.Trim(), password.Trim());
+        }
+        public static DataTable GetUsersByRole(int role)
+        {
+            return UserDAO.GetUsersByRole(role);
         }
     }
 }

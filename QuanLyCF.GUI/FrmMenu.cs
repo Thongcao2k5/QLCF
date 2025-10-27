@@ -243,7 +243,7 @@ namespace QuanLyCF.GUI
 
             if (pendingOrderId == -1) // Create new pending order
             {
-                pendingOrderId = PendingOrderBUS.CreatePendingOrder(tableId, totalAmount, discount, finalAmount);
+                pendingOrderId = PendingOrderBUS.CreatePendingOrder(tableId, CurrentUser.UserID, totalAmount, discount, finalAmount);
                 TableBUS.UpdateTableStatus(tableId, true);
             }
             else // Update existing pending order
@@ -309,13 +309,11 @@ namespace QuanLyCF.GUI
         {
             if (dgvOrder.SelectedRows.Count > 0)
             {
-                DataTable dt = dgvOrder.DataSource as DataTable;
-                if (dt != null)
+                foreach (DataGridViewRow row in dgvOrder.SelectedRows)
                 {
-                    foreach (DataGridViewRow row in dgvOrder.SelectedRows)
+                    if (!row.IsNewRow)
                     {
-                        if (!row.IsNewRow)
-                            dt.Rows.RemoveAt(row.Index);
+                        dgvOrder.Rows.Remove(row);
                     }
                 }
                 UpdateTotal();
