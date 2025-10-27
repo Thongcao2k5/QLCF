@@ -24,7 +24,6 @@ namespace QuanLyCF.GUI
             this.FormBorderStyle = FormBorderStyle.None;
             this.DoubleBuffered = true;
             ApplyHoverEffectToAllButtons(this);
-            this.Load += FrmEditTables_Load;
         }
 
         public FrmEditTables(FormDangNhap loginForm) : this()
@@ -94,7 +93,7 @@ namespace QuanLyCF.GUI
         // ===============================
         // 🔹 LOAD FORM
         // ===============================
-        private void FrmEditTables_Load(object sender, EventArgs e)
+        private void FrmOrder_Load(object sender, EventArgs e)
         {
             MessageBox.Show("FrmEditTables_Load event fired.", "Debug");
             var areas = AreaBUS.GetAllAreas();
@@ -181,10 +180,9 @@ namespace QuanLyCF.GUI
 
                     if (!tableInfo.IsOccupied)
                     {
-                        // Open a new form to edit table details
-                        FrmEditTableDetail frmEditTableDetail = new FrmEditTableDetail(selectedTableId);
-                        frmEditTableDetail.ShowDialog();
-                        LoadTablesByArea(currentAreaId); // Reload tables after editing
+                        Action onSaveCallback = () => LoadTablesByArea(currentAreaId);
+                        FrmMenu frm = new FrmMenu(selectedTableId, onSaveCallback);
+                        frm.ShowDialog();
                     }
                     else
                     {
