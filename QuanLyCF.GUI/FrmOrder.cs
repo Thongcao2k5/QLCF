@@ -332,7 +332,7 @@ namespace QuanLyCF.GUI
 
         private void BtnEditTables_Click(object sender, EventArgs e)
         {
-            FrmEditTables frmEditTables = new FrmEditTables();
+            FrmEditTables frmEditTables = new FrmEditTables(_loginForm);
             this.Hide();
             frmEditTables.ShowDialog();
             this.Show();
