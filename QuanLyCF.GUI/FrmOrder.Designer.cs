@@ -77,16 +77,16 @@ namespace QuanLyCF.GUI
             this.panelLeft = new System.Windows.Forms.Panel();
             this.btnVuon = new Guna.UI2.WinForms.Guna2Button();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.lblLogout = new Guna.UI2.WinForms.Guna2Button();
+            this.btnArea = new Guna.UI2.WinForms.Guna2Button();
             this.btnReport = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
-            this.btnArea = new Guna.UI2.WinForms.Guna2Button();
+            this.BtnStaff = new Guna.UI2.WinForms.Guna2Button();
+            this.BtnEditTables = new Guna.UI2.WinForms.Guna2Button();
             this.btnStore = new Guna.UI2.WinForms.Guna2Button();
             this.flpTables = new System.Windows.Forms.FlowLayoutPanel();
-            this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
             this.panelLeft.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -122,14 +122,26 @@ namespace QuanLyCF.GUI
             this.panelTop.Controls.Add(this.btnArea);
             this.panelTop.Controls.Add(this.btnReport);
             this.panelTop.Controls.Add(this.guna2Button5);
-            this.panelTop.Controls.Add(this.guna2Button4);
-            this.panelTop.Controls.Add(this.guna2Button3);
+            this.panelTop.Controls.Add(this.BtnStaff);
+            this.panelTop.Controls.Add(this.BtnEditTables);
             this.panelTop.Controls.Add(this.btnStore);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1260, 60);
             this.panelTop.TabIndex = 2;
+            // 
+            // guna2Button6
+            // 
+            this.guna2Button6.BorderRadius = 20;
+            this.guna2Button6.FillColor = System.Drawing.Color.White;
+            this.guna2Button6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.guna2Button6.ForeColor = System.Drawing.Color.Black;
+            this.guna2Button6.Location = new System.Drawing.Point(8, 9);
+            this.guna2Button6.Name = "guna2Button6";
+            this.guna2Button6.Size = new System.Drawing.Size(112, 42);
+            this.guna2Button6.TabIndex = 12;
+            this.guna2Button6.Text = "Tài khoản";
             // 
             // guna2Button1
             // 
@@ -158,6 +170,22 @@ namespace QuanLyCF.GUI
             this.lblLogout.TabIndex = 10;
             this.lblLogout.Text = "Đăng xuất";
             this.lblLogout.Click += new System.EventHandler(this.lblLogout_Click);
+            // 
+            // btnArea
+            // 
+            this.btnArea.BorderRadius = 20;
+            this.btnArea.FillColor = System.Drawing.Color.White;
+            this.btnArea.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.btnArea.ForeColor = System.Drawing.Color.Black;
+            this.btnArea.Image = ((System.Drawing.Image)(resources.GetObject("btnArea.Image")));
+            this.btnArea.ImageOffset = new System.Drawing.Point(5, 0);
+            this.btnArea.ImageSize = new System.Drawing.Size(24, 24);
+            this.btnArea.Location = new System.Drawing.Point(244, 9);
+            this.btnArea.Name = "btnArea";
+            this.btnArea.Size = new System.Drawing.Size(108, 42);
+            this.btnArea.TabIndex = 5;
+            this.btnArea.Text = "Khu vực";
+            this.btnArea.Click += new System.EventHandler(this.guna2Button2_Click);
             // 
             // btnReport
             // 
@@ -190,51 +218,38 @@ namespace QuanLyCF.GUI
             this.guna2Button5.TabIndex = 8;
             this.guna2Button5.Text = "Menu";
             // 
-            // guna2Button4
+            // BtnStaff
             // 
-            this.guna2Button4.BorderRadius = 20;
-            this.guna2Button4.FillColor = System.Drawing.Color.White;
-            this.guna2Button4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.guna2Button4.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button4.Image = ((System.Drawing.Image)(resources.GetObject("guna2Button4.Image")));
-            this.guna2Button4.ImageOffset = new System.Drawing.Point(0, 1);
-            this.guna2Button4.ImageSize = new System.Drawing.Size(24, 24);
-            this.guna2Button4.Location = new System.Drawing.Point(472, 9);
-            this.guna2Button4.Name = "guna2Button4";
-            this.guna2Button4.Size = new System.Drawing.Size(108, 42);
-            this.guna2Button4.TabIndex = 7;
-            this.guna2Button4.Text = "Staff";
+            this.BtnStaff.BorderRadius = 20;
+            this.BtnStaff.FillColor = System.Drawing.Color.White;
+            this.BtnStaff.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.BtnStaff.ForeColor = System.Drawing.Color.Black;
+            this.BtnStaff.Image = ((System.Drawing.Image)(resources.GetObject("BtnStaff.Image")));
+            this.BtnStaff.ImageOffset = new System.Drawing.Point(0, 1);
+            this.BtnStaff.ImageSize = new System.Drawing.Size(24, 24);
+            this.BtnStaff.Location = new System.Drawing.Point(472, 9);
+            this.BtnStaff.Name = "BtnStaff";
+            this.BtnStaff.Size = new System.Drawing.Size(108, 42);
+            this.BtnStaff.TabIndex = 7;
+            this.BtnStaff.Text = "Staff";
+            this.BtnStaff.Click += new System.EventHandler(this.BtnStaff_Click);
+            this.BtnStaff.Click += new System.EventHandler(this.BtnStaff_Click);
             // 
-            // guna2Button3
+            // BtnEditTables
             // 
-            this.guna2Button3.BorderRadius = 20;
-            this.guna2Button3.FillColor = System.Drawing.Color.White;
-            this.guna2Button3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.guna2Button3.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button3.Image = ((System.Drawing.Image)(resources.GetObject("guna2Button3.Image")));
-            this.guna2Button3.ImageOffset = new System.Drawing.Point(3, 2);
-            this.guna2Button3.ImageSize = new System.Drawing.Size(24, 24);
-            this.guna2Button3.Location = new System.Drawing.Point(358, 9);
-            this.guna2Button3.Name = "guna2Button3";
-            this.guna2Button3.Size = new System.Drawing.Size(108, 42);
-            this.guna2Button3.TabIndex = 6;
-            this.guna2Button3.Text = "Bàn";
-            // 
-            // btnArea
-            // 
-            this.btnArea.BorderRadius = 20;
-            this.btnArea.FillColor = System.Drawing.Color.White;
-            this.btnArea.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.btnArea.ForeColor = System.Drawing.Color.Black;
-            this.btnArea.Image = ((System.Drawing.Image)(resources.GetObject("btnArea.Image")));
-            this.btnArea.ImageOffset = new System.Drawing.Point(5, 0);
-            this.btnArea.ImageSize = new System.Drawing.Size(24, 24);
-            this.btnArea.Location = new System.Drawing.Point(244, 9);
-            this.btnArea.Name = "btnArea";
-            this.btnArea.Size = new System.Drawing.Size(108, 42);
-            this.btnArea.TabIndex = 5;
-            this.btnArea.Text = "Khu vực";
-            this.btnArea.Click += new System.EventHandler(this.guna2Button2_Click);
+            this.BtnEditTables.BorderRadius = 20;
+            this.BtnEditTables.FillColor = System.Drawing.Color.White;
+            this.BtnEditTables.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.BtnEditTables.ForeColor = System.Drawing.Color.Black;
+            this.BtnEditTables.Image = ((System.Drawing.Image)(resources.GetObject("BtnEditTables.Image")));
+            this.BtnEditTables.ImageOffset = new System.Drawing.Point(3, 2);
+            this.BtnEditTables.ImageSize = new System.Drawing.Size(24, 24);
+            this.BtnEditTables.Location = new System.Drawing.Point(358, 9);
+            this.BtnEditTables.Name = "BtnEditTables";
+            this.BtnEditTables.Size = new System.Drawing.Size(108, 42);
+            this.BtnEditTables.TabIndex = 6;
+            this.BtnEditTables.Text = "Bàn";
+            this.BtnEditTables.Click += new System.EventHandler(this.BtnEditTables_Click);
             // 
             // btnStore
             // 
@@ -260,18 +275,6 @@ namespace QuanLyCF.GUI
             this.flpTables.Size = new System.Drawing.Size(1095, 690);
             this.flpTables.TabIndex = 0;
             // 
-            // guna2Button6
-            // 
-            this.guna2Button6.BorderRadius = 20;
-            this.guna2Button6.FillColor = System.Drawing.Color.White;
-            this.guna2Button6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.guna2Button6.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button6.Location = new System.Drawing.Point(8, 9);
-            this.guna2Button6.Name = "guna2Button6";
-            this.guna2Button6.Size = new System.Drawing.Size(112, 42);
-            this.guna2Button6.TabIndex = 12;
-            this.guna2Button6.Text = "Tài khoản";
-            // 
             // FrmOrder
             // 
             this.ClientSize = new System.Drawing.Size(1260, 750);
@@ -292,8 +295,8 @@ namespace QuanLyCF.GUI
         private Guna.UI2.WinForms.Guna2Button lblLogout;
         private Guna.UI2.WinForms.Guna2Button btnReport;
         private Guna.UI2.WinForms.Guna2Button guna2Button5;
-        private Guna.UI2.WinForms.Guna2Button guna2Button4;
-        private Guna.UI2.WinForms.Guna2Button guna2Button3;
+        private Guna.UI2.WinForms.Guna2Button BtnStaff;
+        private Guna.UI2.WinForms.Guna2Button BtnEditTables;
         private Guna.UI2.WinForms.Guna2Button btnArea;
         private Guna.UI2.WinForms.Guna2Button btnStore;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;

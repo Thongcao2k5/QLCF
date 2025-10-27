@@ -337,5 +337,12 @@ namespace QuanLyCF.GUI
             frmEditTables.ShowDialog();
             this.Show();
         }
+
+        private void BtnStaff_Click(object sender, EventArgs e)
+        {
+            FrmStaff frmStaff = new FrmStaff(_loginForm);
+            this.Hide();
+            frmStaff.Show();
+        }
     }
 }
