@@ -156,13 +156,18 @@ namespace QuanLyCF.GUI
 
                 if (table.IsOccupied)
                 {
-                    btnTable.FillColor = AppSettings.BackgroundWhiteColor;
-                    btnTable.Text += "\n(Ordered)";
+                    // Không đổi màu dựa trên trạng thái IsOccupied khi khởi chạy
+                    // btnTable.FillColor = AppSettings.BackgroundWhiteColor;
+                    // btnTable.Text += "\n(Ordered)";
                 }
                 else
                 {
-                    btnTable.FillColor = AppSettings.LightBrownColor;
+                    // Không đổi màu dựa trên trạng thái IsOccupied khi khởi chạy
+                    // btnTable.FillColor = AppSettings.LightBrownColor;
                 }
+
+                // Đặt màu mặc định cho tất cả các bàn khi khởi chạy
+                btnTable.FillColor = AppSettings.LightBrownColor; // Hoặc một màu mặc định khác
 
                 btnTable.HoverState.FillColor = AppSettings.BeigeColor;
 
@@ -173,11 +178,7 @@ namespace QuanLyCF.GUI
                     // Hoàn nguyên màu của nút đã chọn trước đó
                     if (lastSelectedTableButton != null && lastSelectedTableButton != clickedButton)
                     {
-                        var prevTableInfo = TableBUS.GetTableById((int)lastSelectedTableButton.Tag);
-                        if (prevTableInfo != null)
-                        {
-                            lastSelectedTableButton.FillColor = prevTableInfo.IsOccupied ? AppSettings.BackgroundWhiteColor : AppSettings.LightBrownColor;
-                        }
+                        lastSelectedTableButton.FillColor = AppSettings.LightBrownColor; // Hoàn nguyên về màu mặc định
                     }
 
                     // Đổi màu nút hiện tại để thể hiện đã chọn
