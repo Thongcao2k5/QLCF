@@ -122,12 +122,13 @@ namespace QuanLyCF.DAL
 
         public static bool InsertTable(int areaId, string tableName, int maxGuests)
         {
-            string query = "INSERT INTO Tables (AreaID, TableName, MaxGuests, IsOccupied) VALUES ( @AreaID, @TableName, @MaxGuests, 0)";
+            string query = "INSERT INTO Tables (AreaID, TableName, MaxGuests, IsOccupied, TableCode) VALUES ( @AreaID, @TableName, @MaxGuests, 0, @TableCode)";
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@AreaID", areaId),
                 new SqlParameter("@TableName", tableName),
-                new SqlParameter("@MaxGuests", maxGuests)
+                new SqlParameter("@MaxGuests", maxGuests),
+                new SqlParameter("@TableCode", tableName) // Using tableName as TableCode
             };
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
