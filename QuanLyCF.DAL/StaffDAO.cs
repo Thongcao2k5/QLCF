@@ -47,7 +47,7 @@ namespace QuanLyCF.DAO
         public bool Update(int id, string fullname, string gender, DateTime birth, string idCard, string email, string phone, string address, string role, decimal salary, bool working, byte[] avatar)
         {
             string query;
-            object[] param;
+            SqlParameter[] param;
             if (avatar != null)
             {
                 query = @"UPDATE Users SET FullName= @fullname, Gender= @gender, BirthDate= @birth, IdCard= @idCard, Email= @email, Phone= @phone,
