@@ -47,6 +47,7 @@
     <Compile Include="DrinkBUS.cs" />
     <Compile Include="PendingOrderBUS.cs" />
     <Compile Include="PendingOrderDetailBUS.cs" />
+    <Compile Include="StaffBUS.cs" />
     <Compile Include="TableBUS.cs" />
     <Compile Include="AreaBUS.cs" />
     <Compile Include="UserBUS.cs" />
