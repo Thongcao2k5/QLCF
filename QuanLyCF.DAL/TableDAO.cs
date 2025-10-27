@@ -120,12 +120,17 @@ namespace QuanLyCF.DAL
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
+        public static bool InsertTable(int areaId, string tableName, int maxGuests)
+        {
+            string query = "INSERT INTO TableCF (AreaID, TableName, MaxGuests, IsOccupied) VALUES ( @AreaID, @TableName, @MaxGuests, 0)";
+            return DataProvider.ExecuteNonQuery(query, new object[] { areaId, tableName, maxGuests }) > 0;
+        }
+
         // === 6️⃣ Xóa bàn ===
         public static bool DeleteTable(int tableId)
         {
-            string query = "DELETE FROM Tables WHERE TableID = @id";
-            SqlParameter[] param = { new SqlParameter("@id", tableId) };
-            return DataProvider.ExecuteNonQuery(query, param) > 0;
+            string query = "DELETE FROM TableCF WHERE TableID = @TableID";
+            return DataProvider.ExecuteNonQuery(query, new object[] { tableId }) > 0;
         }
 
         // === 7️⃣ Lấy toàn bộ danh sách bàn ===

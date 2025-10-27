@@ -36,6 +36,11 @@ namespace QuanLyCF.BUS
             return TableDAO.InsertTable(code, name, areaId, maxGuests, isOccupied);
         }
 
+        public static bool AddTable(int areaId, string tableName, int maxGuests)
+        {
+            return TableDAO.InsertTable(areaId, tableName, maxGuests);
+        }
+
         // === 6️⃣ Xóa bàn ===
         public static bool DeleteTable(int tableId)
         {
