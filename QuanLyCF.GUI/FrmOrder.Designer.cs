@@ -233,7 +233,6 @@ namespace QuanLyCF.GUI
             this.BtnStaff.TabIndex = 7;
             this.BtnStaff.Text = "Staff";
             this.BtnStaff.Click += new System.EventHandler(this.BtnStaff_Click);
-            this.BtnStaff.Click += new System.EventHandler(this.BtnStaff_Click);
             // 
             // BtnEditTables
             // 
