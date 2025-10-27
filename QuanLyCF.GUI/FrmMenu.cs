@@ -329,14 +329,6 @@ namespace QuanLyCF.GUI
             this.Close();
         }
 
-        private void btnEditTables_Click(object sender, EventArgs e)
-        {
-            FrmEditTables frmEditTables = new FrmEditTables();
-            this.Hide();
-            frmEditTables.ShowDialog();
-            this.Show();
-        }
-
         private void dgvOrder_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             // Make sure the event is for the quantity column and the row is valid
