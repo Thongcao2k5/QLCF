@@ -178,9 +178,10 @@ namespace QuanLyCF.GUI
 
                     if (!tableInfo.IsOccupied)
                     {
-                        Action onSaveCallback = () => LoadTablesByArea(currentAreaId);
-                        FrmMenu frm = new FrmMenu(selectedTableId, onSaveCallback);
-                        frm.ShowDialog();
+                        // Open a new form to edit table details
+                        FrmEditTableDetail frmEditTableDetail = new FrmEditTableDetail(selectedTableId);
+                        frmEditTableDetail.ShowDialog();
+                        LoadTablesByArea(currentAreaId); // Reload tables after editing
                     }
                     else
                     {
