@@ -96,6 +96,12 @@
     <Compile Include="FormAdmin\FrmEditTables.Designer.cs">
       <DependentUpon>FrmEditTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAdmin\FrmEditTableDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAdmin\FrmEditTableDetail.Designer.cs">
+      <DependentUpon>FrmEditTableDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormAdmin\FrmArea.resx">
       <DependentUpon>FrmArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAdmin\FrmEditTables.resx">
+      <DependentUpon>FrmEditTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAdmin\FrmEditTableDetail.resx">
+      <DependentUpon>FrmEditTableDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAdmin\FrmReport.resx">
       <DependentUpon>FrmReport.cs</DependentUpon>

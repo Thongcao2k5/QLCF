@@ -56,6 +56,7 @@ namespace QuanLyCF.GUI
             this.btnCancel = new Guna.UI2.WinForms.Guna2Button();
             this.btnSaveOrder = new Guna.UI2.WinForms.Guna2Button();
             this.btnPay = new Guna.UI2.WinForms.Guna2Button();
+            this.btnEditTables = new Guna.UI2.WinForms.Guna2Button();
             this.btnBack = new Guna.UI2.WinForms.Guna2Button();
             this.panelTop.SuspendLayout();
             this.panelLeft.SuspendLayout();
