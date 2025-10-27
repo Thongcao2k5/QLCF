@@ -18,11 +18,13 @@ namespace QuanLyCF.GUI
         public FrmEditTables()
         {
             InitializeComponent();
+            MessageBox.Show("FrmEditTables constructor called.", "Debug");
             InitializeTablePopupMenu();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.None;
             this.DoubleBuffered = true;
             ApplyHoverEffectToAllButtons(this);
+            this.Load += FrmEditTables_Load;
         }
 
         public FrmEditTables(FormDangNhap loginForm) : this()
@@ -92,8 +94,9 @@ namespace QuanLyCF.GUI
         // ===============================
         // 🔹 LOAD FORM
         // ===============================
-        private void FrmOrder_Load(object sender, EventArgs e)
+        private void FrmEditTables_Load(object sender, EventArgs e)
         {
+            MessageBox.Show("FrmEditTables_Load event fired.", "Debug");
             var areas = AreaBUS.GetAllAreas();
             panelLeft.Controls.Clear();
 
