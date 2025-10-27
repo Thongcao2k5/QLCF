@@ -329,5 +329,13 @@ namespace QuanLyCF.GUI
                     ApplyHoverEffectToAllButtons(control);
             }
         }
+
+        private void BtnEditTables_Click(object sender, EventArgs e)
+        {
+            FrmEditTables frmEditTables = new FrmEditTables();
+            this.Hide();
+            frmEditTables.ShowDialog();
+            this.Show();
+        }
     }
 }
