@@ -16,6 +16,7 @@ namespace QuanLyCF.GUI.FormAdmin
 
             this.Load += FrmArea_Load;
             this.Shown += FrmArea_Shown;
+            this.FormClosed += FrmArea_FormClosed;
         }
 
         private void FrmArea_Load(object sender, EventArgs e)
@@ -207,6 +208,10 @@ namespace QuanLyCF.GUI.FormAdmin
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmArea_FormClosed(object sender, FormClosedEventArgs e)
+        {
             previousForm?.Show();
         }
     }

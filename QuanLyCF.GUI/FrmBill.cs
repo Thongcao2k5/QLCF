@@ -12,12 +12,20 @@ namespace QuanLyCF.GUI
     public partial class FrmBill : Form
     {
         public int TableId { get; set; }
+        public Action onPaymentSuccess;
         private int orderId;
+        private Form previousForm;
 
-        public FrmBill()
+        public FrmBill() : this(null)
+        {
+        }
+
+        public FrmBill(Form prevForm)
         {
             InitializeComponent();
             this.dgvBill.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvBill_CellFormatting);
+            this.previousForm = prevForm;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmBill_FormClosed);
         }
 
         private void FrmBill_Load(object sender, EventArgs e)
@@ -109,6 +117,7 @@ namespace QuanLyCF.GUI
                 {
                     PendingOrderBUS.ProcessPayment(this.orderId, this.TableId);
                     MessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    onPaymentSuccess?.Invoke();
                     this.DialogResult = DialogResult.OK; // Set result for the calling form
                     this.Close();
                 }
@@ -122,6 +131,11 @@ namespace QuanLyCF.GUI
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmBill_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            previousForm?.Show();
         }
 
         private void btnLuu_Click(object sender, EventArgs e)

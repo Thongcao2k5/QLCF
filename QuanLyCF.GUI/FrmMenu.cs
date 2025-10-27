@@ -19,17 +19,23 @@ namespace QuanLyCF.GUI
         private List<DrinkDTO> filteredDrinks;
         private readonly string imageFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\"));
         private Action onOrderSaved;
+        private Form previousForm;
 
-        public FrmMenu(int tableId, Action callback = null)
+        public FrmMenu(Form prevForm, int tableId, Action callback = null)
         {
             InitializeComponent();
             this.tableId = tableId;
             this.onOrderSaved = callback;
+            this.previousForm = prevForm;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMenu_FormClosed);
         }
 
-        public FrmMenu()
+        public FrmMenu(int tableId, Action callback = null) : this(null, tableId, callback)
         {
-            InitializeComponent();
+        }
+
+        public FrmMenu() : this(null, -1, null)
+        {
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
@@ -324,6 +330,11 @@ namespace QuanLyCF.GUI
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            previousForm?.Show();
         }
 
         private void dgvOrder_CellValueChanged(object sender, DataGridViewCellEventArgs e)

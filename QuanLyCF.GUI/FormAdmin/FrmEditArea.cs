@@ -15,6 +15,7 @@ namespace QuanLyCF.GUI.FormAdmin
             this.parentForm = parent;
             this.areaId = id;
             this.Load += FrmEditArea_Load;
+            this.FormClosed += FrmEditArea_FormClosed;
         }
 
         private void FrmEditArea_Load(object sender, EventArgs e)
@@ -75,14 +76,17 @@ namespace QuanLyCF.GUI.FormAdmin
             }
 
             this.Close();
-            parentForm.Show();
             parentForm.ReloadAreaList();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-            parentForm.Show();
+        }
+
+        private void FrmEditArea_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            parentForm?.Show();
         }
     }
 }

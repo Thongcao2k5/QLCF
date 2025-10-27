@@ -17,9 +17,47 @@ namespace QuanLyCF.GUI.FormAdmin
         {
             InitializeComponent();
             previousForm = prevForm;
+
+            // Attach event handlers
             this.Load += FrmReport_Load;
             btnFilter.Click += btnFilter_Click;
             btnClearFilter.Click += btnClearFilter_Click;
+            this.FormClosed += FrmReport_FormClosed;
+
+            // Attach dropdown width adjustment event to all combo boxes
+            cmbArea.DropDown += new EventHandler(AdjustComboBoxDropDownWidth);
+            cmbDrinkCate.DropDown += new EventHandler(AdjustComboBoxDropDownWidth);
+            cmdStaff.DropDown += new EventHandler(AdjustComboBoxDropDownWidth);
+            cmbTypeChar.DropDown += new EventHandler(AdjustComboBoxDropDownWidth);
+        }
+
+        private void AdjustComboBoxDropDownWidth(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox == null) return;
+
+            int maxWidth = 0;
+            foreach (var item in comboBox.Items)
+            {
+                string itemText;
+                if (item is DataRowView dataRowView)
+                {
+                    itemText = dataRowView[comboBox.DisplayMember].ToString();
+                }
+                else
+                {
+                    itemText = item.ToString();
+                }
+
+                int width = TextRenderer.MeasureText(itemText, comboBox.Font).Width;
+                if (width > maxWidth)
+                {
+                    maxWidth = width;
+                }
+            }
+
+            // Add some padding for the scrollbar if necessary
+            comboBox.DropDownWidth = maxWidth + 20;
         }
 
         private void FrmReport_Load(object sender, EventArgs e)
@@ -52,6 +90,11 @@ namespace QuanLyCF.GUI.FormAdmin
 
             if (data == null || data.Rows.Count == 0) return;
 
+            // Show labels on columns
+            chartRevenue.Series[0].IsValueShownAsLabel = true;
+            chartRevenue.Series[0].LabelFormat = "N0";
+            chartSumBill.Series[0].IsValueShownAsLabel = true;
+
             string chartType = cmbTypeChar.SelectedItem.ToString();
 
             var filteredData = data.AsEnumerable();
@@ -79,11 +122,13 @@ namespace QuanLyCF.GUI.FormAdmin
 
                 foreach (var item in dailyRevenue)
                 {
-                    chartRevenue.Series[0].Points.AddXY(item.Date.ToString("dd/MM"), item.Revenue);
+                    int pointIndex = chartRevenue.Series[0].Points.AddXY(item.Date.ToString("dd/MM"), item.Revenue);
+                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {item.Revenue:N0} VNĐ";
                 }
                 foreach (var item in dailyBills)
                 {
-                    chartSumBill.Series[0].Points.AddXY(item.Date.ToString("dd/MM"), item.BillCount);
+                    int pointIndex = chartSumBill.Series[0].Points.AddXY(item.Date.ToString("dd/MM"), item.BillCount);
+                    chartSumBill.Series[0].Points[pointIndex].ToolTip = $"Số bill: {item.BillCount}";
                 }
             }
             else if (chartType == "Tháng")
@@ -100,11 +145,13 @@ namespace QuanLyCF.GUI.FormAdmin
 
                 foreach (var item in monthlyRevenue)
                 {
-                    chartRevenue.Series[0].Points.AddXY(item.YearMonth.ToString("MM/yyyy"), item.Revenue);
+                    int pointIndex = chartRevenue.Series[0].Points.AddXY(item.YearMonth.ToString("MM/yyyy"), item.Revenue);
+                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {item.Revenue:N0} VNĐ";
                 }
                 foreach (var item in monthlyBills)
                 {
-                    chartSumBill.Series[0].Points.AddXY(item.YearMonth.ToString("MM/yyyy"), item.BillCount);
+                    int pointIndex = chartSumBill.Series[0].Points.AddXY(item.YearMonth.ToString("MM/yyyy"), item.BillCount);
+                    chartSumBill.Series[0].Points[pointIndex].ToolTip = $"Số bill: {item.BillCount}";
                 }
             }
             else if (chartType == "Năm")
@@ -121,11 +168,13 @@ namespace QuanLyCF.GUI.FormAdmin
 
                 foreach (var item in yearlyRevenue)
                 {
-                    chartRevenue.Series[0].Points.AddXY(item.Year.ToString(), item.Revenue);
+                    int pointIndex = chartRevenue.Series[0].Points.AddXY(item.Year.ToString(), item.Revenue);
+                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {item.Revenue:N0} VNĐ";
                 }
                 foreach (var item in yearlyBills)
                 {
-                    chartSumBill.Series[0].Points.AddXY(item.Year.ToString(), item.BillCount);
+                    int pointIndex = chartSumBill.Series[0].Points.AddXY(item.Year.ToString(), item.BillCount);
+                    chartSumBill.Series[0].Points[pointIndex].ToolTip = $"Số bill: {item.BillCount}";
                 }
             }
         }
@@ -210,6 +259,10 @@ namespace QuanLyCF.GUI.FormAdmin
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmReport_FormClosed(object sender, FormClosedEventArgs e)
+        {
             previousForm?.Show();
         }
     }

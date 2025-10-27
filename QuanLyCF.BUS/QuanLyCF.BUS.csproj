@@ -53,6 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DrinkCategoryBUS.cs" />
     <Compile Include="ReportBUS.cs" />
+    <Compile Include="StoreInfoBUS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QuanLyCF.DAL\QuanLyCF.DAL.csproj">

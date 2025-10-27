@@ -31,6 +31,7 @@ namespace QuanLyCF.GUI
         public FrmOrder(FormDangNhap loginForm) : this()
         {
             _loginForm = loginForm;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmOrder_FormClosed);
         }
 
         // ===============================
@@ -206,8 +207,9 @@ namespace QuanLyCF.GUI
                     {
                         // Bàn trống → mở menu để order mới
                         Action onSaveCallback = () => LoadTablesByArea(currentAreaId);
-                        FrmMenu frm = new FrmMenu(selectedTableId, onSaveCallback);
-                        frm.ShowDialog();
+                        FrmMenu frm = new FrmMenu(this, selectedTableId, onSaveCallback);
+                        this.Hide();
+                        frm.Show();
                     }
                     else
                     {
@@ -239,8 +241,9 @@ namespace QuanLyCF.GUI
             }
 
             Action onSaveCallback = () => LoadTablesByArea(currentAreaId);
-            FrmMenu frm = new FrmMenu(selectedTableId, onSaveCallback);
-            frm.ShowDialog();
+            FrmMenu frm = new FrmMenu(this, selectedTableId, onSaveCallback);
+            this.Hide();
+            frm.Show();
         }
 
         private void BtnPay_Click(object sender, EventArgs e)
@@ -256,10 +259,11 @@ namespace QuanLyCF.GUI
             var pendingOrder = PendingOrderBUS.GetPendingOrderByTableId(selectedTableId);
             if (pendingOrder != null)
             {
-                FrmBill frmBill = new FrmBill();
+                FrmBill frmBill = new FrmBill(this);
                 frmBill.TableId = this.selectedTableId;
-                frmBill.ShowDialog();
-                LoadTablesByArea(currentAreaId);
+                frmBill.onPaymentSuccess = () => LoadTablesByArea(currentAreaId);
+                this.Hide();
+                frmBill.Show();
             }
             else
             {
@@ -272,13 +276,7 @@ namespace QuanLyCF.GUI
         // ===============================
         private void lblLogout_Click(object sender, EventArgs e)
         {
-            if (_loginForm != null)
-            {
-                this.Hide();
-                _loginForm.Show();
-            }
-            else
-                Application.Exit();
+            this.Close();
         }
 
         private void btnStore_Click(object sender, EventArgs e)
@@ -300,6 +298,11 @@ namespace QuanLyCF.GUI
             FrmReport frm = new FrmReport(this);
             this.Hide();
             frm.Show();
+        }
+
+        private void FrmOrder_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _loginForm?.Show();
         }
 
         private void ApplyHoverEffectToAllButtons(Control parent)

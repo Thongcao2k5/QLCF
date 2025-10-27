@@ -18,7 +18,6 @@ namespace QuanLyCF.GUI
         public FormDangNhap()
         {
             InitializeComponent();
-            buttonThuNgan.Click += new EventHandler(buttonThuNgan_Click);
             this.AcceptButton = buttonThuNgan;
         }
 
