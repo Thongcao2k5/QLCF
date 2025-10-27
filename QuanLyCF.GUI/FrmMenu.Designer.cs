@@ -56,7 +56,6 @@ namespace QuanLyCF.GUI
             this.btnCancel = new Guna.UI2.WinForms.Guna2Button();
             this.btnSaveOrder = new Guna.UI2.WinForms.Guna2Button();
             this.btnPay = new Guna.UI2.WinForms.Guna2Button();
-            this.btnEditTables = new Guna.UI2.WinForms.Guna2Button();
             this.btnBack = new Guna.UI2.WinForms.Guna2Button();
             this.panelTop.SuspendLayout();
             this.panelLeft.SuspendLayout();
@@ -160,7 +159,6 @@ namespace QuanLyCF.GUI
             this.panelRight.Controls.Add(this.btnCancel);
             this.panelRight.Controls.Add(this.btnSaveOrder);
             this.panelRight.Controls.Add(this.btnPay);
-            this.panelRight.Controls.Add(this.btnEditTables);
             this.panelRight.Controls.Add(this.btnBack);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRight.FillColor = System.Drawing.Color.White;
@@ -329,7 +327,6 @@ namespace QuanLyCF.GUI
             this.btnEditTables.Size = new System.Drawing.Size(146, 40);
             this.btnEditTables.TabIndex = 10;
             this.btnEditTables.Text = "⚙️ Sửa Bàn";
-            this.btnEditTables.Click += new System.EventHandler(this.btnEditTables_Click);
             // 
             // btnBack
             // 
@@ -373,6 +370,5 @@ namespace QuanLyCF.GUI
         private DataGridViewTextBoxColumn colQty;
         private DataGridViewTextBoxColumn colPrice;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Guna.UI2.WinForms.Guna2Button btnEditTables;
     }
 }
