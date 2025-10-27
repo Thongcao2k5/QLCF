@@ -323,6 +323,12 @@ namespace QuanLyCF.GUI
             }
         }
 
+        private void btnCancelEdit_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            _loginForm.Show();
+        }
+
         private void ApplyHoverEffectToAllButtons(Control parent)
         {
             foreach (Control control in parent.Controls)

@@ -12,17 +12,11 @@ namespace QuanLyCF.GUI
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.FlowLayoutPanel flpTables;
         private Guna2Button btnVuon;
-        private Guna2Button lblLogout;
-        private Guna2Button guna2Button5;
-        private Guna2Button guna2Button4;
-        private Guna2Button guna2Button3;
-        private Guna2Button btnArea;
-        private Guna2Button btnStore;
-        private Guna2Button guna2Button6;
 
         // 🔹 Nút mới
         private Guna2Button btnAddTable;
         private Guna2Button btnDeleteTable;
+        private Guna2Button btnCancelEdit;
 
         protected override void Dispose(bool disposing)
         {
@@ -36,19 +30,30 @@ namespace QuanLyCF.GUI
             this.panelLeft = new System.Windows.Forms.Panel();
             this.btnVuon = new Guna.UI2.WinForms.Guna2Button();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
-            this.lblLogout = new Guna.UI2.WinForms.Guna2Button();
-            this.btnArea = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
-            this.btnStore = new Guna.UI2.WinForms.Guna2Button();
             this.flpTables = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnCancelEdit = new Guna.UI2.WinForms.Guna2Button();
             this.btnAddTable = new Guna.UI2.WinForms.Guna2Button();
             this.btnDeleteTable = new Guna.UI2.WinForms.Guna2Button();
             this.panelLeft.SuspendLayout();
-            this.panelTop.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // btnCancelEdit
+            // 
+            this.btnCancelEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelEdit.BorderRadius = 12;
+            this.btnCancelEdit.FillColor = System.Drawing.Color.Gray;
+            this.btnCancelEdit.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnCancelEdit.ForeColor = System.Drawing.Color.White;
+            this.btnCancelEdit.Location = new System.Drawing.Point(780, 685);
+            this.btnCancelEdit.Name = "btnCancelEdit";
+            this.btnCancelEdit.Size = new System.Drawing.Size(140, 45);
+            this.btnCancelEdit.TabIndex = 2;
+            this.btnCancelEdit.Text = "❌ Hủy";
+            this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
+            // 
+            // btnAddTable
+            // 
+            this.btnAddTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // panelLeft
             // 
@@ -75,88 +80,11 @@ namespace QuanLyCF.GUI
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
-            this.panelTop.Controls.Add(this.guna2Button6);
-            this.panelTop.Controls.Add(this.lblLogout);
-            this.panelTop.Controls.Add(this.btnArea);
-            this.panelTop.Controls.Add(this.guna2Button5);
-            this.panelTop.Controls.Add(this.guna2Button4);
-            this.panelTop.Controls.Add(this.guna2Button3);
-            this.panelTop.Controls.Add(this.btnStore);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1260, 60);
             this.panelTop.TabIndex = 2;
-            // 
-            // guna2Button6
-            // 
-            this.guna2Button6.BorderRadius = 20;
-            this.guna2Button6.FillColor = System.Drawing.Color.White;
-            this.guna2Button6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.guna2Button6.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button6.Location = new System.Drawing.Point(8, 9);
-            this.guna2Button6.Name = "guna2Button6";
-            this.guna2Button6.Size = new System.Drawing.Size(172, 42);
-            this.guna2Button6.TabIndex = 12;
-            this.guna2Button6.Text = "Tài khoản";
-            // 
-            // lblLogout
-            // 
-            this.lblLogout.BorderRadius = 20;
-            this.lblLogout.FillColor = System.Drawing.Color.White;
-            this.lblLogout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.lblLogout.ForeColor = System.Drawing.Color.Black;
-            this.lblLogout.Location = new System.Drawing.Point(1102, 9);
-            this.lblLogout.Name = "lblLogout";
-            this.lblLogout.Size = new System.Drawing.Size(146, 42);
-            this.lblLogout.TabIndex = 10;
-            this.lblLogout.Text = "Đăng xuất";
-            this.lblLogout.Click += new System.EventHandler(this.lblLogout_Click);
-            // 
-            // btnArea
-            // 
-            this.btnArea.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnArea.ForeColor = System.Drawing.Color.White;
-            this.btnArea.Location = new System.Drawing.Point(0, 0);
-            this.btnArea.Name = "btnArea";
-            this.btnArea.Size = new System.Drawing.Size(180, 45);
-            this.btnArea.TabIndex = 13;
-            // 
-            // guna2Button5
-            // 
-            this.guna2Button5.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button5.ForeColor = System.Drawing.Color.White;
-            this.guna2Button5.Location = new System.Drawing.Point(0, 0);
-            this.guna2Button5.Name = "guna2Button5";
-            this.guna2Button5.Size = new System.Drawing.Size(180, 45);
-            this.guna2Button5.TabIndex = 14;
-            // 
-            // guna2Button4
-            // 
-            this.guna2Button4.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button4.ForeColor = System.Drawing.Color.White;
-            this.guna2Button4.Location = new System.Drawing.Point(0, 0);
-            this.guna2Button4.Name = "guna2Button4";
-            this.guna2Button4.Size = new System.Drawing.Size(180, 45);
-            this.guna2Button4.TabIndex = 15;
-            // 
-            // guna2Button3
-            // 
-            this.guna2Button3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button3.ForeColor = System.Drawing.Color.White;
-            this.guna2Button3.Location = new System.Drawing.Point(0, 0);
-            this.guna2Button3.Name = "guna2Button3";
-            this.guna2Button3.Size = new System.Drawing.Size(180, 45);
-            this.guna2Button3.TabIndex = 16;
-            // 
-            // btnStore
-            // 
-            this.btnStore.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnStore.ForeColor = System.Drawing.Color.White;
-            this.btnStore.Location = new System.Drawing.Point(0, 0);
-            this.btnStore.Name = "btnStore";
-            this.btnStore.Size = new System.Drawing.Size(180, 45);
-            this.btnStore.TabIndex = 17;
             // 
             // flpTables
             // 
@@ -171,20 +99,21 @@ namespace QuanLyCF.GUI
             // 
             // btnAddTable
             // 
+            this.btnAddTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddTable.BorderRadius = 12;
             this.btnAddTable.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
             this.btnAddTable.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnAddTable.ForeColor = System.Drawing.Color.White;
-            this.btnAddTable.Location = new System.Drawing.Point(940, 685);
+            this.btnAddTable.Location = new System.Drawing.Point(930, 685);
             this.btnAddTable.Name = "btnAddTable";
-            this.btnAddTable.Size = new System.Drawing.Size(140, 45);
+            this.btnAddTable.Size = new System.Drawing.Size(150, 45);
             this.btnAddTable.TabIndex = 0;
             this.btnAddTable.Text = "➕ Thêm bàn";
-            this.btnAddTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddTable.Click += new System.EventHandler(this.btnAddTable_Click);
             // 
             // btnDeleteTable
             // 
+            this.btnDeleteTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteTable.BorderRadius = 12;
             this.btnDeleteTable.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(96)))), ((int)(((byte)(90)))));
             this.btnDeleteTable.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
@@ -194,12 +123,12 @@ namespace QuanLyCF.GUI
             this.btnDeleteTable.Size = new System.Drawing.Size(140, 45);
             this.btnDeleteTable.TabIndex = 1;
             this.btnDeleteTable.Text = "🗑️ Xóa bàn";
-            this.btnDeleteTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteTable.Click += new System.EventHandler(this.btnDeleteTable_Click);
             // 
             // FrmEditTables
             // 
             this.ClientSize = new System.Drawing.Size(1260, 750);
+            this.Controls.Add(this.btnCancelEdit);
             this.Controls.Add(this.btnAddTable);
             this.Controls.Add(this.btnDeleteTable);
             this.Controls.Add(this.flpTables);
@@ -211,7 +140,6 @@ namespace QuanLyCF.GUI
             this.Text = "Quản lý bàn";
             this.Load += new System.EventHandler(this.FrmEditTables_Load);
             this.panelLeft.ResumeLayout(false);
-            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
