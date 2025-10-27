@@ -31,6 +31,7 @@ namespace QuanLyCF.GUI
         public FrmMenu()
         {
             InitializeComponent();
+            this.btnEditTables.Click += new System.EventHandler(this.btnEditTables_Click);
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
