@@ -123,14 +123,24 @@ namespace QuanLyCF.DAL
         public static bool InsertTable(int areaId, string tableName, int maxGuests)
         {
             string query = "INSERT INTO TableCF (AreaID, TableName, MaxGuests, IsOccupied) VALUES ( @AreaID, @TableName, @MaxGuests, 0)";
-            return DataProvider.ExecuteNonQuery(query, new object[] { areaId, tableName, maxGuests }) > 0;
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@AreaID", areaId),
+                new SqlParameter("@TableName", tableName),
+                new SqlParameter("@MaxGuests", maxGuests)
+            };
+            return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
         // === 6️⃣ Xóa bàn ===
         public static bool DeleteTable(int tableId)
         {
             string query = "DELETE FROM TableCF WHERE TableID = @TableID";
-            return DataProvider.ExecuteNonQuery(query, new object[] { tableId }) > 0;
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@TableID", tableId)
+            };
+            return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
         // === 7️⃣ Lấy toàn bộ danh sách bàn ===
