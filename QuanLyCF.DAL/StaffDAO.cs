@@ -13,7 +13,7 @@ namespace QuanLyCF.DAO
         public DataTable GetAll()
         {
             string query = "SELECT ID, FullName, Gender, BirthDate, IdCard, Email, Phone, Address, Role, Salary, Working, Avatar FROM Users";
-            return DataProvider.Instance.ExecuteQuery(query);
+            return DataProvider.ExecuteQuery(query);
         }
 
         public DataTable Search(string name, string role)
@@ -21,15 +21,14 @@ namespace QuanLyCF.DAO
             string query = "SELECT * FROM Users WHERE FullName LIKE N'%' + @name + '%'";
             if (!string.IsNullOrEmpty(role))
                 query += " AND Role = @role";
-            return DataProvider.Instance.ExecuteQuery(query, new object[] { name, role });
-        }
+                            return DataProvider.ExecuteQuery(query, new object[] { name, role });        }
 
         public bool Insert(string fullname, string gender, DateTime birth, string idCard, string email, string phone, string address, string role, decimal salary, bool working, byte[] avatar)
         {
             string query = @"INSERT INTO Users (FullName, Gender, BirthDate, IdCard, Email, Phone, Address, Role, Salary, Working, Avatar)
                              VALUES ( @fullname, @gender, @birth, @idCard, @email, @phone, @address, @role, @salary, @working, @avatar)";
             object[] param = { fullname, gender, birth, idCard, email, phone, address, role, salary, working, avatar };
-            return DataProvider.Instance.ExecuteNonQuery(query, param) > 0;
+            return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
         public bool Update(int id, string fullname, string gender, DateTime birth, string idCard, string email, string phone, string address, string role, decimal salary, bool working, byte[] avatar)
@@ -51,14 +50,14 @@ namespace QuanLyCF.DAO
                 param = new object[] { fullname, gender, birth, idCard, email, phone, address, role, salary, working, id };
             }
 
-            int res = DataProvider.Instance.ExecuteNonQuery(query, param);
+            int res = DataProvider.ExecuteNonQuery(query, param);
             return res > 0;
         }
 
         public bool Delete(int id)
         {
             string query = "DELETE FROM Users WHERE ID = @id";
-            int res = DataProvider.Instance.ExecuteNonQuery(query, new object[] { id });
+            int res = DataProvider.ExecuteNonQuery(query, new object[] { id });
             return res > 0;
         }
     }
