@@ -175,11 +175,12 @@ namespace QuanLyCF.GUI
             this.btnAddTable.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
             this.btnAddTable.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnAddTable.ForeColor = System.Drawing.Color.White;
-            this.btnAddTable.Location = new System.Drawing.Point(950, 70);
+            this.btnAddTable.Location = new System.Drawing.Point(940, 685);
             this.btnAddTable.Name = "btnAddTable";
             this.btnAddTable.Size = new System.Drawing.Size(140, 45);
             this.btnAddTable.TabIndex = 0;
             this.btnAddTable.Text = "➕ Thêm bàn";
+            this.btnAddTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddTable.Click += new System.EventHandler(this.btnAddTable_Click);
             // 
             // btnDeleteTable
@@ -188,11 +189,12 @@ namespace QuanLyCF.GUI
             this.btnDeleteTable.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(96)))), ((int)(((byte)(90)))));
             this.btnDeleteTable.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnDeleteTable.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteTable.Location = new System.Drawing.Point(1100, 70);
+            this.btnDeleteTable.Location = new System.Drawing.Point(1100, 685);
             this.btnDeleteTable.Name = "btnDeleteTable";
             this.btnDeleteTable.Size = new System.Drawing.Size(140, 45);
             this.btnDeleteTable.TabIndex = 1;
             this.btnDeleteTable.Text = "🗑️ Xóa bàn";
+            this.btnDeleteTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteTable.Click += new System.EventHandler(this.btnDeleteTable_Click);
             // 
             // FrmEditTables
