@@ -125,7 +125,7 @@ namespace QuanLyCF.GUI
         {
             if (e.RowIndex < 0) return;
             var r = dgvStaff.Rows[e.RowIndex];
-            selectedStaffId = Convert.ToInt32(r.Cells["ID"].Value);
+            selectedStaffId = Convert.ToInt32(r.Cells["UserID"].Value);
             txtFullName.Text = r.Cells["FullName"].Value?.ToString();
             cboGender.SelectedItem = r.Cells["Gender"].Value?.ToString();
             dtpBirth.Value = Convert.ToDateTime(r.Cells["BirthDate"].Value);

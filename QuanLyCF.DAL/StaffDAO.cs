@@ -13,7 +13,7 @@ namespace QuanLyCF.DAO
 
         public DataTable GetAll()
         {
-            string query = "SELECT ID, FullName, Gender, BirthDate, IdCard, Email, Phone, Address, Role, Salary, Working, Avatar FROM Users";
+            string query = "SELECT UserID, FullName, Gender, BirthDate, IdCard, Email, Phone, Address, Role, Salary, Working, Avatar FROM Users";
             return DataProvider.ExecuteQuery(query);
         }
 
@@ -52,7 +52,7 @@ namespace QuanLyCF.DAO
             {
                 query = @"UPDATE Users SET FullName= @fullname, Gender= @gender, BirthDate= @birth, IdCard= @idCard, Email= @email, Phone= @phone,
                           Address= @address, Role= @role, Salary= @salary, Working= @working, Avatar= @avatar
-                          WHERE ID= @id";
+                          WHERE UserID= @id";
                 param = new SqlParameter[] {
                     new SqlParameter("@fullname", fullname),
                     new SqlParameter("@gender", gender),
@@ -72,7 +72,7 @@ namespace QuanLyCF.DAO
             {
                 query = @"UPDATE Users SET FullName= @fullname, Gender= @gender, BirthDate= @birth, IdCard= @idCard, Email= @email, Phone= @phone,
                           Address= @address, Role= @role, Salary= @salary, Working= @working
-                          WHERE ID= @id";
+                          WHERE UserID= @id";
                 param = new SqlParameter[] {
                     new SqlParameter("@fullname", fullname),
                     new SqlParameter("@gender", gender),
@@ -94,7 +94,7 @@ namespace QuanLyCF.DAO
 
         public bool Delete(int id)
         {
-            string query = "DELETE FROM Users WHERE ID = @id";
+            string query = "DELETE FROM Users WHERE UserID = @id";
             int res = DataProvider.ExecuteNonQuery(query, new SqlParameter[] { new SqlParameter("@id", id) });
             return res > 0;
         }

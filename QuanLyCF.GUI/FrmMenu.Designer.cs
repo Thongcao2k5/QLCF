@@ -57,6 +57,7 @@ namespace QuanLyCF.GUI
             this.btnSaveOrder = new Guna.UI2.WinForms.Guna2Button();
             this.btnPay = new Guna.UI2.WinForms.Guna2Button();
             this.btnBack = new Guna.UI2.WinForms.Guna2Button();
+            this.cmbDrinkType = new Guna.UI2.WinForms.Guna2ComboBox();
             this.panelTop.SuspendLayout();
             this.panelLeft.SuspendLayout();
             this.flowLayoutPanelMenu.SuspendLayout();
@@ -66,6 +67,7 @@ namespace QuanLyCF.GUI
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.cmbDrinkType);
             this.panelTop.Controls.Add(this.lblTitle);
             this.panelTop.Controls.Add(this.lblSearch);
             this.panelTop.Controls.Add(this.txtSearch);
@@ -84,7 +86,7 @@ namespace QuanLyCF.GUI
             this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(17, 16);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(246, 32);
+            this.lblTitle.Size = new System.Drawing.Size(308, 41);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "☕ MENU ĐỒ UỐNG";
             // 
@@ -96,7 +98,7 @@ namespace QuanLyCF.GUI
             this.lblSearch.ForeColor = System.Drawing.Color.White;
             this.lblSearch.Location = new System.Drawing.Point(918, 20);
             this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(111, 21);
+            this.lblSearch.Size = new System.Drawing.Size(138, 28);
             this.lblSearch.TabIndex = 1;
             this.lblSearch.Text = "🔍 Tìm kiếm:";
             // 
@@ -214,6 +216,7 @@ namespace QuanLyCF.GUI
             this.colPrice.HeaderText = "Thành tiền";
             this.colPrice.MinimumWidth = 6;
             this.colPrice.Name = "colPrice";
+            this.colPrice.Width = 125;
             // 
             // lblCustomerType
             // 
@@ -222,7 +225,7 @@ namespace QuanLyCF.GUI
             this.lblCustomerType.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.lblCustomerType.Location = new System.Drawing.Point(27, 501);
             this.lblCustomerType.Name = "lblCustomerType";
-            this.lblCustomerType.Size = new System.Drawing.Size(102, 21);
+            this.lblCustomerType.Size = new System.Drawing.Size(129, 28);
             this.lblCustomerType.TabIndex = 1;
             this.lblCustomerType.Text = "Khách hàng:";
             // 
@@ -236,7 +239,7 @@ namespace QuanLyCF.GUI
             "VIP"});
             this.cbCustomerType.Location = new System.Drawing.Point(152, 494);
             this.cbCustomerType.Name = "cbCustomerType";
-            this.cbCustomerType.Size = new System.Drawing.Size(200, 28);
+            this.cbCustomerType.Size = new System.Drawing.Size(200, 33);
             this.cbCustomerType.TabIndex = 2;
             // 
             // lblDiscount
@@ -246,7 +249,7 @@ namespace QuanLyCF.GUI
             this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.lblDiscount.Location = new System.Drawing.Point(27, 534);
             this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(129, 21);
+            this.lblDiscount.Size = new System.Drawing.Size(161, 28);
             this.lblDiscount.TabIndex = 3;
             this.lblDiscount.Text = "Khuyến mãi (đ):";
             // 
@@ -255,7 +258,7 @@ namespace QuanLyCF.GUI
             this.txtDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDiscount.Location = new System.Drawing.Point(232, 529);
             this.txtDiscount.Name = "txtDiscount";
-            this.txtDiscount.Size = new System.Drawing.Size(120, 26);
+            this.txtDiscount.Size = new System.Drawing.Size(120, 30);
             this.txtDiscount.TabIndex = 4;
             this.txtDiscount.Text = "0";
             this.txtDiscount.TextChanged += new System.EventHandler(this.txtKhuyenMai_TextChanged);
@@ -268,7 +271,7 @@ namespace QuanLyCF.GUI
             this.lblTotal.ForeColor = System.Drawing.Color.DarkRed;
             this.lblTotal.Location = new System.Drawing.Point(27, 566);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(110, 21);
+            this.lblTotal.Size = new System.Drawing.Size(143, 28);
             this.lblTotal.TabIndex = 5;
             this.lblTotal.Text = "Tổng tiền: 0 đ";
             // 
@@ -330,6 +333,22 @@ namespace QuanLyCF.GUI
             this.btnBack.Text = "⬅ Trở lại";
             this.btnBack.Click += new System.EventHandler(this.btnHuy_Click);
             // 
+            // cmbDrinkType
+            // 
+            this.cmbDrinkType.BackColor = System.Drawing.Color.Transparent;
+            this.cmbDrinkType.BorderRadius = 16;
+            this.cmbDrinkType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbDrinkType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDrinkType.FocusedColor = System.Drawing.Color.Empty;
+            this.cmbDrinkType.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbDrinkType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbDrinkType.ItemHeight = 30;
+            this.cmbDrinkType.Location = new System.Drawing.Point(471, 12);
+            this.cmbDrinkType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbDrinkType.Name = "cmbDrinkType";
+            this.cmbDrinkType.Size = new System.Drawing.Size(269, 36);
+            this.cmbDrinkType.TabIndex = 3;
+            // 
             // FrmMenu
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
@@ -357,5 +376,6 @@ namespace QuanLyCF.GUI
         private DataGridViewTextBoxColumn colQty;
         private DataGridViewTextBoxColumn colPrice;
         private FlowLayoutPanel flowLayoutPanel1;
+        private Guna2ComboBox cmbDrinkType;
     }
 }

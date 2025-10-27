@@ -84,6 +84,17 @@ namespace QuanLyCF.DAL
             return DataProvider.ExecuteNonQuery(query, param) > 0;
         }
 
+        public static bool UpdateTableStatus(int tableId, bool isOccupied, SqlConnection conn, SqlTransaction transaction)
+        {
+            string query = "UPDATE Tables SET IsOccupied = @status WHERE TableID = @id";
+            using (SqlCommand cmd = new SqlCommand(query, conn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@status", isOccupied);
+                cmd.Parameters.AddWithValue("@id", tableId);
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
         // === 4️⃣ Cập nhật thông tin bàn ===
         public static bool UpdateTableInfo(TableDAO table)
         {

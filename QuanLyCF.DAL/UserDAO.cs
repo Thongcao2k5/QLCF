@@ -5,17 +5,32 @@ namespace QuanLyCF.DAL
 {
     public class UserDAO
     {
-        public static bool VerifyLogin(string username, string password)
+        public static DataRow VerifyLogin(string username, string password)
         {
-            string query = "SELECT COUNT(1) FROM Users WHERE Username = @Username AND Password = @Password";
+            string query = "SELECT UserID, Username, DisplayName, Role FROM Users WHERE Username = @Username AND Password = @Password";
 
-            SqlParameter[] parameters = new SqlParameter[2];
-            parameters[0] = new SqlParameter("@Username", SqlDbType.NVarChar) { Value = username };
-            parameters[1] = new SqlParameter("@Password", SqlDbType.NVarChar) { Value = password };
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@Username", username),
+                new SqlParameter("@Password", password)
+            };
 
-            object result = DataProvider.ExecuteScalar(query, parameters);
+            DataTable result = DataProvider.ExecuteQuery(query, parameters);
 
-            return result != null && (int)result == 1;
+            if (result.Rows.Count > 0)
+            {
+                return result.Rows[0];
+            }
+            return null;
+        }
+        public static DataTable GetUsersByRole(int role)
+        {
+            string query = "SELECT UserID, DisplayName FROM Users WHERE Role = @Role";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@Role", role)
+            };
+            return DataProvider.ExecuteQuery(query, parameters);
         }
     }
 }

@@ -25,15 +25,16 @@ namespace QuanLyCF.DAL
         }
 
         // === 3️⃣ Tạo order tạm mới ===
-        public static int CreatePendingOrder(int tableId, decimal totalAmount, decimal discount, decimal finalAmount)
+        public static int CreatePendingOrder(int tableId, int userId, decimal totalAmount, decimal discount, decimal finalAmount)
         {
             string query = @"
                 INSERT INTO PendingOrders (TableID, UserID, OrderDate, TotalAmount, Discount, FinalAmount, Status)
                 OUTPUT INSERTED.PendingOrderID
-                VALUES (@tableId, 1, GETDATE(), @total, @discount, @final, N'Pending')";
+                VALUES (@tableId, @userId, GETDATE(), @total, @discount, @final, N'Pending')";
             SqlParameter[] param =
             {
                 new SqlParameter("@tableId", tableId),
+                new SqlParameter("@userId", userId),
                 new SqlParameter("@total", totalAmount),
                 new SqlParameter("@discount", discount),
                 new SqlParameter("@final", finalAmount)

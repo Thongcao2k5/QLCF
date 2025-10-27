@@ -20,26 +20,50 @@ namespace QuanLyCF.GUI
         private List<DrinkDTO> filteredDrinks;
         private readonly string imageFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\"));
         private Action onOrderSaved;
+        private Form previousForm;
 
-        public FrmMenu(int tableId, Action callback = null)
+        public FrmMenu(Form prevForm, int tableId, Action callback = null)
         {
             InitializeComponent();
             this.tableId = tableId;
             this.onOrderSaved = callback;
+            this.previousForm = prevForm;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMenu_FormClosed);
         }
 
-        public FrmMenu()
+        public FrmMenu(int tableId, Action callback = null) : this(null, tableId, callback)
         {
-            InitializeComponent();
+        }
+
+        public FrmMenu() : this(null, -1, null)
+        {
         }
 
         private void FrmMenu_Load(object sender, EventArgs e)
         {
             LoadDrinks();
+            LoadDrinkCategories(); // Add this call
             LoadPendingOrder();
             DisplayDrinks(drinks);
             SetupOrderDataGridView();
         }
+
+        private void LoadDrinkCategories()
+        {
+            DataTable dt = DrinkCategoryBUS.GetAllCategories();
+            DataRow dr = dt.NewRow();
+            dr["CategoryID"] = 0; // Assuming 0 is for 'All'
+            dr["CategoryName"] = "Tất cả";
+            dt.Rows.InsertAt(dr, 0);
+
+            cmbDrinkType.DataSource = dt;
+            cmbDrinkType.DisplayMember = "CategoryName";
+            cmbDrinkType.ValueMember = "CategoryID";
+
+            // Attach event handler
+            cmbDrinkType.SelectedIndexChanged += new EventHandler(cmbDrinkType_SelectedIndexChanged);
+        }
+
 
         private void SetupOrderDataGridView()
         {
@@ -244,7 +268,7 @@ namespace QuanLyCF.GUI
 
             if (pendingOrderId == -1) // Create new pending order
             {
-                pendingOrderId = PendingOrderBUS.CreatePendingOrder(tableId, totalAmount, discount, finalAmount);
+                pendingOrderId = PendingOrderBUS.CreatePendingOrder(tableId, CurrentUser.UserID, totalAmount, discount, finalAmount);
                 TableBUS.UpdateTableStatus(tableId, true);
             }
             else // Update existing pending order
@@ -301,22 +325,54 @@ namespace QuanLyCF.GUI
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
+            ApplyFilters();
+        }
+
+        private void cmbDrinkType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
             string keyword = txtSearch.Text.Trim().ToLower();
-            filteredDrinks = drinks.Where(d => d.DrinkName.ToLower().Contains(keyword)).ToList();
+            int selectedCategoryId = 0;
+
+            if (cmbDrinkType.SelectedValue != null && cmbDrinkType.SelectedValue is int)
+            {
+                selectedCategoryId = (int)cmbDrinkType.SelectedValue;
+            }
+
+            // Start with the original full list of drinks
+            IEnumerable<DrinkDTO> tempFiltered = drinks;
+
+            // Filter by category if a specific category is selected
+            if (selectedCategoryId > 0)
+            {
+                tempFiltered = tempFiltered.Where(d => d.CategoryID == selectedCategoryId);
+            }
+
+            // Filter by search keyword if there is one
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                tempFiltered = tempFiltered.Where(d => d.DrinkName.ToLower().Contains(keyword));
+            }
+
+            // Update the main filtered list and display it
+            filteredDrinks = tempFiltered.ToList();
             DisplayDrinks(filteredDrinks);
         }
+
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
             if (dgvOrder.SelectedRows.Count > 0)
             {
-                DataTable dt = dgvOrder.DataSource as DataTable;
-                if (dt != null)
+                foreach (DataGridViewRow row in dgvOrder.SelectedRows)
                 {
-                    foreach (DataGridViewRow row in dgvOrder.SelectedRows)
+                    if (!row.IsNewRow)
                     {
-                        if (!row.IsNewRow)
-                            dt.Rows.RemoveAt(row.Index);
+                        dgvOrder.Rows.Remove(row);
                     }
                 }
                 UpdateTotal();
@@ -327,6 +383,11 @@ namespace QuanLyCF.GUI
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            previousForm?.Show();
         }
 
         private void dgvOrder_CellValueChanged(object sender, DataGridViewCellEventArgs e)

@@ -15,9 +15,9 @@ namespace QuanLyCF.BUS
             return PendingOrderDAO.GetPendingOrderById(pendingOrderId);
         }
 
-        public static int CreatePendingOrder(int tableId, decimal total, decimal discount, decimal final)
+        public static int CreatePendingOrder(int tableId, int userId, decimal total, decimal discount, decimal final)
         {
-            return PendingOrderDAO.CreatePendingOrder(tableId, total, discount, final);
+            return PendingOrderDAO.CreatePendingOrder(tableId, userId, total, discount, final);
         }
 
         public static bool UpdatePendingOrder(int id, decimal total, decimal discount, decimal final)

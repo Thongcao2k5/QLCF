@@ -52,6 +52,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Resources.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FormAdmin\FrmEditArea.cs">
@@ -138,6 +139,7 @@
     <Compile Include="FrmOrder.Designer.cs">
       <DependentUpon>FrmOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="CurrentUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

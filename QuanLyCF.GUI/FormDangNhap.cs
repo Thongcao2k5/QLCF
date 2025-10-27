@@ -1,6 +1,7 @@
 using QuanLyCF.BUS;
 using QuanLyCF.DAL;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -17,34 +18,83 @@ namespace QuanLyCF.GUI
         public FormDangNhap()
         {
             InitializeComponent();
-            buttonThuNgan.Click += new EventHandler(buttonThuNgan_Click);
             this.AcceptButton = buttonThuNgan;
         }
 
+
+
         private void buttonThuNgan_Click(object sender, EventArgs e)
+
         {
+
             string username = textBoxUsername.Text;
+
             string password = textBoxPassword.Text;
 
+
+
+            // Hardcoded login for development/testing
+
             if (username == "Taitruong" && password == "123")
+
             {
+
+                // Create a mock DataRow for the hardcoded user
+
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add("UserID", typeof(int));
+
+                dt.Columns.Add("Username", typeof(string));
+
+                dt.Columns.Add("DisplayName", typeof(string));
+
+                dt.Columns.Add("Role", typeof(string));
+
+                dt.Rows.Add(-1, "Taitruong", "Taitruong Test", "1");
+
+                CurrentUser.SetUser(dt.Rows[0]);
+
+
+
                 FrmOrder frmOrder = new FrmOrder(this);
+
                 frmOrder.Show();
+
                 this.Hide();
+
+                return; // Exit after successful hardcoded login
+
             }
-            else
+
+
+
+            // Database login
+
+            DataRow userData = UserBUS.VerifyLogin(username, password);
+
+            if (userData != null)
+
             {
-                if (UserBUS.VerifyLogin(username, password))
-                {
-                    FrmOrder frmOrder = new FrmOrder(this);
-                    frmOrder.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!");
-                }
+
+                CurrentUser.SetUser(userData);
+
+                FrmOrder frmOrder = new FrmOrder(this);
+
+                frmOrder.Show();
+
+                this.Hide();
+
             }
+
+            else
+
+            {
+
+                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!");
+
+            }
+
         }
 
         private void FormDangNhap_Load(object sender, EventArgs e)
