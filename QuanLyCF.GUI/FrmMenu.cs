@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using QuanLyCF.DAL;
 using QuanLyCF.BUS;
+using QuanLyCF.GUI.FormAdmin;
 
 namespace QuanLyCF.GUI
 {
@@ -326,6 +327,14 @@ namespace QuanLyCF.GUI
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnEditTables_Click(object sender, EventArgs e)
+        {
+            FrmEditTables frmEditTables = new FrmEditTables();
+            this.Hide();
+            frmEditTables.ShowDialog();
+            this.Show();
         }
 
         private void dgvOrder_CellValueChanged(object sender, DataGridViewCellEventArgs e)

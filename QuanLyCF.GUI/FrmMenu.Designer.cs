@@ -159,6 +159,7 @@ namespace QuanLyCF.GUI
             this.panelRight.Controls.Add(this.btnCancel);
             this.panelRight.Controls.Add(this.btnSaveOrder);
             this.panelRight.Controls.Add(this.btnPay);
+            this.panelRight.Controls.Add(this.btnEditTables);
             this.panelRight.Controls.Add(this.btnBack);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRight.FillColor = System.Drawing.Color.White;
@@ -315,6 +316,20 @@ namespace QuanLyCF.GUI
             this.btnPay.Text = "💰 Thanh toán";
             this.btnPay.Click += new System.EventHandler(this.btnTinhTien_Click);
             // 
+            // btnEditTables
+            // 
+            this.btnEditTables.BackColor = System.Drawing.Color.White;
+            this.btnEditTables.BorderRadius = 20;
+            this.btnEditTables.FillColor = System.Drawing.Color.DarkSlateBlue;
+            this.btnEditTables.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnEditTables.ForeColor = System.Drawing.Color.White;
+            this.btnEditTables.Location = new System.Drawing.Point(23, 590);
+            this.btnEditTables.Name = "btnEditTables";
+            this.btnEditTables.Size = new System.Drawing.Size(146, 40);
+            this.btnEditTables.TabIndex = 10;
+            this.btnEditTables.Text = "⚙️ Sửa Bàn";
+            this.btnEditTables.Click += new System.EventHandler(this.btnEditTables_Click);
+            // 
             // btnBack
             // 
             this.btnBack.BackColor = System.Drawing.Color.White;
@@ -357,5 +372,6 @@ namespace QuanLyCF.GUI
         private DataGridViewTextBoxColumn colQty;
         private DataGridViewTextBoxColumn colPrice;
         private FlowLayoutPanel flowLayoutPanel1;
+        private Guna.UI2.WinForms.Guna2Button btnEditTables;
     }
 }

@@ -90,6 +90,12 @@
     <Compile Include="FrmBill.Designer.cs">
       <DependentUpon>FrmBill.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAdmin\FrmEditTables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAdmin\FrmEditTables.Designer.cs">
+      <DependentUpon>FrmEditTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
