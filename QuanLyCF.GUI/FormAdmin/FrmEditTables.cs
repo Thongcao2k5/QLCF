@@ -14,6 +14,7 @@ namespace QuanLyCF.GUI
         private Guna2Panel pnlTableMenu;
         private int selectedTableId = -1;
         private int currentAreaId = -1; // Khu vực hiện tại
+        private Guna2Button lastSelectedTableButton = null;
 
         public FrmEditTables()
         {
@@ -167,25 +168,23 @@ namespace QuanLyCF.GUI
 
                 btnTable.Click += (s, e) =>
                 {
-                    selectedTableId = (int)((Guna2Button)s).Tag;
-                    var tableInfo = TableBUS.GetTableById(selectedTableId);
+                    Guna2Button clickedButton = (Guna2Button)s;
 
-                    if (tableInfo == null)
+                    // Hoàn nguyên màu của nút đã chọn trước đó
+                    if (lastSelectedTableButton != null && lastSelectedTableButton != clickedButton)
                     {
-                        MessageBox.Show("Không tìm thấy thông tin bàn!");
-                        return;
+                        var prevTableInfo = TableBUS.GetTableById((int)lastSelectedTableButton.Tag);
+                        if (prevTableInfo != null)
+                        {
+                            lastSelectedTableButton.FillColor = prevTableInfo.IsOccupied ? AppSettings.BackgroundWhiteColor : AppSettings.LightBrownColor;
+                        }
                     }
 
-                    if (!tableInfo.IsOccupied)
-                    {
-                        Action onSaveCallback = () => LoadTablesByArea(currentAreaId);
-                        FrmMenu frm = new FrmMenu(selectedTableId, onSaveCallback);
-                        frm.ShowDialog();
-                    }
-                    else
-                    {
-                        ShowTablePopupMenu();
-                    }
+                    // Đổi màu nút hiện tại để thể hiện đã chọn
+                    clickedButton.FillColor = Color.LightBlue; // Màu sắc thể hiện đã chọn
+                    lastSelectedTableButton = clickedButton;
+
+                    selectedTableId = (int)clickedButton.Tag;
                 };
 
                 flpTables.Controls.Add(btnTable);
