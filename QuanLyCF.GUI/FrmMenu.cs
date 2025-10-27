@@ -41,10 +41,28 @@ namespace QuanLyCF.GUI
         private void FrmMenu_Load(object sender, EventArgs e)
         {
             LoadDrinks();
+            LoadDrinkCategories(); // Add this call
             LoadPendingOrder();
             DisplayDrinks(drinks);
             SetupOrderDataGridView();
         }
+
+        private void LoadDrinkCategories()
+        {
+            DataTable dt = DrinkCategoryBUS.GetAllCategories();
+            DataRow dr = dt.NewRow();
+            dr["CategoryID"] = 0; // Assuming 0 is for 'All'
+            dr["CategoryName"] = "Tất cả";
+            dt.Rows.InsertAt(dr, 0);
+
+            cmbDrinkType.DataSource = dt;
+            cmbDrinkType.DisplayMember = "CategoryName";
+            cmbDrinkType.ValueMember = "CategoryID";
+
+            // Attach event handler
+            cmbDrinkType.SelectedIndexChanged += new EventHandler(cmbDrinkType_SelectedIndexChanged);
+        }
+
 
         private void SetupOrderDataGridView()
         {
@@ -306,10 +324,44 @@ namespace QuanLyCF.GUI
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
+            ApplyFilters();
+        }
+
+        private void cmbDrinkType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
             string keyword = txtSearch.Text.Trim().ToLower();
-            filteredDrinks = drinks.Where(d => d.DrinkName.ToLower().Contains(keyword)).ToList();
+            int selectedCategoryId = 0;
+
+            if (cmbDrinkType.SelectedValue != null && cmbDrinkType.SelectedValue is int)
+            {
+                selectedCategoryId = (int)cmbDrinkType.SelectedValue;
+            }
+
+            // Start with the original full list of drinks
+            IEnumerable<DrinkDTO> tempFiltered = drinks;
+
+            // Filter by category if a specific category is selected
+            if (selectedCategoryId > 0)
+            {
+                tempFiltered = tempFiltered.Where(d => d.CategoryID == selectedCategoryId);
+            }
+
+            // Filter by search keyword if there is one
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                tempFiltered = tempFiltered.Where(d => d.DrinkName.ToLower().Contains(keyword));
+            }
+
+            // Update the main filtered list and display it
+            filteredDrinks = tempFiltered.ToList();
             DisplayDrinks(filteredDrinks);
         }
+
 
         private void btnXoaMon_Click(object sender, EventArgs e)
         {
