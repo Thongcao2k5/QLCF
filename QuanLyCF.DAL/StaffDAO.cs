@@ -1,12 +1,13 @@
 using System;
 using System.Data;
+using QuanLyCF.DAL;
 
 namespace QuanLyCF.DAO
 {
     public class StaffDAO
     {
         private static StaffDAO instance;
-        public static StaffDAO Instance => instance ??= new StaffDAO();
+        public static StaffDAO Instance => instance ?? (instance = new StaffDAO());
         private StaffDAO() { }
 
         public DataTable GetAll()
