@@ -314,20 +314,7 @@ namespace QuanLyCF.GUI
             this.btnPay.TabIndex = 8;
             this.btnPay.Text = "💰 Thanh toán";
             this.btnPay.Click += new System.EventHandler(this.btnTinhTien_Click);
-            // 
-            // btnEditTables
-            // 
-            this.btnEditTables.BackColor = System.Drawing.Color.White;
-            this.btnEditTables.BorderRadius = 20;
-            this.btnEditTables.FillColor = System.Drawing.Color.DarkSlateBlue;
-            this.btnEditTables.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnEditTables.ForeColor = System.Drawing.Color.White;
-            this.btnEditTables.Location = new System.Drawing.Point(23, 590);
-            this.btnEditTables.Name = "btnEditTables";
-            this.btnEditTables.Size = new System.Drawing.Size(146, 40);
-            this.btnEditTables.TabIndex = 10;
-            this.btnEditTables.Text = "⚙️ Sửa Bàn";
-            // 
+            
             // btnBack
             // 
             this.btnBack.BackColor = System.Drawing.Color.White;
