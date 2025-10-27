@@ -122,7 +122,7 @@ namespace QuanLyCF.DAL
 
         public static bool InsertTable(int areaId, string tableName, int maxGuests)
         {
-            string query = "INSERT INTO TableCF (AreaID, TableName, MaxGuests, IsOccupied) VALUES ( @AreaID, @TableName, @MaxGuests, 0)";
+            string query = "INSERT INTO Tables (AreaID, TableName, MaxGuests, IsOccupied) VALUES ( @AreaID, @TableName, @MaxGuests, 0)";
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@AreaID", areaId),
@@ -135,7 +135,7 @@ namespace QuanLyCF.DAL
         // === 6️⃣ Xóa bàn ===
         public static bool DeleteTable(int tableId)
         {
-            string query = "DELETE FROM TableCF WHERE TableID = @TableID";
+            string query = "DELETE FROM Tables WHERE TableID = @TableID";
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@TableID", tableId)
