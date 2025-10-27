@@ -36,6 +36,7 @@ namespace QuanLyCF.GUI
         // ===============================
         private void InitializeTablePopupMenu()
         {
+            MessageBox.Show("InitializeTablePopupMenu called.", "Debug");
             pnlTableMenu = new Guna2Panel
             {
                 Size = new Size(190, 170),
@@ -136,6 +137,7 @@ namespace QuanLyCF.GUI
         // ===============================
         private void LoadTablesByArea(int areaId)
         {
+            MessageBox.Show($"LoadTablesByArea called for AreaID: {areaId}", "Debug");
             flpTables.Controls.Clear();
             var tables = TableBUS.GetTablesByArea(areaId);
 
@@ -327,6 +329,7 @@ namespace QuanLyCF.GUI
 
         private void ApplyHoverEffectToAllButtons(Control parent)
         {
+            MessageBox.Show("ApplyHoverEffectToAllButtons called.", "Debug");
             foreach (Control control in parent.Controls)
             {
                 if (control is Guna2Button btn)
@@ -353,6 +356,7 @@ namespace QuanLyCF.GUI
 
         private void ShowTablePopupMenu()
         {
+            MessageBox.Show("ShowTablePopupMenu called.", "Debug");
             int x = (this.ClientSize.Width - pnlTableMenu.Width) / 2;
             int y = (this.ClientSize.Height - pnlTableMenu.Height) / 2;
             pnlTableMenu.Location = new Point(x, y);
