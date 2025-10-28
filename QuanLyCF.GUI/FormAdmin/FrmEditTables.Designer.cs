@@ -37,24 +37,6 @@ namespace QuanLyCF.GUI
             this.panelLeft.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnCancelEdit
-            // 
-            this.btnCancelEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelEdit.BorderRadius = 12;
-            this.btnCancelEdit.FillColor = System.Drawing.Color.Gray;
-            this.btnCancelEdit.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.btnCancelEdit.ForeColor = System.Drawing.Color.White;
-            this.btnCancelEdit.Location = new System.Drawing.Point(780, 685);
-            this.btnCancelEdit.Name = "btnCancelEdit";
-            this.btnCancelEdit.Size = new System.Drawing.Size(140, 45);
-            this.btnCancelEdit.TabIndex = 2;
-            this.btnCancelEdit.Text = "❌ Hủy";
-            this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
-            // 
-            // btnAddTable
-            // 
-            this.btnAddTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            // 
             // panelLeft
             // 
             this.panelLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
@@ -97,14 +79,30 @@ namespace QuanLyCF.GUI
             this.flpTables.Size = new System.Drawing.Size(1095, 690);
             this.flpTables.TabIndex = 0;
             // 
+            // btnCancelEdit
+            // 
+            this.btnCancelEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(31)))));
+            this.btnCancelEdit.BorderRadius = 20;
+            this.btnCancelEdit.FillColor = System.Drawing.Color.Gray;
+            this.btnCancelEdit.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnCancelEdit.ForeColor = System.Drawing.Color.White;
+            this.btnCancelEdit.Location = new System.Drawing.Point(793, 685);
+            this.btnCancelEdit.Name = "btnCancelEdit";
+            this.btnCancelEdit.Size = new System.Drawing.Size(140, 45);
+            this.btnCancelEdit.TabIndex = 2;
+            this.btnCancelEdit.Text = "❌ Hủy";
+            this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
+            // 
             // btnAddTable
             // 
             this.btnAddTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTable.BorderRadius = 12;
+            this.btnAddTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(31)))));
+            this.btnAddTable.BorderRadius = 20;
             this.btnAddTable.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(180)))), ((int)(((byte)(140)))));
             this.btnAddTable.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnAddTable.ForeColor = System.Drawing.Color.White;
-            this.btnAddTable.Location = new System.Drawing.Point(930, 685);
+            this.btnAddTable.Location = new System.Drawing.Point(942, 685);
             this.btnAddTable.Name = "btnAddTable";
             this.btnAddTable.Size = new System.Drawing.Size(150, 45);
             this.btnAddTable.TabIndex = 0;
@@ -114,7 +112,8 @@ namespace QuanLyCF.GUI
             // btnDeleteTable
             // 
             this.btnDeleteTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeleteTable.BorderRadius = 12;
+            this.btnDeleteTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(31)))));
+            this.btnDeleteTable.BorderRadius = 20;
             this.btnDeleteTable.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(96)))), ((int)(((byte)(90)))));
             this.btnDeleteTable.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnDeleteTable.ForeColor = System.Drawing.Color.White;
