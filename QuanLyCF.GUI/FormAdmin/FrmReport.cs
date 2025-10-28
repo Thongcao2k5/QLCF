@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -12,6 +13,17 @@ namespace QuanLyCF.GUI.FormAdmin
     public partial class FrmReport : Form
     {
         private Form previousForm;
+
+        private string FormatCurrency(decimal amount)
+        {
+            var nfi = new System.Globalization.NumberFormatInfo
+            {
+                NumberGroupSeparator = ".",
+                NumberDecimalSeparator = ",",
+                NumberDecimalDigits = 0
+            };
+            return amount.ToString("N", nfi) + " đồng";
+        }
 
         public FrmReport(Form prevForm)
         {
@@ -29,6 +41,7 @@ namespace QuanLyCF.GUI.FormAdmin
             cmbDrinkCate.DropDown += new EventHandler(AdjustComboBoxDropDownWidth);
             cmdStaff.DropDown += new EventHandler(AdjustComboBoxDropDownWidth);
             cmbTypeChar.DropDown += new EventHandler(AdjustComboBoxDropDownWidth);
+            dgvOrder.CellFormatting += dgvOrder_CellFormatting;
         }
 
         private void AdjustComboBoxDropDownWidth(object sender, EventArgs e)
@@ -92,7 +105,7 @@ namespace QuanLyCF.GUI.FormAdmin
 
             // Show labels on columns
             chartRevenue.Series[0].IsValueShownAsLabel = true;
-            chartRevenue.Series[0].LabelFormat = "N0";
+            chartRevenue.Series[0].LabelFormat = "#,0 đồng";
             chartSumBill.Series[0].IsValueShownAsLabel = true;
 
             string chartType = cmbTypeChar.SelectedItem.ToString();
@@ -123,7 +136,7 @@ namespace QuanLyCF.GUI.FormAdmin
                 foreach (var item in dailyRevenue)
                 {
                     int pointIndex = chartRevenue.Series[0].Points.AddXY(item.Date.ToString("dd/MM"), item.Revenue);
-                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {item.Revenue:N0} VNĐ";
+                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {FormatCurrency(item.Revenue)}";
                 }
                 foreach (var item in dailyBills)
                 {
@@ -146,7 +159,7 @@ namespace QuanLyCF.GUI.FormAdmin
                 foreach (var item in monthlyRevenue)
                 {
                     int pointIndex = chartRevenue.Series[0].Points.AddXY(item.YearMonth.ToString("MM/yyyy"), item.Revenue);
-                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {item.Revenue:N0} VNĐ";
+                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {FormatCurrency(item.Revenue)}";
                 }
                 foreach (var item in monthlyBills)
                 {
@@ -169,7 +182,7 @@ namespace QuanLyCF.GUI.FormAdmin
                 foreach (var item in yearlyRevenue)
                 {
                     int pointIndex = chartRevenue.Series[0].Points.AddXY(item.Year.ToString(), item.Revenue);
-                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {item.Revenue:N0} VNĐ";
+                    chartRevenue.Series[0].Points[pointIndex].ToolTip = $"Doanh thu: {FormatCurrency(item.Revenue)}";
                 }
                 foreach (var item in yearlyBills)
                 {
@@ -264,6 +277,19 @@ namespace QuanLyCF.GUI.FormAdmin
         private void FrmReport_FormClosed(object sender, FormClosedEventArgs e)
         {
             previousForm?.Show();
+        }
+
+        private void dgvOrder_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.Value != null && e.Value is decimal)
+            {
+                string[] currencyColumns = { "UnitPrice", "TotalAmount", "Discount", "FinalAmount" };
+                if (currencyColumns.Contains(dgvOrder.Columns[e.ColumnIndex].DataPropertyName))
+                {
+                    e.Value = FormatCurrency((decimal)e.Value);
+                    e.FormattingApplied = true;
+                }
+            }
         }
     }
 }

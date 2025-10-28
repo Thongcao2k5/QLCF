@@ -29,6 +29,29 @@ namespace QuanLyCF.GUI
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmBill_FormClosed);
         }
 
+        private decimal ParseCurrency(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return 0;
+            var nfi = new System.Globalization.NumberFormatInfo
+            {
+                NumberGroupSeparator = ".",
+                NumberDecimalSeparator = ","
+            };
+            decimal.TryParse(text.Replace(" đồng", ""), System.Globalization.NumberStyles.Any, nfi, out decimal result);
+            return result;
+        }
+
+        private string FormatCurrency(decimal amount)
+        {
+            var nfi = new System.Globalization.NumberFormatInfo
+            {
+                NumberGroupSeparator = ".",
+                NumberDecimalSeparator = ",",
+                NumberDecimalDigits = 0
+            };
+            return amount.ToString("N", nfi) + " đồng";
+        }
+
         private void FrmBill_Load(object sender, EventArgs e)
         {
             try
@@ -63,9 +86,9 @@ namespace QuanLyCF.GUI
                     decimal discount = order.Table.Columns.Contains("Discount") && !Convert.IsDBNull(order["Discount"]) ? Convert.ToDecimal(order["Discount"]) : 0;
                     decimal finalAmount = order.Table.Columns.Contains("FinalAmount") && !Convert.IsDBNull(order["FinalAmount"]) ? Convert.ToDecimal(order["FinalAmount"]) : 0;
 
-                    txtTongTien.Text = total.ToString("N0", new CultureInfo("en-US"));
-                    txtGiamGia.Text = discount.ToString("N0", new CultureInfo("en-US"));
-                    txtThanhTien.Text = finalAmount.ToString("N0", new CultureInfo("en-US"));
+                    txtTongTien.Text = FormatCurrency(total);
+                    txtGiamGia.Text = FormatCurrency(discount);
+                    txtThanhTien.Text = FormatCurrency(finalAmount);
                 }
                 else
                 {
@@ -86,7 +109,7 @@ namespace QuanLyCF.GUI
             {
                 if (e.Value != null && e.Value is decimal)
                 {
-                    e.Value = ((decimal)e.Value).ToString("N0", new CultureInfo("en-US"));
+                    e.Value = FormatCurrency((decimal)e.Value);
                     e.FormattingApplied = true;
                 }
             }
@@ -94,26 +117,16 @@ namespace QuanLyCF.GUI
 
         private void txtGiamGia_TextChanged(object sender, EventArgs e)
         {
-            if (decimal.TryParse(txtTongTien.Text, NumberStyles.Any, new CultureInfo("en-US"), out decimal tongTien) &&
-                decimal.TryParse(txtGiamGia.Text, NumberStyles.Any, new CultureInfo("en-US"), out decimal giamGia))
-            {
-                txtThanhTien.Text = (tongTien - giamGia).ToString("N0", new CultureInfo("en-US"));
-            }
+            decimal tongTien = ParseCurrency(txtTongTien.Text);
+            decimal giamGia = ParseCurrency(txtGiamGia.Text);
+            txtThanhTien.Text = FormatCurrency(tongTien - giamGia);
         }
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
             // 1. Get final discount and totals from UI
-            if (!decimal.TryParse(txtTongTien.Text, NumberStyles.Any, new CultureInfo("en-US"), out decimal total))
-            {
-                MessageBox.Show("Tổng tiền không hợp lệ!");
-                return;
-            }
-            if (!decimal.TryParse(txtGiamGia.Text, NumberStyles.Any, new CultureInfo("en-US"), out decimal discount))
-            {
-                discount = 0;
-            }
-
+            decimal total = ParseCurrency(txtTongTien.Text);
+            decimal discount = ParseCurrency(txtGiamGia.Text);
             decimal finalAmount = total - discount;
 
             try
@@ -245,7 +258,7 @@ namespace QuanLyCF.GUI
                     SizeF itemNameSize = g.MeasureString(name, font, 170);
 
                     g.DrawString(quantity.ToString(), font, new SolidBrush(Color.Black), startX + 185, startY + offset);
-                    g.DrawString(total.ToString("N0"), font, new SolidBrush(Color.Black), startX + 230, startY + offset);
+                    g.DrawString(FormatCurrency(total), font, new SolidBrush(Color.Black), startX + 230, startY + offset);
                     offset += (int)Math.Max(itemNameSize.Height, fontHeight) + 5;
                 }
 

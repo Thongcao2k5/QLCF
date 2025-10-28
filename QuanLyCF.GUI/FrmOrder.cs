@@ -343,7 +343,7 @@ namespace QuanLyCF.GUI
 
         private void BtnStaff_Click(object sender, EventArgs e)
         {
-            FrmStaff frmStaff = new FrmStaff(_loginForm);
+            FrmStaff frmStaff = new FrmStaff(this);
             this.Hide();
             frmStaff.Show();
         }

@@ -22,6 +22,29 @@ namespace QuanLyCF.GUI
         private Action onOrderSaved;
         private Form previousForm;
 
+        private decimal ParseCurrency(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return 0;
+            var nfi = new System.Globalization.NumberFormatInfo
+            {
+                NumberGroupSeparator = ".",
+                NumberDecimalSeparator = ","
+            };
+            decimal.TryParse(text.Replace(" đồng", ""), System.Globalization.NumberStyles.Any, nfi, out decimal result);
+            return result;
+        }
+
+        private string FormatCurrency(decimal amount)
+        {
+            var nfi = new System.Globalization.NumberFormatInfo
+            {
+                NumberGroupSeparator = ".",
+                NumberDecimalSeparator = ",",
+                NumberDecimalDigits = 0
+            };
+            return amount.ToString("N", nfi) + " đồng";
+        }
+
         public FrmMenu(Form prevForm, int tableId, Action callback = null)
         {
             InitializeComponent();
@@ -83,6 +106,7 @@ namespace QuanLyCF.GUI
 
             // Attach event handler
             dgvOrder.CellValueChanged += dgvOrder_CellValueChanged;
+            dgvOrder.CellFormatting += dgvOrder_CellFormatting;
         }
 
         // ======================= LOAD DRINKS =======================
@@ -162,7 +186,7 @@ namespace QuanLyCF.GUI
                 Label lbl = new Label
                 {
                     Dock = DockStyle.Fill,
-                    Text = $"{drink.DrinkName}\n{drink.Price:N0},000 đ",
+                    Text = $"{drink.DrinkName}\n{FormatCurrency(drink.Price)}",
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Italic),
                     ForeColor = Color.FromArgb(50, 30, 20),
@@ -246,12 +270,11 @@ namespace QuanLyCF.GUI
                     totalAmount += Convert.ToDecimal(row.Cells["colPrice"].Value);
             }
 
-            decimal discount = 0;
-            decimal.TryParse(txtDiscount.Text, out discount);
+            decimal discount = ParseCurrency(txtDiscount.Text);
             decimal finalAmount = totalAmount - discount;
             if (finalAmount < 0) finalAmount = 0;
 
-            lblTotal.Text = $"Tổng tiền: {finalAmount:N0} đ";
+            lblTotal.Text = $"Tổng tiền: {FormatCurrency(finalAmount)}";
         }
 
         // ======================= LƯU ORDER =======================
@@ -263,7 +286,7 @@ namespace QuanLyCF.GUI
                 return false;
             }
 
-            decimal.TryParse(txtDiscount.Text, out decimal discount);
+            decimal discount = ParseCurrency(txtDiscount.Text);
             decimal finalAmount = totalAmount - discount;
 
             if (pendingOrderId == -1) // Create new pending order
@@ -431,6 +454,15 @@ namespace QuanLyCF.GUI
 
             // Update the grand total
             UpdateTotal();
+        }
+
+        private void dgvOrder_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == dgvOrder.Columns["colPrice"].Index && e.Value != null && e.Value is decimal)
+            {
+                e.Value = FormatCurrency((decimal)e.Value);
+                e.FormattingApplied = true;
+            }
         }
     }
 
