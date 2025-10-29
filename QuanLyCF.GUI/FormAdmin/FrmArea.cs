@@ -42,45 +42,45 @@ namespace QuanLyCF.GUI.FormAdmin
 
             dgvArea.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Mã khu vực",
+                HeaderText = "Mã Khu Vực",
                 DataPropertyName = "AreaID",
                 Name = "colID",
-                Width = 120
+                Width = 150
             });
 
             dgvArea.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Tên khu vực",
+                HeaderText = "Tên Khu Vực",
                 DataPropertyName = "AreaName",
                 Name = "colName",
-                Width = 220
+                Width = 250
             });
 
             dgvArea.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Mô tả",
+                HeaderText = "Mô Tả",
                 DataPropertyName = "Description",
                 Name = "colDesc",
-                Width = 300
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
 
             dgvArea.Columns.Add(new DataGridViewButtonColumn
             {
-                HeaderText = "Cập nhật",
-                Text = "✏️ Sửa",
+                HeaderText = "Sửa",
+                Text = "✏️",
                 UseColumnTextForButtonValue = true,
                 Name = "colEdit",
-                Width = 100,
+                Width = 70,
                 FlatStyle = FlatStyle.Flat
             });
 
             dgvArea.Columns.Add(new DataGridViewButtonColumn
             {
                 HeaderText = "Xóa",
-                Text = "🗑️ Xóa",
+                Text = "🗑️",
                 UseColumnTextForButtonValue = true,
                 Name = "colDelete",
-                Width = 100,
+                Width = 70,
                 FlatStyle = FlatStyle.Flat
             });
         }

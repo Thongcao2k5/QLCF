@@ -1,12 +1,8 @@
 using QuanLyCF.BUS;
 using System;
 using System.Data;
-using System.Drawing;
-using System.Globalization;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace QuanLyCF.GUI.FormAdmin
 {

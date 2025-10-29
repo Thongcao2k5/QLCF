@@ -347,5 +347,20 @@ namespace QuanLyCF.GUI
             this.Hide();
             frmStaff.Show();
         }
+
+        private void btnDrink_Click(object sender, EventArgs e)
+        {
+            FrmDrink frmDrink = new FrmDrink();
+            this.Hide();
+            frmDrink.ShowDialog();
+            this.Show();
+        }
+
+        private void btnDinkType_Click(object sender, EventArgs e)
+        {
+            FrmDrinkCategory frm = new FrmDrinkCategory(this);
+            this.Hide();
+            frm.Show();
+        }
     }
 }

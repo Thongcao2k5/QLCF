@@ -23,7 +23,7 @@
             this.buttonUploadImage = new System.Windows.Forms.Button();
             this.panelRight = new System.Windows.Forms.Panel();
             this.guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.btnSetting = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -46,9 +46,9 @@
             this.panelLeft.Controls.Add(this.buttonUploadImage);
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
-            this.panelLeft.Margin = new System.Windows.Forms.Padding(4);
+            this.panelLeft.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(400, 492);
+            this.panelLeft.Size = new System.Drawing.Size(533, 606);
             this.panelLeft.TabIndex = 0;
             // 
             // pictureBoxIllustration
@@ -60,8 +60,9 @@
             this.pictureBoxIllustration.ImageRotate = 0F;
             this.pictureBoxIllustration.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBoxIllustration.InitialImage")));
             this.pictureBoxIllustration.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxIllustration.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBoxIllustration.Name = "pictureBoxIllustration";
-            this.pictureBoxIllustration.Size = new System.Drawing.Size(400, 492);
+            this.pictureBoxIllustration.Size = new System.Drawing.Size(533, 606);
             this.pictureBoxIllustration.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxIllustration.TabIndex = 2;
             this.pictureBoxIllustration.TabStop = false;
@@ -70,10 +71,10 @@
             // buttonUploadImage
             // 
             this.buttonUploadImage.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonUploadImage.Location = new System.Drawing.Point(29, 465);
-            this.buttonUploadImage.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUploadImage.Location = new System.Drawing.Point(39, 572);
+            this.buttonUploadImage.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.buttonUploadImage.Name = "buttonUploadImage";
-            this.buttonUploadImage.Size = new System.Drawing.Size(7, 12);
+            this.buttonUploadImage.Size = new System.Drawing.Size(9, 15);
             this.buttonUploadImage.TabIndex = 1;
             this.buttonUploadImage.Text = "Tải ảnh lên";
             this.buttonUploadImage.UseVisualStyleBackColor = true;
@@ -83,7 +84,7 @@
             // 
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
             this.panelRight.Controls.Add(this.guna2PictureBox2);
-            this.panelRight.Controls.Add(this.guna2HtmlLabel5);
+            this.panelRight.Controls.Add(this.btnSetting);
             this.panelRight.Controls.Add(this.guna2HtmlLabel4);
             this.panelRight.Controls.Add(this.guna2HtmlLabel3);
             this.panelRight.Controls.Add(this.guna2HtmlLabel2);
@@ -94,42 +95,45 @@
             this.panelRight.Controls.Add(this.buttonThuNgan);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelRight.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.panelRight.Location = new System.Drawing.Point(400, 0);
-            this.panelRight.Margin = new System.Windows.Forms.Padding(4);
+            this.panelRight.Location = new System.Drawing.Point(533, 0);
+            this.panelRight.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(533, 492);
+            this.panelRight.Size = new System.Drawing.Size(711, 606);
             this.panelRight.TabIndex = 1;
             // 
             // guna2PictureBox2
             // 
             this.guna2PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox2.Image")));
             this.guna2PictureBox2.ImageRotate = 0F;
-            this.guna2PictureBox2.Location = new System.Drawing.Point(2, 461);
+            this.guna2PictureBox2.Location = new System.Drawing.Point(3, 567);
+            this.guna2PictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2PictureBox2.Name = "guna2PictureBox2";
-            this.guna2PictureBox2.Size = new System.Drawing.Size(28, 28);
+            this.guna2PictureBox2.Size = new System.Drawing.Size(37, 34);
             this.guna2PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.guna2PictureBox2.TabIndex = 16;
             this.guna2PictureBox2.TabStop = false;
             // 
-            // guna2HtmlLabel5
+            // btnSetting
             // 
-            this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
-            this.guna2HtmlLabel5.Location = new System.Drawing.Point(28, 467);
-            this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            this.guna2HtmlLabel5.Size = new System.Drawing.Size(44, 15);
-            this.guna2HtmlLabel5.TabIndex = 15;
-            this.guna2HtmlLabel5.Text = "Cài đặt";
+            this.btnSetting.BackColor = System.Drawing.Color.Transparent;
+            this.btnSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.btnSetting.Location = new System.Drawing.Point(37, 575);
+            this.btnSetting.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSetting.Name = "btnSetting";
+            this.btnSetting.Size = new System.Drawing.Size(52, 18);
+            this.btnSetting.TabIndex = 15;
+            this.btnSetting.Text = "Cài đặt";
             // 
             // guna2HtmlLabel4
             // 
             this.guna2HtmlLabel4.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2HtmlLabel4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.guna2HtmlLabel4.Location = new System.Drawing.Point(85, 175);
+            this.guna2HtmlLabel4.Location = new System.Drawing.Point(113, 215);
+            this.guna2HtmlLabel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            this.guna2HtmlLabel4.Size = new System.Drawing.Size(284, 22);
+            this.guna2HtmlLabel4.Size = new System.Drawing.Size(361, 28);
             this.guna2HtmlLabel4.TabIndex = 14;
             this.guna2HtmlLabel4.Text = "hãy đăng nhập tài khoản của bạn!";
             // 
@@ -138,9 +142,10 @@
             this.guna2HtmlLabel3.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2HtmlLabel3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.guna2HtmlLabel3.Location = new System.Drawing.Point(85, 141);
+            this.guna2HtmlLabel3.Location = new System.Drawing.Point(113, 174);
+            this.guna2HtmlLabel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            this.guna2HtmlLabel3.Size = new System.Drawing.Size(172, 22);
+            this.guna2HtmlLabel3.Size = new System.Drawing.Size(219, 28);
             this.guna2HtmlLabel3.TabIndex = 13;
             this.guna2HtmlLabel3.Text = "Chào mừng quản trị, ";
             // 
@@ -149,9 +154,10 @@
             this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2HtmlLabel2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(310, 331);
+            this.guna2HtmlLabel2.Location = new System.Drawing.Point(413, 407);
+            this.guna2HtmlLabel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(116, 22);
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(143, 27);
             this.guna2HtmlLabel2.TabIndex = 12;
             this.guna2HtmlLabel2.Text = "Quên mật khẩu!";
             // 
@@ -160,9 +166,10 @@
             this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2HtmlLabel1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.guna2HtmlLabel1.Location = new System.Drawing.Point(85, 331);
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(113, 407);
+            this.guna2HtmlLabel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(131, 22);
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(159, 27);
             this.guna2HtmlLabel1.TabIndex = 11;
             this.guna2HtmlLabel1.Text = "Hiển thị mật khẩu!";
             this.guna2HtmlLabel1.Click += new System.EventHandler(this.labelEyeIcon_Click);
@@ -180,12 +187,12 @@
             this.textBoxPassword.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.textBoxPassword.ForeColor = System.Drawing.Color.Black;
             this.textBoxPassword.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.textBoxPassword.Location = new System.Drawing.Point(85, 266);
-            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.textBoxPassword.Location = new System.Drawing.Point(113, 327);
+            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(8, 10, 8, 10);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PlaceholderText = "Mật khẩu";
             this.textBoxPassword.SelectedText = "";
-            this.textBoxPassword.Size = new System.Drawing.Size(361, 54);
+            this.textBoxPassword.Size = new System.Drawing.Size(481, 66);
             this.textBoxPassword.TabIndex = 10;
             this.textBoxPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxPassword.TextOffset = new System.Drawing.Point(10, 2);
@@ -204,12 +211,12 @@
             this.textBoxUsername.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.textBoxUsername.ForeColor = System.Drawing.Color.Black;
             this.textBoxUsername.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.textBoxUsername.Location = new System.Drawing.Point(85, 212);
-            this.textBoxUsername.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.textBoxUsername.Location = new System.Drawing.Point(113, 261);
+            this.textBoxUsername.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.PlaceholderText = "Tên đăng nhập";
             this.textBoxUsername.SelectedText = "";
-            this.textBoxUsername.Size = new System.Drawing.Size(360, 50);
+            this.textBoxUsername.Size = new System.Drawing.Size(480, 62);
             this.textBoxUsername.TabIndex = 9;
             this.textBoxUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBoxUsername.TextOffset = new System.Drawing.Point(10, 2);
@@ -218,9 +225,10 @@
             // 
             this.guna2PictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox1.Image")));
             this.guna2PictureBox1.ImageRotate = 0F;
-            this.guna2PictureBox1.Location = new System.Drawing.Point(310, 49);
+            this.guna2PictureBox1.Location = new System.Drawing.Point(413, 60);
+            this.guna2PictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2PictureBox1.Name = "guna2PictureBox1";
-            this.guna2PictureBox1.Size = new System.Drawing.Size(133, 120);
+            this.guna2PictureBox1.Size = new System.Drawing.Size(177, 148);
             this.guna2PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.guna2PictureBox1.TabIndex = 8;
             this.guna2PictureBox1.TabStop = false;
@@ -235,26 +243,27 @@
             this.buttonThuNgan.FillColor = System.Drawing.SystemColors.ControlLight;
             this.buttonThuNgan.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.buttonThuNgan.ForeColor = System.Drawing.Color.Black;
-            this.buttonThuNgan.Location = new System.Drawing.Point(178, 386);
+            this.buttonThuNgan.Location = new System.Drawing.Point(237, 475);
+            this.buttonThuNgan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonThuNgan.Name = "buttonThuNgan";
-            this.buttonThuNgan.Size = new System.Drawing.Size(195, 52);
+            this.buttonThuNgan.Size = new System.Drawing.Size(260, 64);
             this.buttonThuNgan.TabIndex = 2;
             this.buttonThuNgan.Text = "Đăng nhập";
             this.buttonThuNgan.Click += new System.EventHandler(this.buttonThuNgan_Click);
             // 
             // FormDangNhap
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(30)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(933, 492);
+            this.ClientSize = new System.Drawing.Size(1244, 606);
             this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelLeft);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MaximizeBox = false;
             this.Name = "FormDangNhap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -285,6 +294,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel5;
+        private Guna.UI2.WinForms.Guna2HtmlLabel btnSetting;
     }
 }

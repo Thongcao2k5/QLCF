@@ -18,7 +18,6 @@ namespace QuanLyCF.GUI
         private decimal totalAmount = 0;
         private List<DrinkDTO> drinks;
         private List<DrinkDTO> filteredDrinks;
-        private readonly string imageFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\"));
         private Action onOrderSaved;
         private Form previousForm;
 
@@ -112,16 +111,18 @@ namespace QuanLyCF.GUI
         // ======================= LOAD DRINKS =======================
         private void LoadDrinks()
         {
-            drinks = DrinkBUS.GetAllDrinks().Select(d => new DrinkDTO
-            {
-                DrinkID = d.DrinkID,
-                DrinkName = d.DrinkName,
-                CategoryID = d.CategoryID,
-                Price = d.Price,
-                ImagePath = d.ImagePath,
-                IsAvailable = d.IsAvailable,
-                CreatedDate = d.CreatedDate
-            }).ToList();
+            drinks = DrinkBUS.GetAllDrinks()
+                .Where(d => d.IsAvailable)
+                .Select(d => new DrinkDTO
+                {
+                    DrinkID = d.DrinkID,
+                    DrinkName = d.DrinkName,
+                    CategoryID = d.CategoryID,
+                    Price = d.Price,
+                    ImagePath = d.ImagePath,
+                    IsAvailable = d.IsAvailable,
+                    CreatedDate = d.CreatedDate
+                }).ToList();
             filteredDrinks = new List<DrinkDTO>(drinks);
         }
 
@@ -205,13 +206,13 @@ namespace QuanLyCF.GUI
         private string GetImagePath(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
-                return Path.Combine(imageFolder, "error_image.png");
+                return Path.Combine(AppSettings.ImageFolder, "error_image.png");
 
-            var fullPath = Path.Combine(imageFolder, fileName);
+            var fullPath = Path.Combine(AppSettings.ImageFolder, fileName);
 
             return File.Exists(fullPath)
                 ? fullPath
-                : Path.Combine(imageFolder, "error_image.png");
+                : Path.Combine(AppSettings.ImageFolder, "error_image.png");
         }
 
         // ======================= LOAD HÌNH ẢNH AN TOÀN =======================

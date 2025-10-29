@@ -6,6 +6,8 @@ namespace QuanLyCF.BUS
 {
     public class StaffBUS
     {
+        public static object Instance;
+
         public static DataTable GetAllStaff()
             => StaffDAO.Instance.GetAll();
 

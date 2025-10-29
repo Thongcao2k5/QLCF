@@ -41,6 +41,8 @@ namespace QuanLyCF.GUI
         public static readonly string soundFolder = Path.GetFullPath(
     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\Sound\"));
 
+        public static readonly string ImageFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\"));
+
         // === Hàm gốc dùng chung ===
         private static async Task ShowToastInternal(this Form form, string message, Color backColor, int durationMs = 2000)
         {

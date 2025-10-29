@@ -13,13 +13,11 @@ namespace QuanLyCF.GUI
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.panelMain = new Guna.UI2.WinForms.Guna2Panel();
             this.btnExit = new Guna.UI2.WinForms.Guna2Button();
-            this.dtpBirth = new Guna.UI2.WinForms.Guna2DateTimePicker();
-            this.txtSearchName = new Guna.UI2.WinForms.Guna2TextBox();
+            this.picAvatar = new System.Windows.Forms.PictureBox();
             this.btnChooseImage = new Guna.UI2.WinForms.Guna2Button();
-            this.txtFullName = new Guna.UI2.WinForms.Guna2TextBox();
+            this.txtSearchName = new Guna.UI2.WinForms.Guna2TextBox();
             this.btnSearch = new Guna.UI2.WinForms.Guna2Button();
             this.cboGender = new Guna.UI2.WinForms.Guna2ComboBox();
             this.dgvStaff = new System.Windows.Forms.DataGridView();
@@ -32,10 +30,11 @@ namespace QuanLyCF.GUI
             this.btnNew = new Guna.UI2.WinForms.Guna2Button();
             this.chkWorking = new Guna.UI2.WinForms.Guna2CheckBox();
             this.txtSalary = new Guna.UI2.WinForms.Guna2TextBox();
-            this.picAvatar = new System.Windows.Forms.PictureBox();
+            this.txtFullName = new Guna.UI2.WinForms.Guna2TextBox();
+            this.dtpBirth = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.panelMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
@@ -81,21 +80,30 @@ namespace QuanLyCF.GUI
             this.btnExit.Text = "Thoát";
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // dtpBirth
+            // picAvatar
             // 
-            this.dtpBirth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
-            this.dtpBirth.BorderRadius = 16;
-            this.dtpBirth.Checked = true;
-            this.dtpBirth.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
-            this.dtpBirth.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.dtpBirth.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            this.dtpBirth.Location = new System.Drawing.Point(201, 183);
-            this.dtpBirth.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
-            this.dtpBirth.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
-            this.dtpBirth.Name = "dtpBirth";
-            this.dtpBirth.Size = new System.Drawing.Size(230, 36);
-            this.dtpBirth.TabIndex = 15;
-            this.dtpBirth.Value = new System.DateTime(2025, 10, 28, 10, 45, 48, 518);
+            this.picAvatar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(220)))), ((int)(((byte)(202)))));
+            this.picAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picAvatar.Location = new System.Drawing.Point(45, 135);
+            this.picAvatar.Name = "picAvatar";
+            this.picAvatar.Size = new System.Drawing.Size(140, 140);
+            this.picAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picAvatar.TabIndex = 0;
+            this.picAvatar.TabStop = false;
+            // 
+            // btnChooseImage
+            // 
+            this.btnChooseImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
+            this.btnChooseImage.BorderRadius = 16;
+            this.btnChooseImage.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(50)))), ((int)(((byte)(35)))));
+            this.btnChooseImage.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.btnChooseImage.ForeColor = System.Drawing.Color.White;
+            this.btnChooseImage.Location = new System.Drawing.Point(45, 283);
+            this.btnChooseImage.Name = "btnChooseImage";
+            this.btnChooseImage.Size = new System.Drawing.Size(140, 40);
+            this.btnChooseImage.TabIndex = 1;
+            this.btnChooseImage.Text = "Chọn ảnh";
+            this.btnChooseImage.Click += new System.EventHandler(this.btnChooseImage_Click);
             // 
             // txtSearchName
             // 
@@ -112,36 +120,7 @@ namespace QuanLyCF.GUI
             this.txtSearchName.SelectedText = "";
             this.txtSearchName.Size = new System.Drawing.Size(230, 36);
             this.txtSearchName.TabIndex = 17;
-            // 
-            // btnChooseImage
-            // 
-            this.btnChooseImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
-            this.btnChooseImage.BorderRadius = 16;
-            this.btnChooseImage.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(50)))), ((int)(((byte)(35)))));
-            this.btnChooseImage.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.btnChooseImage.ForeColor = System.Drawing.Color.White;
-            this.btnChooseImage.Location = new System.Drawing.Point(45, 283);
-            this.btnChooseImage.Name = "btnChooseImage";
-            this.btnChooseImage.Size = new System.Drawing.Size(140, 40);
-            this.btnChooseImage.TabIndex = 1;
-            this.btnChooseImage.Text = "Chọn ảnh";
-            this.btnChooseImage.Click += new System.EventHandler(this.btnChooseImage_Click);
-            // 
-            // txtFullName
-            // 
-            this.txtFullName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
-            this.txtFullName.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
-            this.txtFullName.BorderRadius = 16;
-            this.txtFullName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtFullName.DefaultText = "";
-            this.txtFullName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.txtFullName.Location = new System.Drawing.Point(201, 135);
-            this.txtFullName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtFullName.Name = "txtFullName";
-            this.txtFullName.PlaceholderText = "Họ và tên";
-            this.txtFullName.SelectedText = "";
-            this.txtFullName.Size = new System.Drawing.Size(230, 36);
-            this.txtFullName.TabIndex = 2;
+            this.txtSearchName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearchName_KeyDown);
             // 
             // btnSearch
             // 
@@ -299,7 +278,7 @@ namespace QuanLyCF.GUI
             this.chkWorking.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkWorking.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkWorking.ForeColor = System.Drawing.Color.White;
-            this.chkWorking.Location = new System.Drawing.Point(288, 604);
+            this.chkWorking.Location = new System.Drawing.Point(288, 557);
             this.chkWorking.Name = "chkWorking";
             this.chkWorking.Size = new System.Drawing.Size(143, 36);
             this.chkWorking.TabIndex = 11;
@@ -315,7 +294,7 @@ namespace QuanLyCF.GUI
             this.txtSalary.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSalary.DefaultText = "";
             this.txtSalary.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.txtSalary.Location = new System.Drawing.Point(45, 604);
+            this.txtSalary.Location = new System.Drawing.Point(45, 557);
             this.txtSalary.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSalary.Name = "txtSalary";
             this.txtSalary.PlaceholderText = "Mức lương";
@@ -323,16 +302,37 @@ namespace QuanLyCF.GUI
             this.txtSalary.Size = new System.Drawing.Size(180, 36);
             this.txtSalary.TabIndex = 10;
             // 
-            // picAvatar
+            // txtFullName
             // 
-            this.picAvatar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(220)))), ((int)(((byte)(202)))));
-            this.picAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picAvatar.Location = new System.Drawing.Point(45, 135);
-            this.picAvatar.Name = "picAvatar";
-            this.picAvatar.Size = new System.Drawing.Size(140, 140);
-            this.picAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picAvatar.TabIndex = 0;
-            this.picAvatar.TabStop = false;
+            this.txtFullName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
+            this.txtFullName.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
+            this.txtFullName.BorderRadius = 16;
+            this.txtFullName.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtFullName.DefaultText = "";
+            this.txtFullName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.txtFullName.Location = new System.Drawing.Point(201, 135);
+            this.txtFullName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtFullName.Name = "txtFullName";
+            this.txtFullName.PlaceholderText = "Họ và tên";
+            this.txtFullName.SelectedText = "";
+            this.txtFullName.Size = new System.Drawing.Size(230, 36);
+            this.txtFullName.TabIndex = 2;
+            // 
+            // dtpBirth
+            // 
+            this.dtpBirth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(30)))));
+            this.dtpBirth.BorderRadius = 16;
+            this.dtpBirth.Checked = true;
+            this.dtpBirth.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.dtpBirth.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dtpBirth.Format = System.Windows.Forms.DateTimePickerFormat.Long;
+            this.dtpBirth.Location = new System.Drawing.Point(201, 183);
+            this.dtpBirth.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
+            this.dtpBirth.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
+            this.dtpBirth.Name = "dtpBirth";
+            this.dtpBirth.Size = new System.Drawing.Size(230, 36);
+            this.dtpBirth.TabIndex = 15;
+            this.dtpBirth.Value = new System.DateTime(2025, 10, 28, 10, 45, 48, 518);
             // 
             // FrmStaff
             // 
@@ -344,8 +344,8 @@ namespace QuanLyCF.GUI
             this.Text = "Quản lý nhân sự";
             this.Load += new System.EventHandler(this.FrmStaff_Load);
             this.panelMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).EndInit();
             this.ResumeLayout(false);
 
         }

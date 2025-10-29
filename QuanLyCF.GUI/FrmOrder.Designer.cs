@@ -77,12 +77,12 @@ namespace QuanLyCF.GUI
             this.panelLeft = new System.Windows.Forms.Panel();
             this.btnVuon = new Guna.UI2.WinForms.Guna2Button();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.btnUser = new Guna.UI2.WinForms.Guna2Button();
+            this.btnDinkType = new Guna.UI2.WinForms.Guna2Button();
             this.lblLogout = new Guna.UI2.WinForms.Guna2Button();
             this.btnArea = new Guna.UI2.WinForms.Guna2Button();
             this.btnReport = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
+            this.btnDrink = new Guna.UI2.WinForms.Guna2Button();
             this.BtnStaff = new Guna.UI2.WinForms.Guna2Button();
             this.BtnEditTables = new Guna.UI2.WinForms.Guna2Button();
             this.btnStore = new Guna.UI2.WinForms.Guna2Button();
@@ -116,12 +116,12 @@ namespace QuanLyCF.GUI
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
-            this.panelTop.Controls.Add(this.guna2Button6);
-            this.panelTop.Controls.Add(this.guna2Button1);
+            this.panelTop.Controls.Add(this.btnUser);
+            this.panelTop.Controls.Add(this.btnDinkType);
             this.panelTop.Controls.Add(this.lblLogout);
             this.panelTop.Controls.Add(this.btnArea);
             this.panelTop.Controls.Add(this.btnReport);
-            this.panelTop.Controls.Add(this.guna2Button5);
+            this.panelTop.Controls.Add(this.btnDrink);
             this.panelTop.Controls.Add(this.BtnStaff);
             this.panelTop.Controls.Add(this.BtnEditTables);
             this.panelTop.Controls.Add(this.btnStore);
@@ -131,32 +131,33 @@ namespace QuanLyCF.GUI
             this.panelTop.Size = new System.Drawing.Size(1260, 60);
             this.panelTop.TabIndex = 2;
             // 
-            // guna2Button6
+            // btnUser
             // 
-            this.guna2Button6.BorderRadius = 20;
-            this.guna2Button6.FillColor = System.Drawing.Color.White;
-            this.guna2Button6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.guna2Button6.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button6.Location = new System.Drawing.Point(8, 9);
-            this.guna2Button6.Name = "guna2Button6";
-            this.guna2Button6.Size = new System.Drawing.Size(112, 42);
-            this.guna2Button6.TabIndex = 12;
-            this.guna2Button6.Text = "Tài khoản";
+            this.btnUser.BorderRadius = 20;
+            this.btnUser.FillColor = System.Drawing.Color.White;
+            this.btnUser.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.btnUser.ForeColor = System.Drawing.Color.Black;
+            this.btnUser.Location = new System.Drawing.Point(8, 9);
+            this.btnUser.Name = "btnUser";
+            this.btnUser.Size = new System.Drawing.Size(112, 42);
+            this.btnUser.TabIndex = 12;
+            this.btnUser.Text = "Tài khoản";
             // 
-            // guna2Button1
+            // btnDinkType
             // 
-            this.guna2Button1.BorderRadius = 20;
-            this.guna2Button1.FillColor = System.Drawing.Color.White;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.guna2Button1.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button1.Image = ((System.Drawing.Image)(resources.GetObject("guna2Button1.Image")));
-            this.guna2Button1.ImageOffset = new System.Drawing.Point(2, 0);
-            this.guna2Button1.ImageSize = new System.Drawing.Size(24, 24);
-            this.guna2Button1.Location = new System.Drawing.Point(586, 9);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(108, 42);
-            this.guna2Button1.TabIndex = 11;
-            this.guna2Button1.Text = "Loại";
+            this.btnDinkType.BorderRadius = 20;
+            this.btnDinkType.FillColor = System.Drawing.Color.White;
+            this.btnDinkType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.btnDinkType.ForeColor = System.Drawing.Color.Black;
+            this.btnDinkType.Image = ((System.Drawing.Image)(resources.GetObject("btnDinkType.Image")));
+            this.btnDinkType.ImageOffset = new System.Drawing.Point(2, 0);
+            this.btnDinkType.ImageSize = new System.Drawing.Size(24, 24);
+            this.btnDinkType.Location = new System.Drawing.Point(586, 9);
+            this.btnDinkType.Name = "btnDinkType";
+            this.btnDinkType.Size = new System.Drawing.Size(108, 42);
+            this.btnDinkType.TabIndex = 11;
+            this.btnDinkType.Text = "Loại";
+            this.btnDinkType.Click += new System.EventHandler(this.btnDinkType_Click);
             // 
             // lblLogout
             // 
@@ -203,20 +204,21 @@ namespace QuanLyCF.GUI
             this.btnReport.Text = "Report";
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
-            // guna2Button5
+            // btnDrink
             // 
-            this.guna2Button5.BorderRadius = 20;
-            this.guna2Button5.FillColor = System.Drawing.Color.White;
-            this.guna2Button5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.guna2Button5.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button5.Image = ((System.Drawing.Image)(resources.GetObject("guna2Button5.Image")));
-            this.guna2Button5.ImageOffset = new System.Drawing.Point(2, 0);
-            this.guna2Button5.ImageSize = new System.Drawing.Size(24, 24);
-            this.guna2Button5.Location = new System.Drawing.Point(700, 9);
-            this.guna2Button5.Name = "guna2Button5";
-            this.guna2Button5.Size = new System.Drawing.Size(108, 42);
-            this.guna2Button5.TabIndex = 8;
-            this.guna2Button5.Text = "Menu";
+            this.btnDrink.BorderRadius = 20;
+            this.btnDrink.FillColor = System.Drawing.Color.White;
+            this.btnDrink.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.btnDrink.ForeColor = System.Drawing.Color.Black;
+            this.btnDrink.Image = ((System.Drawing.Image)(resources.GetObject("btnDrink.Image")));
+            this.btnDrink.ImageOffset = new System.Drawing.Point(2, 0);
+            this.btnDrink.ImageSize = new System.Drawing.Size(24, 24);
+            this.btnDrink.Location = new System.Drawing.Point(700, 9);
+            this.btnDrink.Name = "btnDrink";
+            this.btnDrink.Size = new System.Drawing.Size(108, 42);
+            this.btnDrink.TabIndex = 8;
+            this.btnDrink.Text = "Menu";
+            this.btnDrink.Click += new System.EventHandler(this.btnDrink_Click);
             // 
             // BtnStaff
             // 
@@ -293,13 +295,13 @@ namespace QuanLyCF.GUI
 
         private Guna.UI2.WinForms.Guna2Button lblLogout;
         private Guna.UI2.WinForms.Guna2Button btnReport;
-        private Guna.UI2.WinForms.Guna2Button guna2Button5;
+        private Guna.UI2.WinForms.Guna2Button btnDrink;
         private Guna.UI2.WinForms.Guna2Button BtnStaff;
         private Guna.UI2.WinForms.Guna2Button BtnEditTables;
         private Guna.UI2.WinForms.Guna2Button btnArea;
         private Guna.UI2.WinForms.Guna2Button btnStore;
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
-        private Guna.UI2.WinForms.Guna2Button guna2Button6;
+        private Guna.UI2.WinForms.Guna2Button btnDinkType;
+        private Guna.UI2.WinForms.Guna2Button btnUser;
     }
 
 

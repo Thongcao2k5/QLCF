@@ -15,5 +15,20 @@ namespace QuanLyCF.BUS
         {
             return DrinkCategoryDAO.GetAllCategories();
         }
+
+        public static bool InsertCategory(string categoryName)
+        {
+            return DrinkCategoryDAO.InsertCategory(categoryName);
+        }
+
+        public static bool UpdateCategory(int categoryId, string categoryName)
+        {
+            return DrinkCategoryDAO.UpdateCategory(categoryId, categoryName);
+        }
+
+        public static bool DeleteCategory(int categoryId)
+        {
+            return DrinkCategoryDAO.DeleteCategory(categoryId);
+        }
     }
 }

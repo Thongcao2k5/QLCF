@@ -11,7 +11,6 @@ namespace QuanLyCF.GUI
     {
         private int selectedStaffId = -1;
         private byte[] currentAvatar = null;
-        private FrmOrder _loginForm;
         private Form previousForm;
         public FrmStaff(Form prevForm)
         {
@@ -200,17 +199,15 @@ namespace QuanLyCF.GUI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string name = txtSearchName.Text.Trim();
-            string role = "";
+            dgvStaff.DataSource = StaffBUS.SearchStaff(txtSearchName.Text, "");
+        }
 
-            DataTable searchResult = StaffBUS.SearchStaff(name, role);
-
-            // Filter out the admin user (UserID = 0) from search results
-            DataView dv = new DataView(searchResult);
-            dv.RowFilter = "UserID <> 0";
-            DataTable filteredSearchResult = dv.ToTable();
-
-            dgvStaff.DataSource = filteredSearchResult;
+        private void txtSearchName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSearch.PerformClick();
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
