@@ -118,6 +118,11 @@ namespace QuanLyCF.GUI
         // ===============================
         private void FrmOrder_Load(object sender, EventArgs e)
         {
+            if (CurrentUser.Role != "0")
+            {
+                BtnStaff.Enabled = false;
+            }
+
             var areas = AreaBUS.GetAllAreas();
             panelLeft.Controls.Clear();
 
@@ -359,6 +364,13 @@ namespace QuanLyCF.GUI
         private void btnDinkType_Click(object sender, EventArgs e)
         {
             FrmDrinkCategory frm = new FrmDrinkCategory(this);
+            this.Hide();
+            frm.Show();
+        }
+
+        private void btnUser_Click(object sender, EventArgs e)
+        {
+            FrmUser frm = new FrmUser(this);
             this.Hide();
             frm.Show();
         }

@@ -32,5 +32,18 @@ namespace QuanLyCF.DAL
             };
             return DataProvider.ExecuteQuery(query, parameters);
         }
+
+        public static int UpdateUserPassword(int userId, string newPassword)
+        {
+            string query = "UPDATE Users SET Password = @Password WHERE UserID = @UserID";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@Password", newPassword),
+                new SqlParameter("@UserID", userId)
+            };
+
+            return DataProvider.ExecuteNonQuery(query, parameters);
+        }
     }
 }

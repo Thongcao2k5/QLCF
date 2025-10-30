@@ -142,6 +142,7 @@ namespace QuanLyCF.GUI
             this.btnUser.Size = new System.Drawing.Size(112, 42);
             this.btnUser.TabIndex = 12;
             this.btnUser.Text = "Tài khoản";
+            this.btnUser.Click += new System.EventHandler(this.btnUser_Click);
             // 
             // btnDinkType
             // 

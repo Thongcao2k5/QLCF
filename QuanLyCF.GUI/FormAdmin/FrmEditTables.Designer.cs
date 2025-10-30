@@ -35,6 +35,7 @@ namespace QuanLyCF.GUI
             this.btnAddTable = new Guna.UI2.WinForms.Guna2Button();
             this.btnDeleteTable = new Guna.UI2.WinForms.Guna2Button();
             this.panelLeft.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelLeft
@@ -62,6 +63,7 @@ namespace QuanLyCF.GUI
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.panelTop.Controls.Add(this.btnCancelEdit);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
@@ -82,16 +84,16 @@ namespace QuanLyCF.GUI
             // btnCancelEdit
             // 
             this.btnCancelEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(31)))));
+            this.btnCancelEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(68)))), ((int)(((byte)(31)))));
             this.btnCancelEdit.BorderRadius = 20;
             this.btnCancelEdit.FillColor = System.Drawing.Color.Gray;
             this.btnCancelEdit.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnCancelEdit.ForeColor = System.Drawing.Color.White;
-            this.btnCancelEdit.Location = new System.Drawing.Point(793, 685);
+            this.btnCancelEdit.Location = new System.Drawing.Point(1100, 9);
             this.btnCancelEdit.Name = "btnCancelEdit";
             this.btnCancelEdit.Size = new System.Drawing.Size(140, 45);
             this.btnCancelEdit.TabIndex = 2;
-            this.btnCancelEdit.Text = "❌ Hủy";
+            this.btnCancelEdit.Text = "❌ Thoát";
             this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
             // 
             // btnAddTable
@@ -127,7 +129,6 @@ namespace QuanLyCF.GUI
             // FrmEditTables
             // 
             this.ClientSize = new System.Drawing.Size(1260, 750);
-            this.Controls.Add(this.btnCancelEdit);
             this.Controls.Add(this.btnAddTable);
             this.Controls.Add(this.btnDeleteTable);
             this.Controls.Add(this.flpTables);
@@ -139,6 +140,7 @@ namespace QuanLyCF.GUI
             this.Text = "Quản lý bàn";
             this.Load += new System.EventHandler(this.FrmEditTables_Load);
             this.panelLeft.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

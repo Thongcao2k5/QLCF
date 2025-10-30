@@ -1,9 +1,10 @@
-﻿using System;
+﻿using QuanLyCF.BUS;
+using QuanLyCF.DAL;
+using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using QuanLyCF.BUS;
 
 namespace QuanLyCF.GUI
 {
@@ -12,6 +13,7 @@ namespace QuanLyCF.GUI
         private int selectedStaffId = -1;
         private byte[] currentAvatar = null;
         private Form previousForm;
+        public static readonly string UserFolder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\QuanLyCF.DAL\Image\User\"));
         public FrmStaff(Form prevForm)
         {
             InitializeComponent();
@@ -126,13 +128,12 @@ namespace QuanLyCF.GUI
             string role = "Nhân viên";
             decimal salary = ParseCurrency(txtSalary.Text);
             bool working = chkWorking.Checked;
-            byte[] avatar = currentAvatar;
 
             bool ok;
             if (selectedStaffId <= 0)
-                ok = StaffBUS.AddStaff(name, gender, birth, idCard, email, phone, address, role, salary, working, avatar);
+                ok = StaffBUS.AddStaff(name, gender, birth, idCard, email, phone, address, role, salary, working, currentAvatar);
             else
-                ok = StaffBUS.UpdateStaff(selectedStaffId, name, gender, birth, idCard, email, phone, address, role, salary, working, avatar);
+                ok = StaffBUS.UpdateStaff(selectedStaffId, name, gender, birth, idCard, email, phone, address, role, salary, working, currentAvatar);
 
             if (ok)
             {
@@ -182,18 +183,22 @@ namespace QuanLyCF.GUI
 
                 if (r["Avatar"] != DBNull.Value)
                 {
-                    byte[] img = (byte[])r["Avatar"];
-                    using (MemoryStream ms = new MemoryStream(img))
+                    string avatarPath = r["Avatar"].ToString();
+                    string fullPath = Path.Combine(UserFolder, avatarPath);
+                    if (File.Exists(fullPath))
                     {
-                        picAvatar.Image = Image.FromStream(ms);
+                        picAvatar.Image = Image.FromFile(fullPath);
                     }
-                    currentAvatar = img;
+                    else
+                    {
+                        picAvatar.Image = null;
+                    }
                 }
                 else
                 {
                     picAvatar.Image = null;
-                    currentAvatar = null;
                 }
+                currentAvatar = null; // Reset current avatar when selecting a new staff
             }
         }
 

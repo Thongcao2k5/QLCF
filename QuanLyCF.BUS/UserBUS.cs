@@ -22,5 +22,10 @@ namespace QuanLyCF.BUS
         {
             return UserDAO.GetUsersByRole(role);
         }
+
+        public static int UpdateUserPassword(int userId, string newPassword)
+        {
+            return UserDAO.UpdateUserPassword(userId, newPassword);
+        }
     }
 }
