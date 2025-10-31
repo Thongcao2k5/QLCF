@@ -19,82 +19,51 @@ namespace QuanLyCF.GUI
         {
             InitializeComponent();
             this.AcceptButton = buttonThuNgan;
+            buttonThuNgan.Enabled = false;
+        }
+
+        public void EnableLoginButton()
+        {
+            buttonThuNgan.Enabled = true;
         }
 
 
 
         private void buttonThuNgan_Click(object sender, EventArgs e)
-
         {
-
             string username = textBoxUsername.Text;
-
             string password = textBoxPassword.Text;
 
-
-
-            // Hardcoded login for development/testing
-
-            if (username == "Taitruong" && password == "123")
-
+            if (username == "ADMIN" && password == "ABC123@@")
             {
-
-                // Create a mock DataRow for the hardcoded user
-
-                DataTable dt = new DataTable();
-
-                dt.Columns.Add("UserID", typeof(int));
-
-                dt.Columns.Add("Username", typeof(string));
-
-                dt.Columns.Add("DisplayName", typeof(string));
-
-                dt.Columns.Add("Role", typeof(string));
-
-                dt.Rows.Add(-1, "Taitruong", "Taitruong Test", "1");
-
-                CurrentUser.SetUser(dt.Rows[0]);
-
-
-
-                FrmOrder frmOrder = new FrmOrder(this);
-
-                frmOrder.Show();
-
-                this.Hide();
-
-                return; // Exit after successful hardcoded login
-
+                try
+                {
+                    if (UserDAO.CountUsers() == 0)
+                    {
+                        UserDAO.InsertUser("ADMIN", "ABC123@@", "Admin", "0");
+                        DataSeeder.SeedData();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi trong quá trình khởi tạo database: " + ex.Message);
+                    return;
+                }
             }
-
-
-
-            // Database login
 
             DataRow userData = UserBUS.VerifyLogin(username, password);
 
             if (userData != null)
-
             {
-
                 CurrentUser.SetUser(userData);
-
                 FrmOrder frmOrder = new FrmOrder(this);
-
                 frmOrder.Show();
-
                 this.Hide();
-
             }
-
             else
-
             {
-
                 MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!");
-
             }
-
         }
 
         private void FormDangNhap_Load(object sender, EventArgs e)
@@ -107,7 +76,6 @@ namespace QuanLyCF.GUI
             // Ensure upload button is behind the image
 
             buttonUploadImage.SendToBack();
-
         }
 
         private void buttonUploadImage_Click(object sender, EventArgs e)
@@ -208,6 +176,12 @@ namespace QuanLyCF.GUI
         private void pictureBoxIllustration_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnSetting_Click(object sender, EventArgs e)
+        {
+            FrmCauHinh frmCauHinh = new FrmCauHinh(this);
+            frmCauHinh.ShowDialog();
         }
     }
 }

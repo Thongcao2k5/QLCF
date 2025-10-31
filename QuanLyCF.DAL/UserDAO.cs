@@ -45,5 +45,24 @@ namespace QuanLyCF.DAL
 
             return DataProvider.ExecuteNonQuery(query, parameters);
         }
+
+        public static int CountUsers()
+        {
+            string query = "SELECT COUNT(*) FROM Users";
+            return (int)DataProvider.ExecuteScalar(query);
+        }
+
+        public static int InsertUser(string username, string password, string displayName, string role)
+        {
+            string query = "INSERT INTO Users (Username, Password, DisplayName, Role) VALUES (@Username, @Password, @DisplayName, @Role)";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@Username", username),
+                new SqlParameter("@Password", password),
+                new SqlParameter("@DisplayName", displayName),
+                new SqlParameter("@Role", role)
+            };
+            return DataProvider.ExecuteNonQuery(query, parameters);
+        }
     }
 }

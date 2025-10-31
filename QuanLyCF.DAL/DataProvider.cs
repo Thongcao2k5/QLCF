@@ -14,11 +14,24 @@ namespace QuanLyCF.DAL
         {
             try
             {
-                connectionString = ConfigurationManager.ConnectionStrings["QuanLyCafeConnection"].ConnectionString;
+                var appSettings = ConfigurationManager.AppSettings;
+                string server = appSettings["ServerName"] ?? throw new InvalidOperationException("ServerName not found in App.config.");
+                string database = appSettings["DatabaseName"] ?? throw new InvalidOperationException("DatabaseName not found in App.config.");
+                string username = appSettings["Username"];
+                string password = appSettings["Password"];
+
+                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+                {
+                    connectionString = $"Server={server};Database={database};User Id={username};Password={password};";
+                }
+                else
+                {
+                    connectionString = $"Server={server};Database={database};Trusted_Connection=True;";
+                }
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Connection string 'QuanLyCafeConnection' not found or invalid in App.config.", ex);
+                throw new InvalidOperationException("Error constructing connection string from App.config.", ex);
             }
         }
 
@@ -27,20 +40,25 @@ namespace QuanLyCF.DAL
             return new SqlConnection(connectionString);
         }
 
-        public static bool TestConnection()
+        public static bool TestConnection(string customConnectionString)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(customConnectionString))
             {
                 try
                 {
                     conn.Open();
                     return true;
                 }
-                catch (SqlException ex)
+                catch (SqlException)
                 {
-                    throw new Exception($"Database connection failed: {ex.Message}", ex);
+                    return false;
                 }
             }
+        }
+
+        public static bool TestConnection()
+        {
+            return TestConnection(connectionString);
         }
 
 
@@ -100,6 +118,32 @@ namespace QuanLyCF.DAL
             }
 
             return data;
+        }
+
+        public static void ReloadConnectionString()
+        {
+            try
+            {
+                ConfigurationManager.RefreshSection("appSettings");
+                var appSettings = ConfigurationManager.AppSettings;
+                string server = appSettings["ServerName"] ?? throw new InvalidOperationException("ServerName not found in App.config.");
+                string database = appSettings["DatabaseName"] ?? throw new InvalidOperationException("DatabaseName not found in App.config.");
+                string username = appSettings["Username"];
+                string password = appSettings["Password"];
+
+                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+                {
+                    connectionString = $"Server={server};Database={database};User Id={username};Password={password};";
+                }
+                else
+                {
+                    connectionString = $"Server={server};Database={database};Trusted_Connection=True;";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Error constructing connection string from App.config.", ex);
+            }
         }
     }
 }

@@ -87,6 +87,7 @@ namespace QuanLyCF.GUI
             this.BtnEditTables = new Guna.UI2.WinForms.Guna2Button();
             this.btnStore = new Guna.UI2.WinForms.Guna2Button();
             this.flpTables = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnVoucher = new Guna.UI2.WinForms.Guna2Button();
             this.panelLeft.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -116,6 +117,7 @@ namespace QuanLyCF.GUI
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(61)))), ((int)(((byte)(38)))));
+            this.panelTop.Controls.Add(this.btnVoucher);
             this.panelTop.Controls.Add(this.btnUser);
             this.panelTop.Controls.Add(this.btnDinkType);
             this.panelTop.Controls.Add(this.lblLogout);
@@ -277,6 +279,21 @@ namespace QuanLyCF.GUI
             this.flpTables.Size = new System.Drawing.Size(1095, 690);
             this.flpTables.TabIndex = 0;
             // 
+            // btnVoucher
+            // 
+            this.btnVoucher.BorderRadius = 20;
+            this.btnVoucher.FillColor = System.Drawing.Color.White;
+            this.btnVoucher.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.btnVoucher.ForeColor = System.Drawing.Color.Black;
+            this.btnVoucher.Image = ((System.Drawing.Image)(resources.GetObject("btnVoucher.Image")));
+            this.btnVoucher.ImageOffset = new System.Drawing.Point(2, 2);
+            this.btnVoucher.ImageSize = new System.Drawing.Size(24, 24);
+            this.btnVoucher.Location = new System.Drawing.Point(928, 9);
+            this.btnVoucher.Name = "btnVoucher";
+            this.btnVoucher.Size = new System.Drawing.Size(108, 42);
+            this.btnVoucher.TabIndex = 13;
+            this.btnVoucher.Text = "Voucher";
+            // 
             // FrmOrder
             // 
             this.ClientSize = new System.Drawing.Size(1260, 750);
@@ -303,6 +320,7 @@ namespace QuanLyCF.GUI
         private Guna.UI2.WinForms.Guna2Button btnStore;
         private Guna.UI2.WinForms.Guna2Button btnDinkType;
         private Guna.UI2.WinForms.Guna2Button btnUser;
+        private Guna.UI2.WinForms.Guna2Button btnVoucher;
     }
 
 

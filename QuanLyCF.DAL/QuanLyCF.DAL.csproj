@@ -55,6 +55,7 @@
     <Compile Include="DrinkCategoryDAO.cs" />
     <Compile Include="ReportDAO.cs" />
     <Compile Include="StoreInfoDAO.cs" />
+    <Compile Include="DataSeeder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

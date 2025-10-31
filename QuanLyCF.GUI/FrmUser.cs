@@ -32,12 +32,15 @@ namespace QuanLyCF.GUI
 
             if (userData != null)
             {
-                txtFullName.Text = userData["FullName"].ToString();
-                cboGender.SelectedItem = userData["Gender"].ToString();
-                dtpBirth.Value = Convert.ToDateTime(userData["BirthDate"]);
-                txtEmail.Text = userData["Email"].ToString();
-                txtPhone.Text = userData["Phone"].ToString();
-                txtAddress.Text = userData["Address"].ToString();
+                txtFullName.Text = userData["FullName"]?.ToString();
+                cboGender.SelectedItem = userData["Gender"]?.ToString();
+                if (userData["BirthDate"] != DBNull.Value)
+                {
+                    dtpBirth.Value = Convert.ToDateTime(userData["BirthDate"]);
+                }
+                txtEmail.Text = userData["Email"]?.ToString();
+                txtPhone.Text = userData["Phone"]?.ToString();
+                txtAddress.Text = userData["Address"]?.ToString();
 
                 if (userData["Avatar"] != DBNull.Value)
                 {
@@ -78,9 +81,17 @@ namespace QuanLyCF.GUI
             string phone = txtPhone.Text.Trim();
             string address = txtAddress.Text.Trim();
 
-            string idCard = currentUserData["IdCard"].ToString();
-            decimal salary = Convert.ToDecimal(currentUserData["Salary"]);
-            bool working = Convert.ToBoolean(currentUserData["Working"]);
+            string idCard = currentUserData["IdCard"]?.ToString();
+            decimal salary = 0;
+            if (currentUserData["Salary"] != DBNull.Value)
+            {
+                salary = Convert.ToDecimal(currentUserData["Salary"]);
+            }
+            bool working = false;
+            if (currentUserData["Working"] != DBNull.Value)
+            {
+                working = Convert.ToBoolean(currentUserData["Working"]);
+            }
 
             bool ok = StaffBUS.UpdateStaff(CurrentUser.UserID, name, gender, birth, idCard, email, phone, address, CurrentUser.Role, salary, working, currentAvatar);
 

@@ -108,7 +108,10 @@ namespace QuanLyCF.GUI
             }
         }
 
-        private void btnNew_Click(object sender, EventArgs e) => ClearForm();
+        private void btnNew_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {

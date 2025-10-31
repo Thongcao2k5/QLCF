@@ -114,7 +114,7 @@ namespace QuanLyCF.GUI
         }
 
         // ===============================
-        // 🔹 LOAD FORM
+        // 🔹 LOAD FORM AREA
         // ===============================
         private void FrmOrder_Load(object sender, EventArgs e)
         {
@@ -127,6 +127,7 @@ namespace QuanLyCF.GUI
             panelLeft.Controls.Clear();
 
             int top = 6;
+
             foreach (var area in areas)
             {
                 Guna2Button btnArea = new Guna2Button

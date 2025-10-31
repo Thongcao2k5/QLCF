@@ -124,6 +124,7 @@
             this.btnSetting.Size = new System.Drawing.Size(52, 18);
             this.btnSetting.TabIndex = 15;
             this.btnSetting.Text = "Cài đặt";
+            this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // guna2HtmlLabel4
             // 
